@@ -20,8 +20,8 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
     - [Metodo POST](#post---para-utilizar-o-metodo-post-e-necessário-ter-um-token-de-segurança-em-seus-formulários)
     - [Metodo AJAX](#ajax---ao-contrario-do-metodo-post-o-metodo-ajax-não-atualiza-o-token-de-segurança-a-cada-requisição-mas-ainda-e-necessário-utilizar-o-token-de-segurança-em-seus-formulários)
     - [Metodo API](#api---metodo-dedicado-a-apis-seu-header-cabeçalho-ja-vem-com-content-typeapplicationjson)
-    - [Controllers](#controllers)
-    - [Models e conexão](#models-e-conexão)
+- [Controllers](#controllers)
+- [Models e conexão](#models-e-conexão)
 ## Comandos via terminal
 ![mcquery terminal](https://user-images.githubusercontent.com/88275533/162103945-9826d12d-e9bd-4bfd-bd45-061acff4740c.png)
 - **php mcquery config** cria o arquivo de configurações (config.ini) e instala dependências
