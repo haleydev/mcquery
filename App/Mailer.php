@@ -8,7 +8,7 @@ class Mailer
 {  
     public $result = false;
 
-    public function send(string $d_email, string $d_name, string $title, $body = null, $altBody = null, $anexo = null){
+    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null){
         $check = parse_ini_file("config.ini",true)['php mailer smtp'];
         if(in_array("",$check, true)){
             echo "preencha todas as informacoes necessarias em config.ini";
@@ -30,18 +30,13 @@ class Mailer
             // destinatario
             $mailer->AddAddress("$d_email", "$d_name");       
         
-            // Conteudo do email
+            // Titulo do email
             $mailer->Subject = "$title";  
             
-            // para emails com html  
+            // conteudo do e-mail
             if($body != null){
                 $mailer->Body = "$body";
-            }     
-
-            // Este é o corpo em texto simples para clientes de e-mail não HTML
-            if($altBody != null){
-                $mailer->AltBody = "$altBody";
-            }   
+            }  
             
             // ativa html no email
             $mailer->IsHTML(true); 
