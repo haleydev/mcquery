@@ -159,7 +159,7 @@ $this->query([
 $this->total[0] // imprime 10
 $this->total[1] // imprime 30
 
-// $this->data pode ser acessada na view,layout ou include se ela for incluida abaixo da query com $this->view('nome-da-view')
+// $this->data pode ser acessada na view,layout ou include se forem adicionados abaixo da query
 // acessando os resultados com $this->data :
 
 foreach($this->data[0] as $result){
@@ -168,7 +168,6 @@ echo
     $result['descricao']."<br>";       
 }   
 ```
-
 
 ## Models e conexão
 Um model pode ser criado com o comando ( php mcquery model:NomeModel )
