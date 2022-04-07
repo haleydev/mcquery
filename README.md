@@ -1,15 +1,6 @@
 <p align="center">
     <img src="https://user-images.githubusercontent.com/88275533/162101242-a67eeb4a-ce27-48db-a868-570d9727d9d3.png" alt="mcquery">
 </p>
-
-## Funcionalidades
-
-- Gerenciador de rotas
-- Token de segurança para formularios
-- Comandos via terminal para acelerar o desenvolvimeto
-- PHPMailer embutido
-- Variaveis de ambiente
-
 ---
 - [Comandos via terminal](#comandos-via-terminal)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
@@ -58,9 +49,9 @@ Exemplo invalido: www.example.com/blog?p=414906
 
 Exemplo valido: www.example.com/blog
 ```
-$app->url("", function(){ 
-    (new HomeController)->render();
-})->name('home');
+$app->url("blog", function(){ 
+    (new BlogController)->render();
+})->name('blog');
 ```
 
 ### get - Este metodo permite que a rota tenha parâmetros
