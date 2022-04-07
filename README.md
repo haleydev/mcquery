@@ -23,6 +23,7 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 - [Controllers](#controllers)
 - [Models e conexão](#models-e-conexão)
 - [Enviando e-mails](#enviando--e-mails)
+- [Funções mcquery](#funções-mcquery)
 ## Comandos via terminal
 ![mcquery terminal](https://user-images.githubusercontent.com/88275533/162103945-9826d12d-e9bd-4bfd-bd45-061acff4740c.png)
 - **php mcquery config** cria o arquivo de configurações (config.ini) e instala dependências
