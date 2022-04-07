@@ -22,6 +22,7 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
     - [Metodo API](#api---metodo-dedicado-a-apis-seu-header-cabeçalho-ja-vem-com-content-typeapplicationjson)
 - [Controllers](#controllers)
 - [Models e conexão](#models-e-conexão)
+- [Enviando e-mails](#enviando--e-mails)
 ## Comandos via terminal
 ![mcquery terminal](https://user-images.githubusercontent.com/88275533/162103945-9826d12d-e9bd-4bfd-bd45-061acff4740c.png)
 - **php mcquery config** cria o arquivo de configurações (config.ini) e instala dependências
@@ -190,3 +191,22 @@ $conexao->pdo(); // ou $conexao->mysqli();
 $conexao->conect; // para conectar
 $conexao->close(); // para fechar a conexao
 ```
+
+## Enviando  e-mails
+Enviar e-mails no mcquery e bem simples, veja o exemplo abaixo:
+
+```php
+use App\Mailer;
+$conteudo = "<h1>Helo Word</h1>";
+
+$email = new Mailer;
+$email->send("email_destinatario@hotmail.com","nome_destinatario", "titulo", $conteudo); 
+
+// para enviar e-mails com anexos:
+// $email->send("email_destinatario@hotmail.com","nome_destinatario", "titulo", $conteudo,"Public/images/example.png"); 
+        
+if($email->result == true){
+    echo "email enviado com sucesso";
+}
+```
+Lembrando que o arquivo config.ini deve estar configurado para enviar e-mails.
