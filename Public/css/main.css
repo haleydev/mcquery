@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    scroll-behavior: smooth;
+    color: rgb(221, 221, 221);
+}
+
+body{
+    background: rgb(31, 31, 31);
+}
+
+.main{
+    padding: 0px 8px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+    min-height: 90vh;
+    align-items: center;
+}
+
+.versao{
+    font-size: 12px;
+    margin-top: -10px;
+}
+
+.logo{
+    object-fit: cover;
+    max-width: 85%;
+}
+
+.info{    
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;   
+}
+
+.info p{
+    margin-top: 30px;
+    font-size: 14px;   
+}
+
+.info a{
+    text-decoration: none;
+    color: rgb(102, 141, 173);
+}
+
+.info a:hover{   
+    color: rgb(168, 83, 83);
+}

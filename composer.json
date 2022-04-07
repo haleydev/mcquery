@@ -1,0 +1,26 @@
+{
+    "description": "mcquery framework mcv",
+    "authors": [
+        {
+            "name": "Warley Rodrigues",            
+            "email": "haleytrader@hotmail.com"             
+        }
+    ],
+
+    "autoload": {
+        "classmap": ["Controllers/", "Models/", "App/"]
+    },
+    
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true  
+}
