@@ -10,7 +10,7 @@
     </url>
 
     <?php            
-        // foreach($this->data[1] as $sitemap){
+        // foreach($this->data[0] as $sitemap){
         // echo
         // "<url>
         //     <loc>https://yousite/post?p=".$sitemap['name']."</loc>        

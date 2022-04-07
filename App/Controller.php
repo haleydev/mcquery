@@ -54,7 +54,7 @@ class Controller
     public function query( array $querys = null){   
         $conexao = new Conexao;
         $conexao->pdo();
-        $count = 1;     
+        $count = 0;     
 
         foreach($querys as $query){ 
             $sql = $conexao->conect->prepare($query);
