@@ -6,7 +6,7 @@ if(!isset($_SESSION)){
 }
 
 if(!file_exists("./config.ini") or !file_exists("./vendor")){
-    die("Aplicação não iniciada! use o comando 'php mcquery ini' para criar o arquivo de configuração e instalar dependências.");
+    die("Aplicação não iniciada! use o comando 'php mcquery config' para criar o arquivo de configuração e instalar dependências.");
 }
 
 $config = parse_ini_file("config.ini");
