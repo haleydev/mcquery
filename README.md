@@ -53,7 +53,7 @@ $app->post("post", function(){
 })->name('post');
 ```
 
-### url - Este metodo não permite que a rota tenha parâmetros
+### URL - Este metodo não permite que a rota tenha parâmetros
 
 Exemplo invalido: www.example.com/blog?p=414906
 
@@ -64,7 +64,7 @@ $app->url("blog", function(){
 })->name('blog');
 ```
 
-### get - Este metodo permite que a rota tenha parâmetros
+### GET - Este metodo permite que a rota tenha parâmetros
 
 Exemplo valido: www.example.com/blog?p=414906
 
@@ -74,7 +74,7 @@ $app->get("blog", function(){
 })->name('blog');
 ```
 
-### post - Para utilizar o metodo POST e necessário ter um token de segurança em seus formulários
+### POST - Para utilizar o metodo POST e necessário ter um token de segurança em seus formulários
 
 Função do mcquery: validate()
 
@@ -103,7 +103,7 @@ O HTML ficará assim:
 </form> 
 ```
 
-### ajax - Ao contrario do metodo POST o metodo AJAX não atualiza o token de segurança a cada requisição, mas ainda e necessário utilizar o token de segurança em seus formulários
+### AJAX - Ao contrario do metodo POST o metodo AJAX não atualiza o token de segurança a cada requisição, mas ainda e necessário utilizar o token de segurança em seus formulários
 Lembrando que este metodo AJAX é via POST.
 
 Exemplo:
@@ -113,7 +113,7 @@ $app->ajax("search", function(){
 })->name('search');
 ```
 
-### api - Metodo dedicado a APIs, seu header (cabeçalho) ja vem com "Content-Type:application/json"
+### API - Metodo dedicado a APIs, seu header (cabeçalho) ja vem com "Content-Type:application/json"
 Os metodos aceitos nas rotas de APIs podem ser varios separados por ",".
 
 Exemplo:
