@@ -10,7 +10,7 @@
 </p> -->
 
 ## Sobre o mcquery
-O MCQUERY foi feito com a intenção de ser um framework que não dependa de outras bibliotecas ou frameworks para funcionar, sendo a única biblioteca utilizada por padrão no mcquery e o PHPMailer sendo essencial para envio de emails com o PHP, mas é claro sinta-se a vontade para instalar quantas dependências forem necessárias para seu projeto, confira a baixo a documentação desse maravilhoso projeto:
+O MCQUERY foi feito com a intenção de ser um framework que não dependa de outras bibliotecas ou frameworks para funcionar, sendo a única biblioteca utilizada por padrão no mcquery e o PHPMailer sendo essencial para envio de emails com o PHP, mas é claro sinta-se a vontade para instalar quantas dependências forem necessárias para seu projeto, confira a baixo a documentação do mcquery:
 
 - [Comandos via terminal](#comandos-via-terminal)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
