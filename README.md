@@ -42,11 +42,11 @@ Caso queira pegar uma url completa que contém parâmetros utilize router('post'
 
 
 Você pode chamar um arquivo diretamente, exemplo:
-```
+```php
 $app->url("post", "./Templates/views/post.php")->name('post');
 ```
 ou chamar uma classe ou função, exemplo:
-```
+```php
 $app->post("post", function(){ 
     echo 'HELO WORD';
     view('post');
@@ -58,7 +58,7 @@ $app->post("post", function(){
 Exemplo invalido: www.example.com/blog?p=414906
 
 Exemplo valido: www.example.com/blog
-```
+```php
 $app->url("blog", function(){ 
     (new BlogController)->render();
 })->name('blog');
@@ -68,7 +68,7 @@ $app->url("blog", function(){
 
 Exemplo valido: www.example.com/blog?p=414906
 
-```
+```php
 $app->get("blog", function(){ 
     (new BlogController)->render();
 })->name('blog');
@@ -79,13 +79,13 @@ $app->get("blog", function(){
 Função do mcquery: validate()
 
 Exemplo:
-```
+```php
 $app->post("post", function(){ 
     (new PostController)->render();
 })->name('post');
 ```
 
-```
+```php
 <form method="POST" action="<?=router('post')?>">
     <?=validate()?>
     <input type="text" name="email" placeholder="email">
@@ -94,7 +94,7 @@ $app->post("post", function(){
 </form>
 ```
 O HTML ficará assim:
-```
+```html
 <form method="POST" action="http://localhost/post">
     <input type='hidden' name='token' value='2b32ee40f6ceaa69a91b39abc62c5ccf'/>
     <input type="text" name="email" placeholder="email">
@@ -107,7 +107,7 @@ O HTML ficará assim:
 Lembrando que este metodo AJAX é via POST.
 
 Exemplo:
-```
+```php
 $app->ajax("search", function(){ 
      (new AjaxController)->pesquisa();
 })->name('search');
@@ -117,7 +117,7 @@ $app->ajax("search", function(){
 Os metodos aceitos nas rotas de APIs podem ser varios separados por ",".
 
 Exemplo:
-```
+```php
 $app->api("api/genero/{genero}", function(){
      (new ApiController)->genero();
 },"get,post")->name('api.genero');
