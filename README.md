@@ -3,10 +3,10 @@
 </p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/haleydev/mcquery" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/haleydev/mcquery" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/haleydev/mcquery" alt="License"></a>
+<a href="https://travis-ci.org/haleydev/mcquery"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/haleydev/mcquery"><img src="https://img.shields.io/packagist/dt/haleydev/mcquery" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/haleydev/mcquery"><img src="https://img.shields.io/packagist/v/haleydev/mcquery" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/haleydev/mcquery"><img src="https://img.shields.io/packagist/l/haleydev/mcquery" alt="License"></a>
 </p>
 
 ## Sobre o mcquery
