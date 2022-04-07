@@ -13,11 +13,14 @@ use App\Mcquery\ControllerConsole;
 
     $string = rtrim($string, " ");
     
-    
     // functions mcquery
     if($string == "mcquery"){
-        (new ControllerConsole)->dashboard();
-        return;
+        if(!file_exists("config.ini")){
+            die(PHP_EOL."\033[1;31mAplicação não iniciada! use o comando 'php mcquery config' para criar o arquivo de configuração e instalar dependências.\033[0m".PHP_EOL.PHP_EOL);                    
+        }else{
+            (new ControllerConsole)->dashboard();
+            return;
+        }        
     }
 
     if(str_contains($string,'mcquery controller:')){        
