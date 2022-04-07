@@ -210,3 +210,64 @@ if($email->result == true){
 }
 ```
 Lembrando que o arquivo config.ini deve estar configurado para enviar e-mails.
+
+## Funções mcquery
+router()
+```php
+// retorna a URL da rota nomeada
+// se for uma rota com parâmetros, os parâmetros podem ser especificados como o segundo parâmetro da função
+
+router('blog') // retorna http://localhost/blog
+
+// rota com parâmetros
+router('blog,'post,11') // retorna http://localhost/blog/post/11
+```
+
+
+active()
+```php
+// verifica se a url atual é a mesma que a url passada, retornando true ou false
+// deve ser passado a url completa
+// Exemplo:
+
+active(router('home')) // retorna true
+```
+
+view()
+```php
+// retorna uma view localizada em Templates/views
+view('index')
+```
+
+get()
+```php
+// retorna o valor do parâmetro passado em router
+get('id')
+```
+
+validate()
+```php
+// cria e imprime um token para segurança de formularios, exemplo:
+<input type='hidden' name='token' value='2b32ee40f6ceaa69a91b39abc62c5ccf'/>
+```
+token()
+```php
+// retorna o token atual ou cria um novo, exemplo:
+2b32ee40f6ceaa69a91b39abc62c5ccf
+```
+unsetToken()
+```php
+// Desvalida o token atual se existir
+```
+getCheck() / postCheck()
+```php
+// checa se o $_GET ou $_POST existe e se seu valor e nulo, retornando true ou false
+// pode ser passado varios $_GET/$_POST separados por ,
+// e muito útil para validar formulários,evita que um usuário cause um erro ao modificar o name de um campo no formulário
+// exemplo
+if(postCheck('name,email,senha')){
+    echo "logado";
+}else{
+    echo "preencha todos os campos";
+}
+```
