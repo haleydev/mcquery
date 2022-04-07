@@ -14,7 +14,7 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 
 - [Comandos via terminal](#comandos-via-terminal)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
-- [Router o basico](#router)
+- [Router o básico](#router)
     - [Metodo URL](#url---este-metodo-não-permite-que-a-rota-tenha-parâmetros)
     - [Metodo GET](#get---este-metodo-permite-que-a-rota-tenha-parâmetros)
     - [Metodo POST](#post---para-utilizar-o-metodo-post-e-necessário-ter-um-token-de-segurança-em-seus-formulários)
