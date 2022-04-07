@@ -1,9 +1,15 @@
 {
-    "description": "mcquery framework mcv",
+    "name": "mcquery/mcquery",
+    "type": "project",
+    "description": "The mcquery framework",
+    "keywords": ["framework", "mcquery", "mcv"],
+    "license": "MIT",
     "authors": [
-        {
-            "name": "Warley Rodrigues",            
-            "email": "haleytrader@hotmail.com"             
+        {            
+            "name": "Warley Rodrigues de Moura",            
+            "email": "haleytrader@hotmail.com",
+            "homepage": "https://github.com/haleydev/mcquery",
+            "role": "Developer"             
         }
     ],
 
@@ -12,6 +18,7 @@
     },
     
     "require": {
+        "php": "^8.0.2",
         "phpmailer/phpmailer": "^6.6"
     },
 
