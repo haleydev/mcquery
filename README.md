@@ -122,3 +122,70 @@ $app->api("api/genero/{genero}", function(){
      (new ApiController)->genero();
 },"get,post")->name('api.genero');
 ```
+## Controllers
+O mcquery agiliza a criação de controllers com o comando ( php mcquery controller:NomeController ) caso queira adionar o controller a uma sub pastas basta adicionar "/" , ( php mcquery controller:Pasta/OutraPasta/NomeController ) o resultado será:
+
+```php
+namespace Controllers\Pasta\OutraPasta;
+use App\Controller;
+
+class NomeController extends Controller
+{        
+    public $title = "NomeController";
+    public $view = "";    
+
+    public function render(){
+        $this->layout("main");         
+    }
+}
+```
+Para adiocionar um layout,view ou include em um controller utilize as seguintes funções do controller:
+- $this->layout('nome-do-layout')
+- $this->view('nome-da-view')
+- $this->include('nome-do-include')
+Lembrando que estes arquivos devem estar na pasta Templates.
+
+Também e possivel acessar o banco de dados diretamenta no controller dessa forma 'mas é recomendável utilizar as Models':
+```php
+// e possivel criar varias querys desta forma:
+$this->query([
+    "SELECT * FROM filmes ORDER BY id DESC limit 10",
+    "SELECT * FROM animes ORDER BY id DESC limit 30"
+]); 
+
+$this->total[0] // imprime 10
+$this->total[1] // imprime 30
+
+// $this->data pode ser acessado na view,layout ou include se ela for incluida abaixo da query com $this->view('nome-da-view')
+// acessando os resultados com $this->data :
+
+foreach($this->data[0] as $result){
+echo 
+    $result['titulo']."-".
+    $result['descricao']."<br>";       
+}   
+```
+
+
+## Models e conexão
+Um model pode ser criado com o comando ( php mcquery model:NomeModel )
+
+Para ajudar o mcquery cria as models com alguma funções, que podem ser alteradas de acordo com as suas necessidades:
+
+- select
+- insert
+- update
+- delete
+- 
+
+Lembrando que o banco de dados deve estar devidamente configurado em config.ini
+
+Você pode acessar o banco de dados diretamente dessa forma:
+
+```php
+use App\Conexao;
+$conexao = new Conexao;
+$conexao->pdo(); // ou $conexao->mysqli();
+$conexao->conect; // para conectar
+$conexao->close(); // para fechar a conexao
+```
