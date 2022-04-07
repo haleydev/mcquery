@@ -143,6 +143,7 @@ Para adiocionar um layout,view ou include em um controller utilize as seguintes 
 - $this->layout('nome-do-layout')
 - $this->view('nome-da-view')
 - $this->include('nome-do-include')
+
 Lembrando que estes arquivos devem estar na pasta Templates.
 
 Também e possivel acessar o banco de dados diretamenta no controller dessa forma 'mas é recomendável utilizar as Models':
@@ -156,7 +157,7 @@ $this->query([
 $this->total[0] // imprime 10
 $this->total[1] // imprime 30
 
-// $this->data pode ser acessado na view,layout ou include se ela for incluida abaixo da query com $this->view('nome-da-view')
+// $this->data pode ser acessada na view,layout ou include se ela for incluida abaixo da query com $this->view('nome-da-view')
 // acessando os resultados com $this->data :
 
 foreach($this->data[0] as $result){
@@ -176,7 +177,6 @@ Para ajudar o mcquery cria as models com alguma funções, que podem ser alterad
 - insert
 - update
 - delete
-- 
 
 Lembrando que o banco de dados deve estar devidamente configurado em config.ini
 
