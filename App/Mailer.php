@@ -30,7 +30,7 @@ class Mailer
             // destinatario
             $mailer->AddAddress("$d_email", "$d_name");       
         
-            // Titulo do email
+            // titulo do email
             $mailer->Subject = "$title";  
             
             // conteudo do e-mail
