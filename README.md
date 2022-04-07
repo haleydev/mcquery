@@ -42,50 +42,50 @@ Caso queira pegar uma url completa que contém parâmetros utilize router('post'
 
 
 Você pode chamar um arquivo diretamente, exemplo:
-```
+```php
 $app->url("post", "./Templates/views/post.php")->name('post');
 ```
 ou chamar uma classe ou função, exemplo:
-```
+```php
 $app->post("post", function(){ 
     echo 'HELO WORD';
     view('post');
 })->name('post');
 ```
 
-### url - Este metodo não permite que a rota tenha parâmetros
+### URL - Este metodo não permite que a rota tenha parâmetros
 
 Exemplo invalido: www.example.com/blog?p=414906
 
 Exemplo valido: www.example.com/blog
-```
+```php
 $app->url("blog", function(){ 
     (new BlogController)->render();
 })->name('blog');
 ```
 
-### get - Este metodo permite que a rota tenha parâmetros
+### GET - Este metodo permite que a rota tenha parâmetros
 
 Exemplo valido: www.example.com/blog?p=414906
 
-```
+```php
 $app->get("blog", function(){ 
     (new BlogController)->render();
 })->name('blog');
 ```
 
-### post - Para utilizar o metodo POST e necessário ter um token de segurança em seus formulários
+### POST - Para utilizar o metodo POST e necessário ter um token de segurança em seus formulários
 
 Função do mcquery: validate()
 
 Exemplo:
-```
+```php
 $app->post("post", function(){ 
     (new PostController)->render();
 })->name('post');
 ```
 
-```
+```php
 <form method="POST" action="<?=router('post')?>">
     <?=validate()?>
     <input type="text" name="email" placeholder="email">
@@ -94,7 +94,7 @@ $app->post("post", function(){
 </form>
 ```
 O HTML ficará assim:
-```
+```html
 <form method="POST" action="http://localhost/post">
     <input type='hidden' name='token' value='2b32ee40f6ceaa69a91b39abc62c5ccf'/>
     <input type="text" name="email" placeholder="email">
@@ -103,21 +103,21 @@ O HTML ficará assim:
 </form> 
 ```
 
-### ajax - Ao contrario do metodo POST o metodo AJAX não atualiza o token de segurança a cada requisição, mas ainda e necessário utilizar o token de segurança em seus formulários
+### AJAX - Ao contrario do metodo POST o metodo AJAX não atualiza o token de segurança a cada requisição, mas ainda e necessário utilizar o token de segurança em seus formulários
 Lembrando que este metodo AJAX é via POST.
 
 Exemplo:
-```
+```php
 $app->ajax("search", function(){ 
      (new AjaxController)->pesquisa();
 })->name('search');
 ```
 
-### api - Metodo dedicado a APIs, seu header (cabeçalho) ja vem com "Content-Type:application/json"
+### API - Metodo dedicado a APIs, seu header (cabeçalho) ja vem com "Content-Type:application/json"
 Os metodos aceitos nas rotas de APIs podem ser varios separados por ",".
 
 Exemplo:
-```
+```php
 $app->api("api/genero/{genero}", function(){
      (new ApiController)->genero();
 },"get,post")->name('api.genero');
