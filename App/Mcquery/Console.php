@@ -45,6 +45,12 @@ use App\Mcquery\ControllerConsole;
                 $file = init();  
                 file_put_contents('config.ini', $file);
                 shell_exec('composer install');
+                if(file_exists("README.md")){
+                    unlink("README.md");
+                }
+                if(file_exists("LICENSE")){
+                    unlink("LICENSE");
+                }
                 echo PHP_EOL."\033[0;32mAplicação iniciada com sucesso \033[0m".PHP_EOL.PHP_EOL;
                 die();
                 break;
