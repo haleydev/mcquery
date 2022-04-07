@@ -1,7 +1,8 @@
 <p align="center">
     <img src="https://user-images.githubusercontent.com/88275533/162101242-a67eeb4a-ce27-48db-a868-570d9727d9d3.png" alt="mcquery">
-## Funcionalidades
 </p>
+
+## Funcionalidades
 
 - Gerenciador de rotas
 - Token de segurança para formularios
