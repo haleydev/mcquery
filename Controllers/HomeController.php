@@ -8,7 +8,7 @@ class HomeController extends Controller
     public $view = "home";  
    
     public function render()
-    {         
+    {   
         $this->layout('main'); 
     }
 }

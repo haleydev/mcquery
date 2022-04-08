@@ -5,7 +5,7 @@ if(file_exists("vendor/autoload.php")){
 if(file_exists(".env")){
     require 'env.php';
 }
-require 'files.php';
+require 'image.php';
 use App\Mcquery\ControllerConsole;
 
     $string = "";

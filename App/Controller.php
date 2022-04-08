@@ -1,12 +1,12 @@
 <?php
 namespace App;
-use App\Conexao;
+
+/**
+ * Gerenciador de funções dos controllers.
+ */  
 
 class Controller
-{       
-    public $data = null;
-    public $total = null;
-
+{   
     /**
      * Retorna uma view contida em Templates/views.
      * @return string|require   
@@ -62,28 +62,4 @@ class Controller
 
         return $this;
     }
-
-    /**
-     * Retorna o resultado de uma query.
-     * Varias queries podem ser feitas em uma mesma pagina.
-     * Consulte a documentação https://github.com/haleydev/mcquery#controllers para saber como fazer isso.      
-     */ 
-
-    protected function query( array $querys = null)
-    {   
-        $conexao = new Conexao;
-        $conexao->pdo();
-        $count = 0;     
-
-        foreach($querys as $query){ 
-            $sql = $conexao->conect->prepare($query);
-            $sql->execute();
-            $this->data[$count] = $sql->fetchAll();
-            $this->total[$count] = $sql->rowCount();
-            $count++;
-        }
-        
-        $conexao->close();
-        return $this;
-    } 
 }

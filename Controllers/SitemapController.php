@@ -1,6 +1,7 @@
 <?php
 namespace Controllers;
 use App\Controller;
+use Models\Sitemap;
 
 class SitemapController extends Controller
 {   
@@ -8,7 +9,9 @@ class SitemapController extends Controller
 
     public function sitemap()
     { 
-        // $this->query(["SELECT * FROM sitemap ORDER BY id DESC"]);   
+        // $this->query = new Sitemap;
+        // $this->query->select();
+        
         $this->view("sitemap");
     }    
 }

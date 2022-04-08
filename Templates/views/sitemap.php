@@ -10,10 +10,10 @@
     </url>
 
     <?php            
-        // foreach($this->data[0] as $sitemap){
+        // foreach($this->query->result as $sitemap){
         // echo
         // "<url>
-        //     <loc>https://yousite/post?p=".$sitemap['name']."</loc>        
+        //     <loc>https://yousite/post?p=".$sitemap['titulo']."</loc>        
         //     <lastmod>".$sitemap['data']."</lastmod>
         //     <priority>1.0</priority>
         // </url>";

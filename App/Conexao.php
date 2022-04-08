@@ -4,6 +4,10 @@ use mysqli;
 use PDO;
 use PDOException;
 
+/**
+ * Gerencia as conexões com o banco de dados
+ */
+
 class Conexao
 {  
     private $database;
@@ -12,8 +16,8 @@ class Conexao
     private $password;
 
     public $conect = null;
-    public $error = false;  
-
+    public $error = false;     
+    
     public function __construct()
     {        
         $this->database = env('db_database');
@@ -21,7 +25,10 @@ class Conexao
         $this->servername = env('db_servername');
         $this->password = env('db_password');        
     }
-
+    
+    /**
+     * Cria uma conexão PDO com o banco de dados
+     */
     public function pdo()
     {   
         try{
@@ -34,6 +41,9 @@ class Conexao
         } 
     } 
 
+    /**
+     * Cria uma conexão mysqli com o banco de dados     
+     */
     public function mysqli()
     {  
         $this->conect = mysqli_connect($this->servername, $this->username, $this->password, $this->database);  
@@ -42,8 +52,11 @@ class Conexao
             $this->error = true;
             return;
         }
-      }
+    }
 
+    /**
+     * Fecha a conexão com o banco de dados
+     */
     public function close()
     {
         if($this->conect != null){

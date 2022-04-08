@@ -43,7 +43,9 @@ class Router
                     $this->validator($action);
                 }                
             }
-        } return $this;        
+        }
+        
+        return $this;        
     }
 
     /**
@@ -57,7 +59,9 @@ class Router
             if($this->router == $this->url){              
                 $this->validator($action);
             }
-        } return $this;        
+        }
+        
+        return $this;        
     }
     
     /**
@@ -80,7 +84,9 @@ class Router
             }else{
                 echo "Token de seguranca não definido"; 
             }            
-        } return $this;        
+        }
+        
+        return $this;        
     }
 
     /**
@@ -100,7 +106,9 @@ class Router
             }else{
                 echo "Token de seguranca não definido"; 
             }            
-        } return $this;        
+        }
+        
+        return $this;        
     }
 
     /**
@@ -119,7 +127,9 @@ class Router
                     $this->validator($action);
                 }
             }            
-        } return $this;
+        }
+        
+        return $this;
     }
 
     protected function router($router)
@@ -161,7 +171,9 @@ class Router
                     $this->router = $new_url;          
                 }                    
             }                         
-        } return $this;              
+        }
+        
+        return $this;              
     } 
 
     protected function render()
@@ -189,7 +201,9 @@ class Router
                     }
                 }
             } 
-        } return $this;
+        }
+        
+        return $this;
     }
 
     /**
@@ -220,6 +234,7 @@ class Router
         $this->validmethod = true;
         $this->validrouter = $this->router;
         $this->validaction = $action;
+        
         return $this;
     }
 
