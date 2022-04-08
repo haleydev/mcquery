@@ -1,6 +1,6 @@
 <?php
-require './App/Console/Console.php';
-$console = new Console;
-$console->reader();
+// require './App/Console/Console.php';
+// $console = new Console;
+// $console->reader();
 
 echo "teste";
