@@ -62,8 +62,7 @@ class Console
 
             if($this->comand == 'mcquery conexao'){
                 $this->render = true;
-                $this->conexao();
-                die();
+                $this->conexao();                
             }
 
             if($this->comand == 'mcquery autoload'){
@@ -213,14 +212,12 @@ class Console
         $conexao->conect;       
 
         if($conexao->error == true){
-            echo PHP_EOL."\033[1;31mFalha na conexão!\033[0m".PHP_EOL.PHP_EOL;
-            die();
+            echo PHP_EOL."\033[1;31mFalha na conexão!\033[0m".PHP_EOL.PHP_EOL;            
         }else{
-            echo PHP_EOL."\033[0;32mConexão realizada com sucesso!\033[0m".PHP_EOL.PHP_EOL;
-            die();
-        }
-        
-        $conexao->close();        
+            echo PHP_EOL."\033[0;32mConexão realizada com sucesso!\033[0m".PHP_EOL.PHP_EOL;            
+        }        
+        $conexao->close();  
+        die();      
     }
 
     private function composerUpdate()
