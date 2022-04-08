@@ -2,8 +2,9 @@
 if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
     require './vendor/autoload.php';
     require './App/Console/env.php';   
+    echo "teste";
 }
-echo "teste";
+
 
 require './App/Console/images.php';
 use App\Conexao;
