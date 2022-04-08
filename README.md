@@ -164,38 +164,17 @@ Para adiocionar um layout,view ou include em um controller utilize as seguintes 
 
 Lembrando que estes arquivos devem estar na pasta Templates.
 
-Também e possivel acessar o banco de dados diretamenta no controller dessa forma 'mas é recomendável utilizar as Models':
-```php
-// e possivel criar varias querys desta forma:
-$this->query([
-    "SELECT * FROM filmes ORDER BY id DESC limit 10",
-    "SELECT * FROM animes ORDER BY id DESC limit 30"
-]); 
-
-$this->total[0] // imprime 10
-$this->total[1] // imprime 30
-
-// $this->data pode ser acessada na view,layout ou include se forem adicionados abaixo da query
-// acessando os resultados com $this->data :
-
-foreach($this->data[0] as $result){
-echo 
-    $result['titulo']."-".
-    $result['descricao']."<br>";       
-}   
-```
-
 ## Models e conexão
 Um model pode ser criado com o comando ( php mcquery model:NomeModel )
 
 Para ajudar o mcquery cria as models com algumas funções, que podem ser alteradas de acordo com as suas necessidades:
 
+Lembrando que o banco de dados deve estar devidamente configurado em .env
+
 - select
 - insert
 - update
 - delete
-
-Lembrando que o banco de dados deve estar devidamente configurado em .env
 
 Você pode acessar o banco de dados diretamente dessa forma:
 
