@@ -40,7 +40,7 @@ env('timezone'); // america/sao_paulo
 ```
 ```php
 // verifica se o item foi declaro em .env retornando true ou false
-// se o item estiver com seu valor vazio retornara false
+// se o item estiver com seu valor vazio retornará false
 // varios valores podem ser passados separados por , exemplo:
 if(env_required('db_database,db_username')){
     // ...
