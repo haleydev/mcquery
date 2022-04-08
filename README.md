@@ -26,14 +26,14 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 - [Funções mcquery](#funções-mcquery)
 ## Comandos via terminal
 ![mcquery terminal](https://user-images.githubusercontent.com/88275533/162103945-9826d12d-e9bd-4bfd-bd45-061acff4740c.png)
-- **php mcquery config** cria o arquivo de configurações (config.ini) e instala dependências
+- **php mcquery env** cria o arquivo de configurações (.env) e instala dependências
 - **php mcquery controller:Nome** cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta
 - **php mcquery model:Nome** cria um novo model
 - **php mcquery conexao** testa a conexão com o banco de dados
 - **php mcquery autoload** atualiza o autoload de classes
 ## Variáveis de ambiente
 
-Para iniciar esse projeto, você vai precisar rodar "php mcquery config" no terminal e configurar as variáveis de ambiente, caso não for utilizar o PHPMailer ou banco de dados, os campos podem ficar em branco.
+Para iniciar esse projeto, você vai precisar rodar "php mcquery env" no terminal e configurar as variáveis de ambiente, caso não for utilizar o PHPMailer ou banco de dados, os campos podem ficar em branco.
 ## Router
 
 
@@ -181,7 +181,7 @@ Para ajudar o mcquery cria as models com alguma funções, que podem ser alterad
 - update
 - delete
 
-Lembrando que o banco de dados deve estar devidamente configurado em config.ini
+Lembrando que o banco de dados deve estar devidamente configurado em .env
 
 Você pode acessar o banco de dados diretamente dessa forma:
 
@@ -210,7 +210,7 @@ if($email->result == true){
     echo "email enviado com sucesso";
 }
 ```
-Lembrando que o arquivo config.ini deve estar configurado para enviar e-mails.
+Lembrando que o arquivo .env deve estar configurado para enviar e-mails.
 
 ## Funções mcquery
 router()

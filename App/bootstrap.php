@@ -5,12 +5,13 @@ if(!isset($_SESSION)){
     session_start();    
 }
 
-if(!file_exists("./config.ini") or !file_exists("./vendor")){
-    die("Aplicação não iniciada! use o comando 'php mcquery config' para criar o arquivo de configuração e instalar dependências.");
+if(!file_exists("./.env") or !file_exists("./vendor")){
+    die("Aplicação não iniciada! use o comando 'php mcquery ini' para criar o arquivo de configuração e instalar dependências.");
 }
 
-$config = parse_ini_file("config.ini");
-date_default_timezone_set($config['timezone']);
-define("URL", $config['URL']);   
+require 'App/Mcquery/env.php';
+
+date_default_timezone_set(env('timezone'));
+define("URL", env('URL'));   
 
 require 'Helpers.php';

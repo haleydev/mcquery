@@ -11,7 +11,7 @@ class ControllerConsole
         echo PHP_EOL;
         echo "\033[1;34mBem vindo ao mcquery\033[0m".PHP_EOL.PHP_EOL;    
         echo "\033[1;32mComandos".PHP_EOL;   
-        echo "\033[1;93mconfig\033[0m cria o arquivo de configurações (config.ini) e instala dependências".PHP_EOL;   
+        echo "\033[1;93menv\033[0m cria o arquivo de configurações (.env) e instala dependências".PHP_EOL;   
         echo "\033[1;93mcontroller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
         echo "\033[1;93mmodel:Nome\033[0m cria um novo model".PHP_EOL;     
         echo "\033[1;93mconexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 

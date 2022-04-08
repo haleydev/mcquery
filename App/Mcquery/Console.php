@@ -2,7 +2,7 @@
 if(file_exists("vendor/autoload.php")){
     require 'vendor/autoload.php';
 }
-
+require 'env.php';
 require 'files.php';
 use App\Mcquery\ControllerConsole;
 
@@ -15,8 +15,8 @@ use App\Mcquery\ControllerConsole;
     
     // functions mcquery
     if($string == "mcquery"){
-        if(!file_exists("config.ini")){
-            die(PHP_EOL."\033[1;31mAplicação não iniciada! use o comando 'php mcquery config' para criar o arquivo de configuração e instalar dependências.\033[0m".PHP_EOL.PHP_EOL);                    
+        if(!file_exists(".env")){
+            die(PHP_EOL."\033[1;31mAplicação não iniciada! use o comando 'php mcquery env' para criar o arquivo de configuração e instalar dependências.\033[0m".PHP_EOL.PHP_EOL);                    
         }else{
             (new ControllerConsole)->dashboard();
             return;
@@ -44,9 +44,9 @@ use App\Mcquery\ControllerConsole;
                 (new ControllerConsole)->autoload();return;
                 break;
 
-            case "config":
+            case "env":
                 $file = init();  
-                file_put_contents('config.ini', $file);
+                file_put_contents('.env', $file);
                 shell_exec('composer install');
                 if(file_exists("README.md")){
                     unlink("README.md");

@@ -12,16 +12,14 @@ class Conexao
     private $password;
 
     public $conect = null;
-    public $error = false;
-  
+    public $error = false;  
 
     public function __construct()
-    {
-        $config = parse_ini_file("config.ini");
-        $this->database = $config['db_database'];
-        $this->username = $config['db_username'];
-        $this->servername = $config['db_servername'];
-        $this->password = $config['db_password'];        
+    {        
+        $this->database = env('db_database');
+        $this->username = env('db_username');
+        $this->servername = env('db_servername');
+        $this->password = env('db_password');        
     }
 
     public function pdo(){   

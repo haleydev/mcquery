@@ -8,24 +8,22 @@ class Mailer
 {  
     public $result = false;
 
-    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null){
-        $check = parse_ini_file("config.ini",true)['php mailer smtp'];
-        if(in_array("",$check, true)){
-            echo "preencha todas as informacoes necessarias em config.ini";
-        }else{
-            $config = parse_ini_file("config.ini");     
+    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null){    
+
+        if(env_required('mailer_name,mailer_response,mailer_host,mailer_port,mailer_username,mailer_password')){
+
             $mailer = new PHPMailer;     
             $mailer->isSMTP();
             $mailer->SMTPDebug = 0; //2 para exibir relatorio
-            $mailer->Host = $config['mailer_host'];
-            $mailer->Port = $config['mailer_port'];
+            $mailer->Host = env('mailer_host');
+            $mailer->Port = env('mailer_port');
             $mailer->SMTPAuth = true;
-            $mailer->Username = $config['mailer_username'];
-            $mailer->Password = $config['mailer_password'];
+            $mailer->Username = env('mailer_username');
+            $mailer->Password = env('mailer_password');
 
             // informacoes do remetente
-            $mailer->setFrom($config['mailer_username'], $config['mailer_name']);
-            $mailer->addReplyTo($config['mailer_response'], $config['mailer_name']);
+            $mailer->setFrom(env('mailer_username'), env('mailer_name'));
+            $mailer->addReplyTo(env('mailer_response'), env('mailer_name'));
         
             // destinatario
             $mailer->AddAddress("$d_email", "$d_name");       
@@ -55,7 +53,9 @@ class Mailer
             }else{
                 $this->result = false;
                 return false;
-            }
+            }        
+        }else{
+            echo "Preencha todos os campos necessários em .env";
         }
     }
 }

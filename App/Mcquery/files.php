@@ -2,25 +2,25 @@
 function init()
 {
 $file = 
-'[comfiguracao de dominio]
-URL = "http://localhost"
+'# comfiguracao de dominio
+URL = http://localhost
 
-[fuso horario]
-timezone = "america/sao_paulo"
+# fuso horario
+timezone = america/sao_paulo
 
-[banco de dados]
-db_database = "phpmyadmin"
-db_username = "root"
-db_servername = "localhost"
-db_password = ""
+# banco de dados
+db_database = phpmyadmin
+db_username = root
+db_servername = localhost
+db_password =
 
-[php mailer smtp]
-mailer_name = "" ;nome do remetente
-mailer_response = "" ;email para receber respostas
-mailer_host = ""
-mailer_port = ""
-mailer_username = ""
-mailer_password = ""';
+# php mailer smtp
+mailer_name = nome do remetente
+mailer_response = emailderespostas@hotmal.com
+mailer_host =
+mailer_port =
+mailer_username =
+mailer_password =';
 return $file;
 }
 
