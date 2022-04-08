@@ -1,4 +1,5 @@
 <?php
+namespace App\Console;
 if(file_exists("./vendor/autoload.php") and file_exists(".env")){
     require './vendor/autoload.php';
     require './App/Console/env.php';   
@@ -34,71 +35,60 @@ class Console
     }
 
     public function reader()
-    { 
-        if($this->valid == false){
+    {        
+        if($this->comand == 'mcquery'){
             $this->render = true;
-            $console = (string)readline(PHP_EOL."\033[1;31mAplicação não iniciada! Deseja criar o arquivo '.env' e instala dependências ? (s/n)\033[0m");
-            if($console == "s"){
-               $this->initialize();
+            $this->dashboard();
+            die();
+        }      
+
+        if($this->comand == 'mcquery env'){
+            $this->render = true;
+            $console_env = (string)readline(PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m");
+            if($console_env == 's'){
+                $this->newEnv();               
             }else{
-                echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
-                die();
-            }            
-        }else{
-            if($this->comand == 'mcquery'){
-                $this->render = true;
-                $this->dashboard();
-                die();
-            }      
-
-            if($this->comand == 'mcquery env'){
-                $this->render = true;
-                $console_env = (string)readline(PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m");
-                if($console_env == 's'){
-                    $this->newEnv();               
-                }else{
-                    echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;                   
-                    die();
-                }
-            }
-
-            if($this->comand == 'mcquery conexao'){
-                $this->render = true;
-                $this->conexao();                
-            }
-
-            if($this->comand == 'mcquery install'){
-                $this->render = true;
-                $this->composerInstall();                
-            }
-
-            if($this->comand == 'mcquery autoload'){
-                $this->render = true;
-                shell_exec('composer dumpautoload');        
-                echo PHP_EOL."\033[0;32mAutoload atualizado com sucesso\033[0m".PHP_EOL.PHP_EOL;                
-                die();
-            }
-              
-            if(strpos($this->comand,'mcquery controller:') === 0){
-                $this->render = true;
-                $controller_s = str_replace("mcquery controller:", "", $this->comand);
-                $controller_s = str_replace(" ", "", $controller_s);
-                $this->newController($controller_s);
-            } 
-
-            if(strpos($this->comand,'mcquery model:') === 0){
-                $this->render = true;
-                $controller_m = str_replace("mcquery model:", "", $this->comand);
-                $controller_m = str_replace(" ", "", $controller_m);
-                $this->newModel($controller_m);
-            } 
-
-            // fim do reader
-            if($this->render == false){
-                echo PHP_EOL."\033[1;31mComando inválido!\033[0m".PHP_EOL.PHP_EOL;
+                echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;                   
                 die();
             }
         }
+
+        if($this->comand == 'mcquery conexao'){
+            $this->render = true;
+            $this->conexao();                
+        }
+
+        if($this->comand == 'mcquery install'){
+            $this->render = true;
+            $this->composerInstall();                
+        }
+
+        if($this->comand == 'mcquery autoload'){
+            $this->render = true;
+            shell_exec('composer dumpautoload');        
+            echo PHP_EOL."\033[0;32mAutoload atualizado com sucesso\033[0m".PHP_EOL.PHP_EOL;                
+            die();
+        }
+            
+        if(strpos($this->comand,'mcquery controller:') === 0){
+            $this->render = true;
+            $controller_s = str_replace("mcquery controller:", "", $this->comand);
+            $controller_s = str_replace(" ", "", $controller_s);
+            $this->newController($controller_s);
+        } 
+
+        if(strpos($this->comand,'mcquery model:') === 0){
+            $this->render = true;
+            $controller_m = str_replace("mcquery model:", "", $this->comand);
+            $controller_m = str_replace(" ", "", $controller_m);
+            $this->newModel($controller_m);
+        } 
+
+        // fim do reader
+        if($this->render == false){
+            echo PHP_EOL."\033[1;31mComando inválido!\033[0m".PHP_EOL.PHP_EOL;
+            die();
+        }        
     }
 
     private function dashboard()

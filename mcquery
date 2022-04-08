@@ -1,4 +1,25 @@
 <?php
-require './App/Console/Console.php';
-$console = new Console;
-$console->reader();
+use App\Console\Console;
+
+if(file_exists("./vendor/autoload.php") and file_exists(".env")){
+   $action = false;
+}else{
+    $action = true;
+}
+
+
+if($action == true){
+    $console = (string)readline(PHP_EOL."\033[1;31mAplicação não iniciada! Deseja criar o arquivo '.env' e instala dependências ? (s/n)\033[0m");
+    if($console == "s"){
+        $this->initialize();
+    }else{
+        echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
+        die();
+    }  
+}else{
+    $console = new Console;
+    $console->reader();
+}
+
+
+
