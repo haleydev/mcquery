@@ -15,3 +15,8 @@ date_default_timezone_set(env('timezone'));
 define("URL", env('URL'));   
 
 require 'Helpers.php';
+
+require 'vendor/autoload.php';
+
+use App\Router;
+$router = new Router; 

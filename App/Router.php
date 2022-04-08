@@ -1,7 +1,7 @@
 <?php
 namespace App;
 
-class System
+class Router
 {      
     // true: o token será redefinido ao enviar um formulário automaticamente
     // false: será necessário usar a função unsetToken() logo após a validação do formulário para manter a segurança
