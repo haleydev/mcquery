@@ -5,7 +5,6 @@ if(file_exists("./vendor/autoload.php") and file_exists(".env")){
     require './App/Console/env.php';   
 }
 
-require './App/Console/images.php';
 use App\Conexao;
 class Console
 {
@@ -191,24 +190,6 @@ class Console
         file_put_contents('.env', $file);
         
         echo PHP_EOL."\033[0;32m.ini criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
-        die();
-    }
-
-    private function initialize()
-    {
-        $file = $this->images->env(); 
-        file_put_contents('.env', $file);
-        shell_exec('composer install');
-
-        if(file_exists("README.md")){
-            unlink("README.md");
-        }
-
-        if(file_exists("LICENSE")){
-            unlink("LICENSE");
-        }
-
-        echo PHP_EOL."\033[0;32mAplicação iniciada com sucesso\033[0m".PHP_EOL.PHP_EOL;
         die();
     }
 
