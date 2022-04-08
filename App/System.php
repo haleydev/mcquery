@@ -25,7 +25,7 @@ class System
          
     public function url(string $router, $action)
     {
-        $this->router($router, $action);
+        $this->router($router);
         if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == NULL){
             if($_SERVER['REQUEST_METHOD'] == "GET"){
                 if($this->router == $this->url){
@@ -37,7 +37,7 @@ class System
 
     public function get(string $router, $action)
     {    
-        $this->router($router, $action);  
+        $this->router($router);  
         if($_SERVER['REQUEST_METHOD'] == "GET"){
             if($this->router == $this->url){              
                 $this->validator($action);
@@ -47,7 +47,7 @@ class System
     
     public function post(string $router, $action)
     {
-        $this->router($router, $action);  
+        $this->router($router);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -66,7 +66,7 @@ class System
 
     public function ajax(string $router, $action)
     {
-        $this->router($router, $action);  
+        $this->router($router);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -82,7 +82,7 @@ class System
 
     public function api(string $router, $action, string $methods)
     {
-        $this->router($router, $action);
+        $this->router($router);
         if($this->router == $this->url){ 
             header("Content-Type:application/json");             
             $array_methods = explode(',',strtoupper($methods));  
@@ -94,9 +94,9 @@ class System
         } return $this;
     }
 
-    protected function router($router, $action)
+    protected function router($router)
     {          
-        $this->urlrouter =$router; 
+        $this->urlrouter = $router; 
         $this->router = $router;      
         
         // id url code            
