@@ -187,7 +187,7 @@ echo
 ## Models e conexão
 Um model pode ser criado com o comando ( php mcquery model:NomeModel )
 
-Para ajudar o mcquery cria as models com alguma funções, que podem ser alteradas de acordo com as suas necessidades:
+Para ajudar o mcquery cria as models com algumas funções, que podem ser alteradas de acordo com as suas necessidades:
 
 - select
 - insert
