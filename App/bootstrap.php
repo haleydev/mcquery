@@ -9,7 +9,7 @@ if(!isset($_SESSION)){
     session_start();    
 }
 
-require 'App/Mcquery/env.php';
+require 'App/Console/env.php';
 
 date_default_timezone_set(env('timezone'));
 define("URL", env('URL'));   

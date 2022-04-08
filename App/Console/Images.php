@@ -1,5 +1,8 @@
 <?php
-function init()
+
+class Images
+{
+public function env()
 {
 $file = 
 '# comfiguracao de dominio
@@ -24,7 +27,7 @@ mailer_password =';
 return $file;
 }
 
-function controller($string,$namespace = null)
+public function controller($string,$namespace = null)
 {
 $file = 
 '<?php
@@ -44,7 +47,7 @@ class '.$string.' extends Controller
 return $file;
 }
 
-function model($string)
+public function model($string)
 {
 $t = "'";
 $file =
@@ -122,4 +125,5 @@ class '.$string.'
     }
 }';
 return $file;
+}
 }
