@@ -15,6 +15,8 @@ class Console
 
     public function __construct()
     {
+
+        echo "teste";
         $string = "";
         global $argv;        
         foreach($argv as $console){
