@@ -1,13 +1,13 @@
 <?php
 use App\Console\Console;
 
-require './App/Console/images.php';
-
 if(file_exists("./vendor/autoload.php") and file_exists(".env")){
    $action = false;
 }else{
     $action = true;
 }
+
+require './App/Console/images.php';
 
 
 if($action == true){
