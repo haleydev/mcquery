@@ -4,7 +4,6 @@ use Controllers\{ErrorController, HomeController, SitemapController};
 
 // -------------------------------------------------------------------------
 
-
 $router->url('/', function(){
     (new HomeController)->render();
 })->name('home');
@@ -13,6 +12,7 @@ $router->url('/', function(){
 $router->url('/sitemap.xml', function(){
     (new SitemapController)->sitemap();
 })->name('sitemap');
+
 
 
 
