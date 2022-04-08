@@ -158,6 +158,8 @@ class NomeController extends Controller
 }
 ```
 Para adiocionar um layout,view ou include em um controller utilize as seguintes funções do controller:
+
+OBS: Se layout,view ou include estiverem especificados ( ex: $this->layout = 'main' ) não é necessário especificar o nome nas funções abaixo. 
 - $this->layout('nome-do-layout')
 - $this->view('nome-da-view')
 - $this->include('nome-do-include')
@@ -186,7 +188,7 @@ $conexao->conect; // para conectar
 $conexao->close(); // para fechar a conexao
 ```
 
-Exemplo: (Acessando o resultado de model em uma view usando controller)
+Exemplo: Acessando o resultado de model em uma view usando controller.
 ```php
 // model Sitemap
 public function select()
