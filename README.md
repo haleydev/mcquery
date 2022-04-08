@@ -60,11 +60,11 @@ Caso queira pegar uma url completa que contém parâmetros utilize router('post'
 
 Você pode chamar um arquivo diretamente, exemplo:
 ```php
-$app->url("post", "./Templates/views/post.php")->name('post');
+$app->url('/post/{id}', "./Templates/views/post.php")->name('post');
 ```
 ou chamar uma classe ou função, exemplo:
 ```php
-$app->post("post", function(){ 
+$app->post('/post'", function(){ 
     echo 'HELO WORD';
     view('post');
 })->name('post');
@@ -76,7 +76,7 @@ Exemplo invalido: www.example.com/blog?p=414906
 
 Exemplo valido: www.example.com/blog
 ```php
-$app->url("blog", function(){ 
+$app->url('/blog', function(){ 
     (new BlogController)->render();
 })->name('blog');
 ```
@@ -86,7 +86,7 @@ $app->url("blog", function(){
 Exemplo valido: www.example.com/blog?p=414906
 
 ```php
-$app->get("blog", function(){ 
+$app->get('/blog', function(){ 
     (new BlogController)->render();
 })->name('blog');
 ```
@@ -97,7 +97,7 @@ Função do mcquery: validate()
 
 Exemplo:
 ```php
-$app->post("post", function(){ 
+$app->post('/post', function(){ 
     (new PostController)->render();
 })->name('post');
 ```
@@ -125,7 +125,7 @@ Lembrando que este metodo AJAX é via POST.
 
 Exemplo:
 ```php
-$app->ajax("search", function(){ 
+$app->ajax('/search', function(){ 
      (new AjaxController)->pesquisa();
 })->name('search');
 ```
@@ -135,7 +135,7 @@ Os metodos aceitos nas rotas de APIs podem ser varios separados por ",".
 
 Exemplo:
 ```php
-$app->api("api/genero/{genero}", function(){
+$app->api('/api/genero/{genero}', function(){
      (new ApiController)->genero();
 },"get,post")->name('api.genero');
 ```
