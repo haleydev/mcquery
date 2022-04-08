@@ -22,7 +22,8 @@ class Conexao
         $this->password = env('db_password');        
     }
 
-    public function pdo(){   
+    public function pdo()
+    {   
         try{
             $this->conect = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);        
         } 
@@ -33,7 +34,8 @@ class Conexao
         } 
     } 
 
-    public function mysqli(){  
+    public function mysqli()
+    {  
         $this->conect = mysqli_connect($this->servername, $this->username, $this->password, $this->database);  
         if(!$this->conect){
             // die("Falha na conexao" . mysqli_connect_error());
@@ -42,7 +44,8 @@ class Conexao
         }
       }
 
-    public function close(){
+    public function close()
+    {
         if($this->conect != null){
             $this->conect = null;
         }

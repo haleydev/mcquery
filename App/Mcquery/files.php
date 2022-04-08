@@ -36,7 +36,8 @@ class '.$string.' extends Controller
     public $title = "'.$string.'";
     public $view = "";    
 
-    public function render(){
+    public function render()
+    {
         $this->layout("main");         
     }
 }';
@@ -56,12 +57,14 @@ class '.$string.'
     public $result = null; 
     private $conexao;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->conexao = new Conexao;
         $this->conexao->pdo();
     } 
     
-    public function select($id){    
+    public function select($id)
+    {    
         $query = "SELECT * FROM '.strtolower($string).' where id = '.$t.'$id'.$t.'";       
 
         $sql = $this->conexao->conect->prepare($query);
@@ -73,7 +76,8 @@ class '.$string.'
         $this->conexao->close();
     }
 
-    public function insert($value1,$value2,$value3){
+    public function insert($value1,$value2,$value3)
+    {
         $query = 
         "INSERT INTO '.strtolower($string).' (colun1, colun2, colun3)
          VALUES ('.$t.'$value1'.$t.', '.$t.'$value2'.$t.', '.$t.'$value3'.$t.')";
@@ -89,7 +93,8 @@ class '.$string.'
         $this->conexao->close();
     }
 
-    public function update($id,$value){
+    public function update($id,$value)
+    {
         $query = "UPDATE '.strtolower($string).' SET calun='.$t.'$value'.$t.' where id='.$t.'$id'.$t.'";
 
         $sql = $this->conexao->conect->prepare($query);
@@ -102,7 +107,8 @@ class '.$string.'
         $this->conexao->close();
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $query = "DELETE FROM '.strtolower($string).' WHERE id='.$t.'$id'.$t.' LIMIT 1";
 
         $sql = $this->conexao->conect->prepare($query);

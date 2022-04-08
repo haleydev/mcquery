@@ -54,7 +54,8 @@ class ControllerConsole
         }
     }
 
-    public function conexao(){
+    public function conexao()
+    {
         $conexao = new Conexao;
         $conexao->pdo();
         $conexao->conect;       
@@ -66,11 +67,12 @@ class ControllerConsole
             echo PHP_EOL."\033[0;32mConexão realizada com sucesso!\033[0m".PHP_EOL.PHP_EOL;
             die();
         }
-
+        
         $conexao->close();        
     }
 
-    public function newModel(string $string){
+    public function newModel(string $string)
+    {
         $this->string = str_replace("mcquery model:", "", $string);
         $this->string = str_replace(" ", "", $this->string);
         $file = model($this->string);
@@ -92,7 +94,8 @@ class ControllerConsole
         }
     }
 
-    public function autoload(){
+    public function autoload()
+    {
         shell_exec('composer dumpautoload');        
         echo PHP_EOL."\033[0;32mAutoload atualizado com sucesso\033[0m".PHP_EOL.PHP_EOL;
         die();

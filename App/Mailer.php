@@ -8,8 +8,8 @@ class Mailer
 {  
     public $result = false;
 
-    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null){    
-
+    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null)
+    {    
         if(env_required('mailer_name,mailer_response,mailer_host,mailer_port,mailer_username,mailer_password')){
 
             $mailer = new PHPMailer;     

@@ -8,7 +8,8 @@ class Controller
     public $total = null;
 
     // retorna um view contida em Templates/views
-    public function view($view = null){ 
+    public function view($view = null)
+    { 
         if(isset($this->view) and $view == null){
             $view = $this->view;
         }
@@ -23,7 +24,8 @@ class Controller
 
     // retorna layout contida em Templates/layouts
     // dentro do layout deve ser incluido o view ($this->view($view))
-    public function layout($layout = null){  
+    public function layout($layout = null)
+    {  
         if(isset($this->layout) and $layout == null){
             $layout = $this->layout;
         }
@@ -38,7 +40,8 @@ class Controller
     }
 
     // retorna layout contida em Templates/includes
-    public function include($include){  
+    public function include($include)
+    {  
         if(file_exists("Templates/includes/$include.php")){
             require "Templates/includes/$include.php";
         }else{
@@ -51,7 +54,8 @@ class Controller
     // retorna o resultado de uma query
     // varias queries podem ser feitas em uma mesma pagina
     // pode ser acessado na view com $this->data[1]
-    public function query( array $querys = null){   
+    public function query( array $querys = null)
+    {   
         $conexao = new Conexao;
         $conexao->pdo();
         $count = 0;     
@@ -63,6 +67,7 @@ class Controller
             $this->total[$count] = $sql->rowCount();
             $count++;
         }
+        
         $conexao->close();
         return $this;
     } 

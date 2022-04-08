@@ -7,12 +7,14 @@ class Exemplo
     public $result = null; 
     private $conexao;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->conexao = new Conexao;
         $this->conexao->pdo();
     } 
     
-    public function select($id){    
+    public function select($id)
+    {    
         $query = "SELECT * FROM exemplo where id = '$id'";       
 
         $sql = $this->conexao->conect->prepare($query);
@@ -24,7 +26,8 @@ class Exemplo
         $this->conexao->close();
     }
 
-    public function insert($value1,$value2,$value3){
+    public function insert($value1,$value2,$value3)
+    {
         $query = 
         "INSERT INTO exemplo (colun1, colun2, colun3)
          VALUES ('$value1', '$value2', '$value3')";
@@ -40,7 +43,8 @@ class Exemplo
         $this->conexao->close();
     }
 
-    public function update($id,$value){
+    public function update($id,$value)
+    {
         $query = "UPDATE exemplo SET calun='$value' where id='$id'";
 
         $sql = $this->conexao->conect->prepare($query);
@@ -53,7 +57,8 @@ class Exemplo
         $this->conexao->close();
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $query = "DELETE FROM exemplo WHERE id='$id' LIMIT 1";
 
         $sql = $this->conexao->conect->prepare($query);

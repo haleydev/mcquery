@@ -23,7 +23,8 @@ class System
         $this->url = filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);         
     }
          
-    public function url(string $router, $action){
+    public function url(string $router, $action)
+    {
         $this->router($router, $action);
         if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == NULL){
             if($_SERVER['REQUEST_METHOD'] == "GET"){
@@ -34,7 +35,8 @@ class System
         } return $this;        
     }
 
-    public function get(string $router, $action){    
+    public function get(string $router, $action)
+    {    
         $this->router($router, $action);  
         if($_SERVER['REQUEST_METHOD'] == "GET"){
             if($this->router == $this->url){              
@@ -43,7 +45,8 @@ class System
         } return $this;        
     }
     
-    public function post(string $router, $action){
+    public function post(string $router, $action)
+    {
         $this->router($router, $action);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
@@ -61,7 +64,8 @@ class System
         } return $this;        
     }
 
-    public function ajax(string $router, $action){
+    public function ajax(string $router, $action)
+    {
         $this->router($router, $action);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
@@ -76,7 +80,8 @@ class System
         } return $this;        
     }
 
-    public function api(string $router, $action, string $methods){
+    public function api(string $router, $action, string $methods)
+    {
         $this->router($router, $action);
         if($this->router == $this->url){ 
             header("Content-Type:application/json");             
@@ -89,7 +94,8 @@ class System
         } return $this;
     }
 
-    protected function router($router, $action){          
+    protected function router($router, $action)
+    {          
         $this->urlrouter =$router; 
         $this->router = $router;      
         
@@ -130,7 +136,8 @@ class System
         } return $this;              
     } 
 
-    protected function render(){       
+    protected function render()
+    {       
         if($this->validmethod == true){
             if($this->validrouter == $this->url){           
                 if(is_callable($this->validaction)){
@@ -151,7 +158,8 @@ class System
         } return $this;
     }
 
-    public function name($name = null){
+    public function name($name = null)
+    {
         if(str_contains($this->urlrouter, '{')){
             $array_url_view = explode('/',$this->urlrouter);
             $string = "";
@@ -169,14 +177,16 @@ class System
         $this->names[$name]= rtrim(URL."/".$url,"/");
     }
 
-    protected function validator($action){
+    protected function validator($action)
+    {
         $this->validmethod = true;
         $this->validrouter = $this->router;
         $this->validaction = $action;
         return $this;
     }
 
-    public function end(){ 
+    public function end()
+    { 
         define("routernames",$this->names);        
         $this->render();        
         if($this->valid == false){               
