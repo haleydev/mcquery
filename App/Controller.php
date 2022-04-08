@@ -51,8 +51,12 @@ class Controller
      * Retorna um include contido em Templates/includes.  
      * @return string|require         
      */   
-    public function include(string $include)
+    public function include(string $include  = null)
     {  
+        if(isset($this->include) and $include == null){
+            $include = $this->include;
+        }
+
         if(file_exists("Templates/includes/$include.php")){
             require "Templates/includes/$include.php";
         }else{
