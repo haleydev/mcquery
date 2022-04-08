@@ -4,7 +4,7 @@ if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
     require './App/Console/env.php';   
 }
 
-require './App/Console/images.php';
+require 'App/Console/images.php';
 use App\Conexao;
 class Console
 {
