@@ -1,29 +1,39 @@
 <?php
-// renderiza uma view
+/**
+ * Renderiza uma view.
+ * @return require_once|string
+ */
 function view(string $view){
     $file = './Templates/views/'.$view.'.php';
     if(file_exists($file)){        
-        require $file;                               
+        require_once $file;                               
     }else{
         echo "view não encontrada";
         return;
     }
 }
 
-// retorna o valor do parâmetro passado em router
-function get($id){
+/**
+ * Retorna o valor do parâmetro passado em router.
+ * @return string|null
+ */
+function get(string $id){
     if(defined('routerget')){ 
         if(array_key_exists($id,routerget)){
             return routerget[$id];
         }else{
-            return "parametro não encontrado";
+            return null;
         }
     } 
 }
 
-// retorna a URL da rota nomeada
-// se for uma rota com parâmetros, os parâmetros podem ser especificados como o segundo parâmetro da função
-function router($name, $params = null){
+/**
+ * Retorna a URL da rota nomeada.
+ * Se for uma rota com parâmetros, os parâmetros podem ser especificados como o segundo parâmetro da função
+ * separados por , vírgula.
+ * @return string|null
+ */
+function router(string $name, string $params = null){
     if(defined('routernames')){
         if(array_key_exists($name,routernames)){
             if($params != null){
@@ -46,12 +56,15 @@ function router($name, $params = null){
                 return routernames[$name];
             }
         }else{
-            return false;
+            return null;
         }
     }
 } 
 
-// retorna a url procurada nao encontrada pelo router
+/**
+ * Retorna a url procurada não encontrada pelo router.
+ * @return string
+ */ 
 function routerError(){
     if(isset($_SESSION['router_error'])){
         $error = $_SESSION['router_error'];
@@ -60,7 +73,10 @@ function routerError(){
     }
 }
 
-// cria um token para segurança de formularios
+/**
+ * Cria um token para segurança para formularios.
+ * @return string
+ */
 function validate(){
     if(isset($_SESSION['token'])){
         $token = $_SESSION['token'];
@@ -72,7 +88,10 @@ function validate(){
     return;   
 }
 
-// retorna o token atual
+/**
+ * Retorna o token atual
+ * @return string
+ */
 function token(){
     if(isset($_SESSION['token'])){        
         return $_SESSION['token'];
@@ -83,16 +102,23 @@ function token(){
     }
 }
 
-// remove o token da sessão
+/**
+ * Desvalida o token atual se existir
+ * @return true
+ */
 function unsetToken(){
     if(isset($_SESSION['token'])){        
         unset($_SESSION['token']);
-    }return;
+    }
+    return true;
 }
 
-// checa se o post existe e se o valor e valido
-// pode ser passado varios post separados por ,
-function postCheck($post){
+/**
+ * Checa se o $_POST existe e se seu valor e nulo
+ * Pode ser passado varios $_POST separados por ,
+ * @return true|false
+ */
+function postCheck(string $post){
     $return = true;
     $array = explode(",",$post);
     foreach ($array as $valid) {
@@ -107,9 +133,12 @@ function postCheck($post){
     return $return;
 }
 
-// checa se o get existe e se o valor e valido
-// pode ser passado varios get separados por ,
-function getCheck($get){
+/**
+ * Checa se o $_GET existe e se seu valor e nulo
+ * Pode ser passado varios $_GET separados por ,
+ * @return true|false
+ */
+function getCheck(string $get){
     $return = true;
     $array = explode(",",$get);
     foreach ($array as $valid) {
@@ -124,8 +153,11 @@ function getCheck($get){
     return $return;
 }
 
-// verifica se a url atual é a mesma que a url passada
-// deve ser passado a url completa
+/**
+ * Verifica se a url atual é a mesma que a url passada
+ * Deve ser passado a url completa
+ * @return true|false
+ */
 function active($url){    
     $atual =  URL."/".filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);
     if($url == rtrim($atual, "/")){
