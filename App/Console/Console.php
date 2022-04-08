@@ -1,10 +1,10 @@
 <?php
-if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
+if(file_exists("./vendor/autoload.php") and file_exists(".env")){
     require './vendor/autoload.php';
     require './App/Console/env.php';   
 }
 
-require 'App/Console/images.php';
+require './App/Console/images.php';
 use App\Conexao;
 class Console
 {
@@ -22,7 +22,7 @@ class Console
         }
         $this->comand = trim($string);
 
-        if(file_exists("./.env")){
+        if(file_exists(".env")){
             $this->valid = true;
         }else{
             $this->valid = false;
