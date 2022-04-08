@@ -9,6 +9,6 @@ class HomeController extends Controller
    
     public function render()
     {         
-        $this->layout('main');  
+        $this->layout('main'); 
     }
 }

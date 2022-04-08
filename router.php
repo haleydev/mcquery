@@ -29,10 +29,9 @@ $route->url('/sitemap.xml', function(){
 
 
 
-// a pagina de erro deve ter o nome error para q o 'mcquery' reconheça
-// a url pode ser alterada
-$route->url('/error', function(){(new ErrorController)->render();})->name('error');
+
 
 // -------------------------------------------------------------------------
-
+// a pagina de erro deve ter o nome error para q o 'mcquery' reconheça.
+$route->url('/error', function(){(new ErrorController)->render();})->name('error');
 $route->end();

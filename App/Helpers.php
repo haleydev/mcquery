@@ -89,7 +89,7 @@ function validate(){
 }
 
 /**
- * Retorna o token atual
+ * Retorna o token atual.
  * @return string
  */
 function token(){
@@ -103,7 +103,7 @@ function token(){
 }
 
 /**
- * Desvalida o token atual se existir
+ * Desvalida o token atual se existir.
  * @return true
  */
 function unsetToken(){
@@ -154,8 +154,8 @@ function getCheck(string $get){
 }
 
 /**
- * Verifica se a url atual é a mesma que a url passada
- * Deve ser passado a url completa
+ * Verifica se a url atual é a mesma que a url passada.
+ * Deve ser passado a url completa.
  * @return true|false
  */
 function active($url){    

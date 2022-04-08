@@ -4,8 +4,22 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+/**
+ * Envia e-mails utilizando o PHPMailer.
+ * @param string $d_email - E-mail do destinatário
+ * @param string $d_nome - Nome do destinatário
+ * @param string $title - Título do e-mail
+ * @param string $body - Corpo do e-mail
+ * @param $anexo|null - Anexo do e-mail
+ * @return true|false
+ */
+
 class Mailer
 {  
+    /**
+     * Resultado do envio 
+     * @return true|false
+     */
     public $result = false;
 
     public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null)

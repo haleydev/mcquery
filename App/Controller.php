@@ -7,8 +7,11 @@ class Controller
     public $data = null;
     public $total = null;
 
-    // retorna um view contida em Templates/views
-    public function view($view = null)
+    /**
+     * Retorna uma view contida em Templates/views.
+     * @return string|require   
+     */    
+    public function view(string $view = null)
     { 
         if(isset($this->view) and $view == null){
             $view = $this->view;
@@ -19,12 +22,16 @@ class Controller
             require $fileview;
         }else{
             echo "view não encontrada";
-        } return $this;        
+        } 
+        
+        return $this;        
     }
-
-    // retorna layout contida em Templates/layouts
-    // dentro do layout deve ser incluido o view ($this->view($view))
-    public function layout($layout = null)
+ 
+    /**
+     * Retorna um layout contido em Templates/layouts.  
+     * @return string|require         
+     */
+    public function layout(string $layout = null)
     {  
         if(isset($this->layout) and $layout == null){
             $layout = $this->layout;
@@ -36,11 +43,15 @@ class Controller
             echo "layout não encontrado";
             return;
         }
+
         return $this;
     }
 
-    // retorna layout contida em Templates/includes
-    public function include($include)
+    /**
+     * Retorna um include contido em Templates/includes.  
+     * @return string|require         
+     */   
+    public function include(string $include)
     {  
         if(file_exists("Templates/includes/$include.php")){
             require "Templates/includes/$include.php";
@@ -48,13 +59,17 @@ class Controller
             echo "include não encontrado";
             return;
         }
+
         return $this;
     }
 
-    // retorna o resultado de uma query
-    // varias queries podem ser feitas em uma mesma pagina
-    // pode ser acessado na view com $this->data[1]
-    public function query( array $querys = null)
+    /**
+     * Retorna o resultado de uma query.
+     * Varias queries podem ser feitas em uma mesma pagina.
+     * Consulte a documentação https://github.com/haleydev/mcquery#controllers para saber como fazer isso.      
+     */ 
+
+    protected function query( array $querys = null)
     {   
         $conexao = new Conexao;
         $conexao->pdo();

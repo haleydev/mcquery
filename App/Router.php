@@ -1,15 +1,22 @@
 <?php
 namespace App;
 
+/**
+ * O lindo e complexo gerenciador de rotas do mcquery.
+ */
+
 class Router
 {      
-    // true: o token será redefinido ao enviar um formulário automaticamente
-    // false: será necessário usar a função unsetToken() logo após a validação do formulário para manter a segurança
+    /**
+     * False: será necessário usar a função unsetToken() logo após a validação do formulário para manter a segurança.
+     * True: o token será redefinido ao enviar um formulário automaticamente.
+     * @param boolean $unsetToken
+     */
     public $autoToken = true;
 
     private array $names;
     private $urlrouter = null;
-    protected $valid = false;
+    private $valid = false;
     private $router;     
     private $url;    
     
@@ -22,10 +29,14 @@ class Router
     {
         $this->url = filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);         
     }
-         
-    public function url(string $router, $action)
+
+    /**
+     * @param string $route
+     * @param string|callable|null $action
+     */         
+    public function url(string $route, $action = null)
     {
-        $this->router($router);
+        $this->router($route);
         if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == NULL){
             if($_SERVER['REQUEST_METHOD'] == "GET"){
                 if($this->router == $this->url){
@@ -35,9 +46,13 @@ class Router
         } return $this;        
     }
 
-    public function get(string $router, $action)
+    /**
+     * @param string $route
+     * @param string|callable|null $action
+     */ 
+    public function get(string $route, $action = null)
     {    
-        $this->router($router);  
+        $this->router($route);  
         if($_SERVER['REQUEST_METHOD'] == "GET"){
             if($this->router == $this->url){              
                 $this->validator($action);
@@ -45,9 +60,13 @@ class Router
         } return $this;        
     }
     
-    public function post(string $router, $action)
+    /**
+     * @param string $route
+     * @param string|callable|null $action
+     */ 
+    public function post(string $route, $action = null)
     {
-        $this->router($router);  
+        $this->router($route);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -64,9 +83,13 @@ class Router
         } return $this;        
     }
 
-    public function ajax(string $router, $action)
+    /**
+     * @param string $route
+     * @param string|callable|null $action
+     */ 
+    public function ajax(string $route, $action = null)
     {
-        $this->router($router);  
+        $this->router($route);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -80,9 +103,14 @@ class Router
         } return $this;        
     }
 
-    public function api(string $router, $action, string $methods)
+    /**
+     * @param string $route
+     * @param string|callable|null $action
+     * @param string $method     
+     */ 
+    public function api(string $route, $action = null, string $methods)
     {
-        $this->router($router);
+        $this->router($route);
         if($this->router == $this->url){ 
             header("Content-Type:application/json");             
             $array_methods = explode(',',strtoupper($methods));  
@@ -139,25 +167,35 @@ class Router
     protected function render()
     {       
         if($this->validmethod == true){
-            if($this->validrouter == $this->url){           
-                if(is_callable($this->validaction)){
-                    // function detect                     
-                    call_user_func($this->validaction);                     
-                    $this->valid = true;
+            if($this->validrouter == $this->url){   
+                if($this->validaction == null){
+                    $this->valid = true;   
                     ob_end_flush();
-                    return;
+                    return;    
                 }else{
-                    if(file_exists($this->validaction)){        
-                        include_once $this->validaction; 
-                        $this->valid = true;   
+                    if(is_callable($this->validaction)){
+                        // function detect                     
+                        call_user_func($this->validaction);                     
+                        $this->valid = true;
                         ob_end_flush();
-                        return;                   
+                        return;
+                    }else{
+                        if(file_exists($this->validaction)){        
+                            include_once $this->validaction; 
+                            $this->valid = true;   
+                            ob_end_flush();
+                            return;                   
+                        }
                     }
                 }
             } 
         } return $this;
     }
 
+    /**
+     * Nome da rota
+     * @param string $name  
+     */ 
     public function name($name = null)
     {
         if(str_contains($this->urlrouter, '{')){
@@ -185,6 +223,9 @@ class Router
         return $this;
     }
 
+    /**
+     * Finaliza a execução da rota e retona pagina de erro se a rota não for encontrada.   
+     */ 
     public function end()
     { 
         define("routernames",$this->names);        
