@@ -1,12 +1,10 @@
 <?php
-echo "teste";
-
-if(file_exists("vendor/autoload.php") and file_exists(".env")){
-    require 'vendor/autoload.php';
-    require 'App/Console/env.php';   
+if(file_exists("./vendor/autoload.php") and file_exists(".env")){
+    require './vendor/autoload.php';
+    require './App/Console/env.php';   
 }
 
-require 'App/Console/images.php';
+require './App/Console/images.php';
 use App\Conexao;
 class Console
 {
