@@ -25,7 +25,7 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 - [Enviando e-mails](#enviando--e-mails)
 - [Funções mcquery](#funções-mcquery)
 ## Comandos via terminal
-![mcquery terminal](https://user-images.githubusercontent.com/88275533/162103945-9826d12d-e9bd-4bfd-bd45-061acff4740c.png)
+![mcquery terminal](https://user-images.githubusercontent.com/88275533/162348587-38ff83db-342e-4156-abf9-89e061cd1098.png)
 - **php mcquery env** cria o arquivo de configurações (.env) e instala dependências
 - **php mcquery controller:Nome** cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta
 - **php mcquery model:Nome** cria um novo model
