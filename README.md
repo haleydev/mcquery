@@ -169,12 +169,12 @@ Um model pode ser criado com o comando ( php mcquery model:NomeModel )
 
 Para ajudar o mcquery cria as models com algumas funções, que podem ser alteradas de acordo com as suas necessidades:
 
-Lembrando que o banco de dados deve estar devidamente configurado em .env
-
 - select
 - insert
 - update
 - delete
+
+Lembrando que o banco de dados deve estar devidamente configurado em .env
 
 Você pode acessar o banco de dados diretamente dessa forma:
 
@@ -184,6 +184,48 @@ $conexao = new Conexao;
 $conexao->pdo(); // ou $conexao->mysqli();
 $conexao->conect; // para conectar
 $conexao->close(); // para fechar a conexao
+```
+
+Exemplo: (Acessando o resultado de model em uma view usando controller)
+```php
+// model Sitemap
+public function select()
+{    
+    $query = "SELECT * FROM sitemap LIMIT 100";       
+
+    $sql = $this->conexao->conect->prepare($query);
+    $sql->execute();
+
+    if($sql->rowCount() > 0){
+        $this->result = $sql->fetchAll();
+    }
+    $this->conexao->close();
+    return;
+}
+
+// SitemapController
+class SitemapController extends Controller
+{   
+    public $view = "sitemap";
+    
+    public function sitemap()
+    { 
+        $this->query = new Sitemap;
+        $this->query->select();
+        
+        $this->view();
+    }    
+}
+
+// acessando o resultado na view sitemap
+foreach($this->query->result as $sitemap){
+echo
+"<url>
+    <loc>https://yousite/post?p=".$sitemap['titulo']."</loc>        
+    <lastmod>".$sitemap['data']."</lastmod>
+    <priority>1.0</priority>
+</url>";
+}   
 ```
 
 ## Enviando  e-mails
