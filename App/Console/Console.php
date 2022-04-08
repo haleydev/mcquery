@@ -1,5 +1,5 @@
 <?php
-if(file_exists("./vendor/autoload.php") and file_exists(".env")){
+if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
     require './vendor/autoload.php';
     require './App/Console/env.php';   
 }
