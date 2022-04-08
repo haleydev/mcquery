@@ -37,7 +37,7 @@ class Console
             $this->render = true;
             $console = (string)readline(PHP_EOL."\033[1;31mAplicação não iniciada! Deseja criar o arquivo '.env' e instala dependências ? (s/n)\033[0m");
             if($console == "s"){
-               $this->newEnv();
+               $this->initialize();
             }else{
                 echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
                 die();
@@ -99,7 +99,7 @@ class Console
         echo PHP_EOL;
         echo "\033[1;34mBem vindo ao mcquery\033[0m".PHP_EOL.PHP_EOL;    
         echo "\033[1;32mComandos".PHP_EOL;   
-        echo "\033[1;93menv\033[0m cria o arquivo de configurações (.env) e instala dependências".PHP_EOL;   
+        echo "\033[1;93menv\033[0m cria um novo arquivo de configurações (.env)".PHP_EOL;   
         echo "\033[1;93mcontroller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
         echo "\033[1;93mmodel:Nome\033[0m cria um novo model".PHP_EOL;     
         echo "\033[1;93mconexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 
@@ -188,6 +188,15 @@ class Console
     }
 
     private function newEnv()
+    {
+        $file = $this->images->env(); 
+        file_put_contents('.env', $file);
+        
+        echo PHP_EOL."\033[0;32m.ini criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+        die();
+    }
+
+    private function initialize()
     {
         $file = $this->images->env(); 
         file_put_contents('.env', $file);
