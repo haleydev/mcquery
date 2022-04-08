@@ -60,7 +60,7 @@ Caso queira pegar uma url completa que contém parâmetros utilize router('post'
 
 Você pode chamar um arquivo diretamente, exemplo:
 ```php
-$app->url('/post', "./Templates/views/post.php")->name('post');
+$app->url('/post/{id}', "./Templates/views/post.php")->name('post');
 ```
 ou chamar uma classe ou função, exemplo:
 ```php
