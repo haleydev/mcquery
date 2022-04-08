@@ -151,7 +151,8 @@ class NomeController extends Controller
     public $title = "NomeController";
     public $view = "";    
 
-    public function render(){
+    public function render()
+    {
         $this->layout("main");         
     }
 }
