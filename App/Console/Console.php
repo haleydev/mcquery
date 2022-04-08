@@ -1,6 +1,6 @@
 <?php
-if(file_exists("./vendor/autoload.php")){
-   
+if(file_exists(".env")){
+  
     echo "teste";
 }
 
