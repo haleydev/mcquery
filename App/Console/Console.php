@@ -2,11 +2,13 @@
 if(file_exists("vendor/autoload.php")){
     require 'vendor/autoload.php';
 }
+
 if(file_exists(".env")){
     require 'env.php';
 }
+
 require 'image.php';
-use App\Mcquery\ControllerConsole;
+use App\Console\ControllerConsole;
 
     $string = "";
     foreach($argv as $console){

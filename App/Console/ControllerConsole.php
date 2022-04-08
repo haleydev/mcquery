@@ -1,5 +1,5 @@
 <?php
-namespace App\Mcquery;
+namespace App\Console;
 use App\Conexao;
 
 class ControllerConsole
@@ -47,10 +47,56 @@ class ControllerConsole
             die();
         }else{
             $file = controller($nameclass,$namespace);
-            file_put_contents('Controllers/'.$folder.''.$nameclass.'.php', $file);
-            $this->composerUpdate();
-            echo PHP_EOL."\033[0;32mController ( $nameclass ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+
+            $confirm = true;
+            if(file_exists("Controllers/$folder$nameclass.php")){
+                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir controller '$nameclass' ? (s/n)\033[0m");
+                if($console == 's'){
+                    $confirm == true;                   
+                }else{
+                    echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
+                    $confirm == false;
+                    die();
+                }
+            }
+
+            if($confirm == true){
+                file_put_contents('Controllers/'.$folder.''.$nameclass.'.php', $file);
+                $this->composerUpdate();
+                echo PHP_EOL."\033[0;32mController ( $nameclass ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+                die();
+            }
+        }
+    }
+
+    public function newModel(string $string)
+    {
+        $this->string = str_replace("mcquery model:", "", $string);
+        $this->string = str_replace(" ", "", $this->string);
+        $file = model($this->string);
+        $namefile = strtolower($this->string);
+
+        if($namefile == ""){
+            echo PHP_EOL."\033[1;31mNome do model não informado!\033[0m".PHP_EOL.PHP_EOL;
             die();
+        }else{ 
+            $confirm = true;
+            if(file_exists("Models/$namefile.php")){
+                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir model '$this->string' ? (s/n)\033[0m");
+                if($console == 's'){
+                    $confirm == true;                   
+                }else{
+                    echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
+                    $confirm == false;
+                    die();
+                }
+            }
+            if($confirm == true){
+                file_put_contents('Models/'.$this->string.'.php', $file);
+                $this->composerUpdate();
+                echo PHP_EOL."\033[0;32mModel ( $this->string ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+                die();
+            }           
         }
     }
 
@@ -69,29 +115,6 @@ class ControllerConsole
         }
         
         $conexao->close();        
-    }
-
-    public function newModel(string $string)
-    {
-        $this->string = str_replace("mcquery model:", "", $string);
-        $this->string = str_replace(" ", "", $this->string);
-        $file = model($this->string);
-        $namefile = strtolower($this->string);
-
-        if($namefile == ""){
-            echo PHP_EOL."\033[1;31mNome do model não informado!\033[0m".PHP_EOL.PHP_EOL;
-            die();
-        }else{   
-            if($namefile == "conexao"){
-                echo PHP_EOL."\033[1;31mNão e possivel criar um model com o nome 'conexao'!\033[0m".PHP_EOL.PHP_EOL;
-                die();
-            }else{
-                file_put_contents('Models/'.$this->string.'.php', $file);
-                $this->composerUpdate();
-                echo PHP_EOL."\033[0;32mModel ( $namefile ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
-                die();
-            }
-        }
     }
 
     public function autoload()

@@ -1,2 +1,2 @@
 <?php
-    require './App/Mcquery/Console.php';
+require './App/Console/Console.php';
