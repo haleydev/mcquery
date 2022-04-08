@@ -158,32 +158,13 @@ class NomeController extends Controller
 }
 ```
 Para adiocionar um layout,view ou include em um controller utilize as seguintes funções do controller:
+
+OBS: Se layout,view ou include estiverem especificados ( ex: $this->layout = 'main' ) não é necessário especificar o nome nas funções abaixo. 
 - $this->layout('nome-do-layout')
 - $this->view('nome-da-view')
 - $this->include('nome-do-include')
 
 Lembrando que estes arquivos devem estar na pasta Templates.
-
-Também e possivel acessar o banco de dados diretamenta no controller dessa forma 'mas é recomendável utilizar as Models':
-```php
-// e possivel criar varias querys desta forma:
-$this->query([
-    "SELECT * FROM filmes ORDER BY id DESC limit 10",
-    "SELECT * FROM animes ORDER BY id DESC limit 30"
-]); 
-
-$this->total[0] // imprime 10
-$this->total[1] // imprime 30
-
-// $this->data pode ser acessada na view,layout ou include se forem adicionados abaixo da query
-// acessando os resultados com $this->data :
-
-foreach($this->data[0] as $result){
-echo 
-    $result['titulo']."-".
-    $result['descricao']."<br>";       
-}   
-```
 
 ## Models e conexão
 Um model pode ser criado com o comando ( php mcquery model:NomeModel )
@@ -205,6 +186,48 @@ $conexao = new Conexao;
 $conexao->pdo(); // ou $conexao->mysqli();
 $conexao->conect; // para conectar
 $conexao->close(); // para fechar a conexao
+```
+
+Exemplo: Acessando o resultado de model em uma view usando controller.
+```php
+// model Sitemap
+public function select()
+{    
+    $query = "SELECT * FROM sitemap LIMIT 100";       
+
+    $sql = $this->conexao->conect->prepare($query);
+    $sql->execute();
+
+    if($sql->rowCount() > 0){
+        $this->result = $sql->fetchAll();
+    }
+    $this->conexao->close();
+    return;
+}
+
+// SitemapController
+class SitemapController extends Controller
+{   
+    public $view = "sitemap";
+    
+    public function sitemap()
+    { 
+        $this->query = new Sitemap;
+        $this->query->select();
+        
+        $this->view();
+    }    
+}
+
+// acessando o resultado na view sitemap
+foreach($this->query->result as $sitemap){
+echo
+"<url>
+    <loc>https://yousite/post?p=".$sitemap['titulo']."</loc>        
+    <lastmod>".$sitemap['data']."</lastmod>
+    <priority>1.0</priority>
+</url>";
+}   
 ```
 
 ## Enviando  e-mails
