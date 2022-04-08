@@ -27,7 +27,8 @@ class Console
 
         if($this->comand == 'mcquery env'){
             $this->render = true;
-            $console_env = (string)readline(PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
+            echo PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m".PHP_EOL.PHP_EOL;
+            $console_env = (string)readline('');
             if($console_env == 's'){
                 $this->newEnv();               
             }else{
@@ -75,16 +76,21 @@ class Console
     }
 
     private function dashboard()
-    {        
-        echo PHP_EOL;
-        echo "\033[1;34mBEM VINDO AO MCQUERY\033[0m".PHP_EOL.PHP_EOL;    
-        // echo "\033[0;32mComandos".PHP_EOL;
-        echo "\033[0;32mcontroller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
-        echo "\033[0;32mmodel:Nome\033[0m cria um novo model".PHP_EOL.PHP_EOL;   
-        echo "\033[0;32menv\033[0m cria um novo arquivo de configurações (.env)".PHP_EOL;   
-        echo "\033[0;32mconexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 
-        echo "\033[0;32mautoload\033[0m atualiza o autoload de classes".PHP_EOL;         
-        echo "\033[0;32minstall\033[0m instala as dependências do composer".PHP_EOL;   
+    {   
+        echo "\033[1;34m 
+ mcquery v0.5.0
+ _ __ ___   ___ __ _ _   _  ___ _ __ _   _ 
+ | '_ ` _ \ / __/ _` | | | |/ _ \ '__| | | |
+ | | | | | | (_| (_| | |_| |  __/ |  | |_| |
+ |_| |_| |_|\___\__, |\__,_|\___|_|   \__, |
+                   |_|                |___/  
+        \033[0m".PHP_EOL;
+        echo "\033[0;32m controller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
+        echo "\033[0;32m model:Nome\033[0m cria um novo model".PHP_EOL.PHP_EOL;   
+        echo "\033[0;32m env\033[0m cria um novo arquivo de configurações (.env)".PHP_EOL;   
+        echo "\033[0;32m conexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 
+        echo "\033[0;32m autoload\033[0m atualiza o autoload de classes".PHP_EOL;         
+        echo "\033[0;32m install\033[0m instala as dependências do composer".PHP_EOL;   
         echo PHP_EOL;
     }
 
@@ -109,30 +115,35 @@ class Console
         }
 
         if($nameclass == ""){
-            echo PHP_EOL."\033[1;31mNome do controller não informado!\033[0m".PHP_EOL.PHP_EOL;
+            echo "\033[1;31mNome do controller não informado!\033[0m".PHP_EOL;
             die();
         }else{
+            if(!preg_match("/^[a-zA-Z ]*$/", $nameclass)){
+                echo "\033[1;31mNome do controller invalido!\033[0m".PHP_EOL;               
+                die();
+            }
             $file = controller($nameclass,$namespace);
 
             $confirm = true;
             if(file_exists("Controllers/$folder$nameclass.php")){
-                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir controller '$nameclass' ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
+                echo "\033[1;31mSubstituir controller '$nameclass' ? (s/n)\033[0m".PHP_EOL;
+                $console = (string)readline('');
                 if($console == 's'){
                     $confirm == true;                   
                 }else{
-                    echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
+                    echo "\033[1;31mOperação cancelada\033[0m".PHP_EOL;
                     $confirm == false;
                     die();
                 }
             }
 
             if($nameclass == 'Controller' or $nameclass == 'controller'){
-                echo PHP_EOL."\033[1;31mEste nome de controller não pode ser usado\033[0m".PHP_EOL.PHP_EOL;
+                echo "\033[1;31mEste nome de controller não pode ser usado\033[0m".PHP_EOL;
             }else{
                 if($confirm == true){
                     file_put_contents('Controllers/'.$folder.''.$nameclass.'.php', $file);
                     $this->composerUpdate();
-                    echo PHP_EOL."\033[0;32mController ( $nameclass ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+                    echo "\033[0;32mController ( $nameclass ) criado com sucesso \033[0m".PHP_EOL;
                     die();
                 }
             }            
@@ -145,24 +156,31 @@ class Console
         $namefile = strtolower($string);
 
         if($namefile == ""){
-            echo PHP_EOL."\033[1;31mNome do model não informado!\033[0m".PHP_EOL.PHP_EOL;
+            echo "\033[1;31mNome do model não informado!\033[0m".PHP_EOL;
             die();
-        }else{ 
+        }else{              
+            if(!preg_match("/^[a-zA-Z ]*$/", $string)){
+                echo "\033[1;31mNome do model invalido!\033[0m".PHP_EOL;               
+                die();
+            }
+            
             $confirm = true;
             if(file_exists("Models/$namefile.php")){
-                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir model '$string' ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
+                echo "\033[1;31mSubstituir model '$string' ? (s/n)\033[0m".PHP_EOL;
+                $console = (string)readline('');
                 if($console == 's'){
                     $confirm == true;                   
                 }else{
-                    echo PHP_EOL."\033[1;31mOperação cancelada\033[0m".PHP_EOL.PHP_EOL;
+                    echo "\033[1;31mOperação cancelada\033[0m".PHP_EOL;
                     $confirm == false;
                     die();
                 }
-            }
+            }   
+
             if($confirm == true){
                 file_put_contents('Models/'.$string.'.php', $file);
                 $this->composerUpdate();
-                echo PHP_EOL."\033[0;32mModel ( $string ) criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+                echo "\033[0;32mModel ( $string ) criado com sucesso \033[0m".PHP_EOL;
                 die();
             }           
         }
@@ -173,7 +191,7 @@ class Console
         $file = new_env(); 
         file_put_contents('.env', $file);
         
-        echo PHP_EOL."\033[0;32m.ini criado com sucesso \033[0m".PHP_EOL.PHP_EOL;
+        echo "\033[0;32m.ini criado com sucesso \033[0m".PHP_EOL;
         die();
     }
 
@@ -184,9 +202,9 @@ class Console
         $conexao->conect;       
 
         if($conexao->error == true){
-            echo PHP_EOL."\033[1;31mFalha na conexão!\033[0m".PHP_EOL.PHP_EOL;            
+            echo "\033[1;31mFalha na conexão!\033[0m".PHP_EOL;            
         }else{
-            echo PHP_EOL."\033[0;32mConexão realizada com sucesso\033[0m".PHP_EOL.PHP_EOL;            
+            echo "\033[0;32mConexão realizada com sucesso\033[0m".PHP_EOL;            
         }        
         $conexao->close();  
         die();      
@@ -194,7 +212,7 @@ class Console
 
     private function composerInstall(){
         shell_exec('composer install');
-        echo PHP_EOL."\033[0;32mDependências do composer instaladas com sucesso\033[0m".PHP_EOL.PHP_EOL;
+        echo "\033[0;32mDependências do composer instaladas com sucesso\033[0m".PHP_EOL;
         die();
     }
 
