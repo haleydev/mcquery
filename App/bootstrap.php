@@ -19,4 +19,4 @@ require 'Helpers.php';
 require 'vendor/autoload.php';
 
 use App\Router;
-$router = new Router; 
+$route = new Router; 
