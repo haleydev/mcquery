@@ -31,11 +31,24 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 - **php mcquery model:Nome** cria um novo model
 - **php mcquery conexao** testa a conexão com o banco de dados
 - **php mcquery autoload** atualiza o autoload de classes
+
 ## Variáveis de ambiente
-
 Para iniciar esse projeto, você vai precisar rodar "php mcquery env" no terminal e configurar as variáveis de ambiente, caso não for utilizar o PHPMailer ou banco de dados, os campos podem ficar em branco.
-## Router
+```php
+// retorna o valor do item declarado em .env
+env('timezone'); // america/sao_paulo
+```
+```php
+// verifica se o item foi declaro em .env retornando true ou false
+// se o item estiver com seu valor vazio retornara false
+// varios valores podem ser passados separados por , exemplo:
+if(env_required('db_database,db_username')){
+    // ...
+}
 
+```
+
+## Router
 
 Não é obrigatório nomear as rotas, mas é muito útil se você quiser obter a url completa da rota utilizando a função: router('nome');
 
