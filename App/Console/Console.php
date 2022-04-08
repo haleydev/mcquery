@@ -1,7 +1,7 @@
 <?php
 namespace App\Console;
-
 use App\Conexao;
+
 class Console
 {
     private $comand;   
@@ -27,7 +27,7 @@ class Console
 
         if($this->comand == 'mcquery env'){
             $this->render = true;
-            $console_env = (string)readline(PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m");
+            $console_env = (string)readline(PHP_EOL."\033[1;31mSubstituir o .env atual ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
             if($console_env == 's'){
                 $this->newEnv();               
             }else{
@@ -116,7 +116,7 @@ class Console
 
             $confirm = true;
             if(file_exists("Controllers/$folder$nameclass.php")){
-                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir controller '$nameclass' ? (s/n)\033[0m");
+                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir controller '$nameclass' ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
                 if($console == 's'){
                     $confirm == true;                   
                 }else{
@@ -127,7 +127,7 @@ class Console
             }
 
             if($nameclass == 'Controller' or $nameclass == 'controller'){
-                echo PHP_EOL."\033[1;31mEste nome de classe não pode ser usado\033[0m".PHP_EOL.PHP_EOL;
+                echo PHP_EOL."\033[1;31mEste nome de controller não pode ser usado\033[0m".PHP_EOL.PHP_EOL;
             }else{
                 if($confirm == true){
                     file_put_contents('Controllers/'.$folder.''.$nameclass.'.php', $file);
@@ -150,7 +150,7 @@ class Console
         }else{ 
             $confirm = true;
             if(file_exists("Models/$namefile.php")){
-                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir model '$string' ? (s/n)\033[0m");
+                $console = (string)readline(PHP_EOL."\033[1;31mSubstituir model '$string' ? (s/n)\033[0m").PHP_EOL.PHP_EOL;
                 if($console == 's'){
                     $confirm == true;                   
                 }else{
