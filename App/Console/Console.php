@@ -65,6 +65,11 @@ class Console
                 $this->conexao();                
             }
 
+            if($this->comand == 'mcquery install'){
+                $this->render = true;
+                $this->composerInstall();                
+            }
+
             if($this->comand == 'mcquery autoload'){
                 $this->render = true;
                 shell_exec('composer dumpautoload');        
@@ -95,15 +100,16 @@ class Console
     }
 
     private function dashboard()
-    {
+    {        
         echo PHP_EOL;
-        echo "\033[1;34mBem vindo ao mcquery\033[0m".PHP_EOL.PHP_EOL;    
-        echo "\033[1;32mComandos".PHP_EOL;   
-        echo "\033[1;93menv\033[0m cria um novo arquivo de configurações (.env)".PHP_EOL;   
-        echo "\033[1;93mcontroller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
-        echo "\033[1;93mmodel:Nome\033[0m cria um novo model".PHP_EOL;     
-        echo "\033[1;93mconexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 
-        echo "\033[1;93mautoload\033[0m atualiza o autoload de classes".PHP_EOL;         
+        echo "\033[1;34mBEM VINDO AO MCQUERY\033[0m".PHP_EOL.PHP_EOL;    
+        // echo "\033[0;32mComandos".PHP_EOL;
+        echo "\033[0;32mcontroller:Nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta".PHP_EOL;  
+        echo "\033[0;32mmodel:Nome\033[0m cria um novo model".PHP_EOL.PHP_EOL;   
+        echo "\033[0;32menv\033[0m cria um novo arquivo de configurações (.env)".PHP_EOL;   
+        echo "\033[0;32mconexao\033[0m testa a conexão com o banco de dados".PHP_EOL; 
+        echo "\033[0;32mautoload\033[0m atualiza o autoload de classes".PHP_EOL;         
+        echo "\033[0;32minstall\033[0m instala as dependências do composer".PHP_EOL;   
         echo PHP_EOL;
     }
 
@@ -210,7 +216,7 @@ class Console
             unlink("LICENSE");
         }
 
-        echo PHP_EOL."\033[0;32mAplicação iniciada com sucesso \033[0m".PHP_EOL.PHP_EOL;
+        echo PHP_EOL."\033[0;32mAplicação iniciada com sucesso\033[0m".PHP_EOL.PHP_EOL;
         die();
     }
 
@@ -223,10 +229,16 @@ class Console
         if($conexao->error == true){
             echo PHP_EOL."\033[1;31mFalha na conexão!\033[0m".PHP_EOL.PHP_EOL;            
         }else{
-            echo PHP_EOL."\033[0;32mConexão realizada com sucesso!\033[0m".PHP_EOL.PHP_EOL;            
+            echo PHP_EOL."\033[0;32mConexão realizada com sucesso\033[0m".PHP_EOL.PHP_EOL;            
         }        
         $conexao->close();  
         die();      
+    }
+
+    private function composerInstall(){
+        shell_exec('composer install');
+        echo PHP_EOL."\033[0;32mDependências do composer instaladas com sucesso\033[0m".PHP_EOL.PHP_EOL;
+        die();
     }
 
     private function composerUpdate()
