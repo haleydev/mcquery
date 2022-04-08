@@ -95,14 +95,14 @@ class Router
     }
 
     protected function router($router)
-    {          
-        $this->urlrouter = $router; 
-        $this->router = $router;      
+    {      
+        $this->urlrouter = substr($router,1);
+        $this->router = substr($router,1);      
         
         // id url code            
         $patternVariable = '/{(.*?)}/';
         if(preg_match_all($patternVariable,$this->router,$for_view)){ 
-                            
+                                       
             $array_url_view = explode('/',$this->router);
             $array_url_get = explode('/',$this->url); 
 
