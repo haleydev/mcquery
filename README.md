@@ -234,7 +234,7 @@ router()
 router('blog') // retorna http://localhost/blog
 
 // rota com parâmetros
-router('blog,'post,11') // retorna http://localhost/blog/post/11
+router('blog','post,11') // retorna http://localhost/blog/post/11
 ```
 
 
