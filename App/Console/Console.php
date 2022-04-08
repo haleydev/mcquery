@@ -1,8 +1,7 @@
 <?php
 if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
     require './vendor/autoload.php';
-    require './App/Console/env.php';   
-    echo "teste";
+    require './App/Console/env.php';       
 }
 
 
@@ -24,11 +23,11 @@ class Console
         }
         $this->comand = trim($string);
 
-        if(file_exists("./.env")){
-            $this->valid = true;
-        }else{
-            $this->valid = false;
-        }
+        // if(file_exists("./.env")){
+        //     $this->valid = true;
+        // }else{
+        //     $this->valid = false;
+        // }
 
         $this->images = new Images;
     }
