@@ -5,6 +5,9 @@ if(file_exists("vendor/autoload.php")){
 
 if(file_exists(".env")){
     require 'env.php';
+    $valid = true;
+}else{
+    $valid = false;
 }
 
 require 'image.php';
@@ -19,7 +22,7 @@ use App\Console\ControllerConsole;
     
     // functions mcquery
     if($string == "mcquery"){
-        if(!file_exists(".env")){
+        if($valid == false){
             die(PHP_EOL."\033[1;31mAplicação não iniciada! use o comando 'php mcquery env' para criar o arquivo de configuração e instalar dependências.\033[0m".PHP_EOL.PHP_EOL);                    
         }else{
             (new ControllerConsole)->dashboard();
@@ -27,12 +30,12 @@ use App\Console\ControllerConsole;
         }        
     }
 
-    if(str_contains($string,'mcquery controller:')){        
+    if(str_contains($string,'mcquery controller:') and $valid == true){        
         (new ControllerConsole)->newController($string);
         return;
     }
 
-    if(str_contains($string,'mcquery model:')){        
+    if(str_contains($string,'mcquery model:') and $valid == true){        
         (new ControllerConsole)->newModel($string);
         return;
     }
@@ -41,11 +44,15 @@ use App\Console\ControllerConsole;
     if(isset($argv[1])){
         switch ($argv[1]):
             case "conexao":
-                (new ControllerConsole)->conexao();return;
+                if($valid == true){
+                    (new ControllerConsole)->conexao();return;
+                }                
                 break;
 
             case "autoload":
-                (new ControllerConsole)->autoload();return;
+                if($valid == true){
+                    (new ControllerConsole)->autoload();return; 
+                }              
                 break;
 
             case "env":
@@ -63,8 +70,10 @@ use App\Console\ControllerConsole;
                 break;
                 
             default:
-               echo PHP_EOL."\033[1;31mComando inválido!\033[0m".PHP_EOL.PHP_EOL;
-                die();
+                if($valid == true){
+                    echo PHP_EOL."\033[1;31mComando inválido!\033[0m".PHP_EOL.PHP_EOL;
+                    die();
+                }
                break;
         endswitch;
     }
