@@ -1,16 +1,10 @@
 <?php
 namespace App\Console;
-if(file_exists("./vendor/autoload.php") and file_exists(".env")){
-    require './vendor/autoload.php';
-    require './App/Console/env.php';   
-}
 
 use App\Conexao;
 class Console
 {
-    private $comand;    
-    private $images;
-    private $valid = false;  
+    private $comand;   
     private $render = false;    
 
     public function __construct()
@@ -20,17 +14,7 @@ class Console
         foreach($argv as $console){
             $string.= $console. " ";
         }
-        $this->comand = trim($string);
-
-        if(file_exists(".env")){
-            $this->valid = true;
-        }else{
-            $this->valid = false;
-        }
-
-        $this->images = new Images;
-
-        echo "teste";
+        $this->comand = trim($string);        
     }
 
     public function reader()
@@ -128,7 +112,7 @@ class Console
             echo PHP_EOL."\033[1;31mNome do controller não informado!\033[0m".PHP_EOL.PHP_EOL;
             die();
         }else{
-            $file = $this->images->controller($nameclass,$namespace);
+            $file = controller($nameclass,$namespace);
 
             $confirm = true;
             if(file_exists("Controllers/$folder$nameclass.php")){
@@ -157,7 +141,7 @@ class Console
 
     private function newModel(string $string)
     {
-        $file = $this->images->model($string);
+        $file = model($string);
         $namefile = strtolower($string);
 
         if($namefile == ""){
@@ -186,7 +170,7 @@ class Console
 
     private function newEnv()
     {
-        $file = $this->images->env(); 
+        $file = new_env(); 
         file_put_contents('.env', $file);
         
         echo PHP_EOL."\033[0;32m.ini criado com sucesso \033[0m".PHP_EOL.PHP_EOL;

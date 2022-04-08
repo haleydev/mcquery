@@ -1,9 +1,5 @@
 <?php
-namespace App\Console;
-
-class Images
-{
-public function env()
+function new_env()
 {
 $file = 
 '# comfiguracao de dominio
@@ -28,7 +24,7 @@ mailer_password =';
 return $file;
 }
 
-public function controller($string,$namespace = null)
+function controller($string,$namespace = null)
 {
 $file = 
 '<?php
@@ -48,7 +44,7 @@ class '.$string.' extends Controller
 return $file;
 }
 
-public function model($string)
+function model($string)
 {
 $t = "'";
 $file =
@@ -126,5 +122,4 @@ class '.$string.'
     }
 }';
 return $file;
-}
 }
