@@ -1,4 +1,4 @@
 <?php
-require_once 'App/Console/Console.php';
+require_once './App/Console/Console.php';
 $console = new Console;
 $console->reader();
