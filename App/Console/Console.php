@@ -3,6 +3,7 @@ if(file_exists("./vendor/autoload.php") and file_exists("./.env")){
     require './vendor/autoload.php';
     require './App/Console/env.php';   
 }
+echo "teste";
 
 require './App/Console/images.php';
 use App\Conexao;
@@ -14,9 +15,7 @@ class Console
     private $render = false;    
 
     public function __construct()
-    {
-
-        echo "teste";
+    {        
         $string = "";
         global $argv;        
         foreach($argv as $console){
