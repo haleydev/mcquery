@@ -33,7 +33,6 @@ O MCQUERY foi feito com a intenção de ser um framework que não dependa de out
 - **php mcquery autoload** atualiza o autoload de classes
 
 ## Variáveis de ambiente
-Para iniciar esse projeto, você vai precisar rodar "php mcquery env" no terminal e configurar as variáveis de ambiente, caso não for utilizar o PHPMailer ou banco de dados, os campos podem ficar em branco.
 ```php
 // retorna o valor do item declarado em .env
 env('timezone'); // america/sao_paulo
