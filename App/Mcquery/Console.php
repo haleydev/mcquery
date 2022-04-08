@@ -2,7 +2,9 @@
 if(file_exists("vendor/autoload.php")){
     require 'vendor/autoload.php';
 }
-require 'env.php';
+if(file_exists(".env")){
+    require 'env.php';
+}
 require 'files.php';
 use App\Mcquery\ControllerConsole;
 
