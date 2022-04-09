@@ -63,7 +63,7 @@ Para passar parâmetros dinâmicos na url coloque entre chaves exemplo "post/{po
 
 Caso queira pegar uma url completa que contém parâmetros utilize router('post', 'php,15') separando os parâmetros a serem substituidos por ",".
 
-
+A url base definida em .env pode ser acessada pela superglobal ROOT
 
 Você pode chamar um arquivo diretamente, exemplo:
 ```php
