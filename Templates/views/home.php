@@ -6,5 +6,5 @@
    </div>
 
    <div class="div-versão">
-      <p class="versao">mcquery v0.5.0 beta - PHP <?=phpversion()?></p>
+      <p class="versao">mcquery v0.6.10 beta - PHP <?=phpversion()?></p>
    </div>
