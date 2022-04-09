@@ -78,7 +78,7 @@ class Console
     private function dashboard()
     {   
         echo "\033[1;34m 
- mcquery v0.6.10
+ mcquery v0.6.11
  _ __ ___   ___ __ _ _   _  ___ _ __ _   _ 
  | '_ ` _ \ / __/ _` | | | |/ _ \ '__| | | |
  | | | | | | (_| (_| | |_| |  __/ |  | |_| |

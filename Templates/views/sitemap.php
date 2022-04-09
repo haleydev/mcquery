@@ -5,7 +5,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc><?=ROOT?></loc>        
-        <lastmod>2022-01-03</lastmod>
+        <lastmod>2022-04-09</lastmod>
         <priority>1.0</priority>
     </url>
 
