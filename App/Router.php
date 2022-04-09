@@ -10,7 +10,7 @@ class Router
     /**
      * False: será necessário usar a função unsetToken() logo após a validação do formulário para manter a segurança.
      * True: o token será redefinido ao enviar um formulário automaticamente.
-     * @param boolean $unsetToken
+     * @param boolean $autoToken
      */
     public $autoToken = true;
 
