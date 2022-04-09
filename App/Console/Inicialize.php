@@ -11,7 +11,7 @@ if(file_exists("./vendor/autoload.php") and file_exists(".env")){
 }
 
 if($action == true){   
-    echo "\033[1;31mAplicação não iniciada! Deseja criar o arquivo '.env' e instala dependências ? (s/n)\033[0m".PHP_EOL;
+    echo "\033[1;31mAplicação não iniciada, deseja criar o arquivo '.env' e instalar dependências ? (s/n)\033[0m".PHP_EOL;
     $console = (string)readline("");
     readline_read_history();
 
