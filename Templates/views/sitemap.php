@@ -4,7 +4,7 @@
 ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc><?=URL?></loc>        
+        <loc><?=ROOT?></loc>        
         <lastmod>2022-01-03</lastmod>
         <priority>1.0</priority>
     </url>
@@ -13,7 +13,7 @@
         // foreach($this->query->result as $sitemap){
         // echo
         // "<url>
-        //     <loc>https://yousite/post?p=".$sitemap['titulo']."</loc>        
+        //     <loc>".ROOT."/post?p=".$sitemap['titulo']."</loc>        
         //     <lastmod>".$sitemap['data']."</lastmod>
         //     <priority>1.0</priority>
         // </url>";

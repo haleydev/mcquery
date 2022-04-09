@@ -12,7 +12,7 @@ if(!isset($_SESSION)){
 require 'App/Console/env.php';
 
 date_default_timezone_set(env('timezone'));
-define("URL", env('URL'));   
+define("ROOT", env('APP_URL'));   
 
 require 'Helpers.php';
 

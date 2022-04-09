@@ -226,7 +226,7 @@ class Router
         }else{
             $url = $this->router;
         }
-        $this->names[$name]= rtrim(URL."/".$url,"/");
+        $this->names[$name]= rtrim(ROOT."/".$url,"/");
     }
 
     protected function validator($action)
@@ -246,7 +246,7 @@ class Router
         define("routernames",$this->names);        
         $this->render();        
         if($this->valid == false){               
-            $_SESSION['router_error'] = URL."/". $this->url;
+            $_SESSION['router_error'] = ROOT."/". $this->url;
             header("Location:".router('error'));
             ob_end_flush();              
             return $this->valid = true; 

@@ -3,7 +3,7 @@ function new_env()
 {
 $file = 
 '# comfiguracao de dominio
-URL = http://localhost
+APP_URL = http://localhost
 
 # fuso horario
 timezone = america/sao_paulo

@@ -159,7 +159,7 @@ function getCheck(string $get){
  * @return true|false
  */
 function active($url){    
-    $atual =  URL."/".filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);
+    $atual =  ROOT."/".filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);
     if($url == rtrim($atual, "/")){
         return true;
     }else{
