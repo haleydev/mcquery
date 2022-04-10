@@ -36,7 +36,7 @@ class Router
      */         
     public function url(string $route, $action = null)
     {
-        $this->router($route);
+        $this->param($route);
         if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == NULL){
             if($_SERVER['REQUEST_METHOD'] == "GET"){
                 if($this->router == $this->url){
@@ -54,7 +54,7 @@ class Router
      */ 
     public function get(string $route, $action = null)
     {    
-        $this->router($route);  
+        $this->param($route);  
         if($_SERVER['REQUEST_METHOD'] == "GET"){
             if($this->router == $this->url){              
                 $this->validator($action);
@@ -70,7 +70,7 @@ class Router
      */ 
     public function post(string $route, $action = null)
     {
-        $this->router($route);  
+        $this->param($route);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -95,7 +95,7 @@ class Router
      */ 
     public function ajax(string $route, $action = null)
     {
-        $this->router($route);  
+        $this->param($route);  
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['token']) and isset($_SESSION['token'])){
                 if($_POST['token'] == $_SESSION['token']){
@@ -118,7 +118,7 @@ class Router
      */ 
     public function api(string $route, $action = null, string $methods)
     {
-        $this->router($route);
+        $this->param($route);
         if($this->router == $this->url){ 
             header("Content-Type:application/json");             
             $array_methods = explode(',',strtoupper($methods));  
@@ -132,15 +132,15 @@ class Router
         return $this;
     }
 
-    protected function router($router)
+    protected function param($router)
     {      
         $this->urlrouter = substr($router,1);
         $this->router = substr($router,1);      
         
         // id url code            
         $patternVariable = '/{(.*?)}/';
-        if(preg_match_all($patternVariable,$this->router,$for_view)){ 
-                                       
+        if(preg_match_all($patternVariable,$this->router,$for_view)){                        
+         
             $array_url_view = explode('/',$this->router);
             $array_url_get = explode('/',$this->url); 
 
