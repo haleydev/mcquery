@@ -166,3 +166,13 @@ function active($url){
         return false;	
     }
 }
+
+/**
+ * @return var_dump
+ */
+function dd($what){
+    echo "<pre>";
+    var_dump($what);
+    echo "</pre>";
+    return;
+}

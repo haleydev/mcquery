@@ -1,8 +1,9 @@
 <?php
 namespace App;
-use mysqli;
+
 use PDO;
 use PDOException;
+use mysqli_sql_exception;
 
 /**
  * Gerencia as conexões com o banco de dados
@@ -14,8 +15,18 @@ class Conexao
     private $username;
     private $servername;
     private $password;
+    private $drive = null;
 
-    public $conect = null;
+
+    /**
+     * Conecta a query ao banco de dados
+     */
+    public $conect = null;    
+
+    /**
+     * Retorna true se não conseguir conectar ao banco de dados
+     * @return true|false
+     */
     public $error = false;     
     
     public function __construct()
@@ -30,26 +41,32 @@ class Conexao
      * Cria uma conexão PDO com o banco de dados
      */
     public function pdo()
-    {   
+    {         
         try{
-            $this->conect = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);        
+            $this->conect = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);     
+            $this->drive = "pdo";   
+            return;
         } 
-        catch (PDOException $pe){
+        catch(PDOException $pe){
             $this->error = true;
-            // die("Falha na conexao: $this->database : ".$pe->getMessage());       
+            // die("Falha na conexao: ".$pe->getMessage());       
             return;     
-        } 
+        }
     } 
 
     /**
      * Cria uma conexão mysqli com o banco de dados     
      */
     public function mysqli()
-    {  
-        $this->conect = mysqli_connect($this->servername, $this->username, $this->password, $this->database);  
-        if(!$this->conect){
-            // die("Falha na conexao" . mysqli_connect_error());
-            $this->error = true;
+    {          
+        try{
+            $this->conect = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
+            $this->drive = "mysqli"; 
+            return;
+        }
+        catch(mysqli_sql_exception){           
+            $this->error = true;           
+            // die("Falha na conexao: ". mysqli_connect_error());           
             return;
         }
     }
@@ -59,8 +76,16 @@ class Conexao
      */
     public function close()
     {
-        if($this->conect != null){
-            $this->conect = null;
+        if($this->drive != null and $this->conect != null){
+            if($this->drive == "pdo"){
+                $this->conect = null;
+            }
+
+            if($this->drive == "mysqli"){
+                mysqli_close($this->conect);
+            }
         }
+
+        return;
     }
-}  
+}
