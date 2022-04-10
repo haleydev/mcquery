@@ -21,7 +21,7 @@ composer create-project haleydev/mcquery
 - [Router o básico](#router)
     - [Metodo URL](#url---este-metodo-não-permite-que-a-rota-tenha-parâmetros)
     - [Metodo GET](#get---este-metodo-permite-que-a-rota-tenha-parâmetros)
-    - [Metodo POST](#post---para-utilizar-o-metodo-post-e-necessário-ter-um-token-de-segurança-em-seus-formulários)
+    - [Metodo POST e Token](#post---para-utilizar-o-metodo-post-e-necessário-ter-um-token-de-segurança-em-seus-formulários)
     - [Metodo AJAX](#ajax---ao-contrario-do-metodo-post-o-metodo-ajax-não-atualiza-o-token-de-segurança-a-cada-requisição-mas-ainda-e-necessário-utilizar-o-token-de-segurança-em-seus-formulários)
     - [Metodo API](#api---metodo-dedicado-a-apis-seu-header-cabeçalho-ja-vem-com-content-typeapplicationjson)
 - [Controllers](#controllers)
