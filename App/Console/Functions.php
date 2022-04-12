@@ -2,25 +2,26 @@
 function new_env()
 {
 $file = 
-'# comfiguracao de dominio
+'# Configuração de domínio
 APP_URL = http://localhost
 
 # fuso horario
 timezone = america/sao_paulo
 
 # banco de dados
-db_database = phpmyadmin
-db_username = root
-db_servername = localhost
-db_password =
+db_servername = [database_host]
+db_database = [database_name]
+db_username = [database_username]
+db_password = [database_password]
+
 
 # php mailer smtp
-mailer_name = nome do remetente
-mailer_response = emailderespostas@hotmal.com
-mailer_host =
-mailer_port =
-mailer_username =
-mailer_password =';
+mailer_name = [nome do site]
+mailer_response = [noreply@dominio.com]
+mailer_host = [smtp.dominio.com]
+mailer_port = [587]
+mailer_username = [usuario@dominio.com]
+mailer_password = [senha do e-mail]';
 return $file;
 }
 
@@ -55,25 +56,24 @@ use App\Conexao;
 class '.$string.'
 {  
     public $result = null; 
-    private $conexao;
+    private $database;
 
     public function __construct()
     {
-        $this->conexao = new Conexao;
-        $this->conexao->pdo();
+        $this->database = new Conexao("pdo");
     } 
     
     public function select($id)
     {    
         $query = "SELECT * FROM '.strtolower($string).' where id = '.$t.'$id'.$t.'";       
 
-        $sql = $this->conexao->conect->prepare($query);
+        $sql = $this->database->instance->prepare($query);
         $sql->execute();
 
         if($sql->rowCount() > 0){
             return $this->result = $sql->fetchAll();
         }
-        $this->conexao->close();
+        $this->database->close();
     }
 
     public function insert($value1,$value2,$value3)
@@ -82,7 +82,7 @@ class '.$string.'
         "INSERT INTO '.strtolower($string).' (colun1, colun2, colun3)
          VALUES ('.$t.'$value1'.$t.', '.$t.'$value2'.$t.', '.$t.'$value3'.$t.')";
         
-        $sql = $this->conexao->conect->prepare($query);
+        $sql = $this->database->instance->prepare($query);
         $sql->execute();
 
         if($sql->rowCount() > 0){
@@ -90,35 +90,35 @@ class '.$string.'
         }else{
             return $this->result = false;
         }
-        $this->conexao->close();
+        $this->database->close();
     }
 
     public function update($id,$value)
     {
         $query = "UPDATE '.strtolower($string).' SET calun='.$t.'$value'.$t.' where id='.$t.'$id'.$t.'";
 
-        $sql = $this->conexao->conect->prepare($query);
+        $sql = $this->database->instance->prepare($query);
         $sql->execute();
         if($sql->rowCount() > 0){
             return $this->result = true;
         }else{
             return $this->result = false;
         } 
-        $this->conexao->close();
+        $this->database->close();
     }
 
     public function delete($id)
     {
         $query = "DELETE FROM '.strtolower($string).' WHERE id='.$t.'$id'.$t.' LIMIT 1";
 
-        $sql = $this->conexao->conect->prepare($query);
+        $sql = $this->database->instance->prepare($query);
         $sql->execute();
         if($sql->rowCount() > 0){
             return $this->result = true;
         }else{
             return $this->result = false;
         } 
-        $this->conexao->close();
+        $this->database->close();
     }
 }';
 return $file;

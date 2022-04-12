@@ -5,25 +5,24 @@ use App\Conexao;
 class Sitemap
 {  
     public $result = null; 
-    private $conexao;
+    private $database;
 
     public function __construct()
     {
-        $this->conexao = new Conexao;
-        $this->conexao->pdo();
+        $this->database = new Conexao("pdo");
     } 
     
     public function select()
     {    
         $query = "SELECT * FROM sitemap LIMIT 100";       
 
-        $sql = $this->conexao->conect->prepare($query);
+        $sql = $this->database->instance->prepare($query);
         $sql->execute();
 
         if($sql->rowCount() > 0){
             $this->result = $sql->fetchAll();
         }
-        $this->conexao->close();
+        $this->database->close();
         return;
     }
 }

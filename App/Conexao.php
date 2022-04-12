@@ -11,63 +11,79 @@ use mysqli_sql_exception;
 
 class Conexao
 {  
-    private $database;
-    private $username;
     private $servername;
+    private $database;
+    private $username;    
     private $password;
-    private $drive = null;
-
+    private $driver = null;
 
     /**
-     * Conecta a query ao banco de dados
+     * Instancia desta conexão, que permite realizar queries no banco de dados conectado.
      */
-    public $conect = null;    
+    public $instance = null;    
 
     /**
-     * Retorna true se não conseguir conectar ao banco de dados
+     * Retorna true se não conseguir conectar ao banco de dados.
      * @return true|false
      */
-    public $error = false;     
+    public $error = false;
     
-    public function __construct()
+    /**
+     * Retorna a mensagem de erro da conexão, caso aconteca algum erro.
+     */
+    public $errorMessage = "";
+    
+    public function __construct($driver)
     {        
-        $this->database = env('db_database');
-        $this->username = env('db_username');
         $this->servername = env('db_servername');
-        $this->password = env('db_password');        
+        $this->database = env('db_database');
+        $this->username = env('db_username');        
+        $this->password = env('db_password');
+        $this->driver = $driver;  
+        $this->connect();
+    }
+
+    public function __destruct(){
+        $this->close();
+    }
+
+    private function connect(){
+        switch($this->driver){
+            case "pdo":
+                return $this->pdo();
+            case "mysql":
+                return $this->mysqli();
+            default: 
+                $this->error = true;
+                $this->errorMessage = "Invalid driver for connection";
+        }
     }
     
     /**
      * Cria uma conexão PDO com o banco de dados
      */
-    public function pdo()
+    private function pdo()
     {         
         try{
-            $this->conect = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);     
-            $this->drive = "pdo";   
-            return;
+            $this->instance = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);     
         } 
         catch(PDOException $pe){
             $this->error = true;
-            // die("Falha na conexao: ".$pe->getMessage());       
-            return;     
+            $this->errorMessage = $pe->getMessage();
         }
     } 
 
     /**
      * Cria uma conexão mysqli com o banco de dados     
      */
-    public function mysqli()
+    private function mysqli()
     {          
         try{
-            $this->conect = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
-            $this->drive = "mysqli"; 
-            return;
+            $this->instance = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
         }
         catch(mysqli_sql_exception){           
-            $this->error = true;           
-            // die("Falha na conexao: ". mysqli_connect_error());           
-            return;
+            $this->error = true; 
+            $this->errorMessage = mysqli_connect_error();
         }
     }
 
@@ -76,16 +92,22 @@ class Conexao
      */
     public function close()
     {
-        if($this->drive != null and $this->conect != null){
-            if($this->drive == "pdo"){
-                $this->conect = null;
-            }
-
-            if($this->drive == "mysqli"){
-                mysqli_close($this->conect);
-            }
+        if($this->drive == null || $this->instance == null)
+        {
+            return;
         }
 
-        return;
+        $this->error = false;
+        $this->errorMessage = "";
+
+        switch($this->driver){
+            case "pdo":
+                $this->instance = null;
+            break;
+            case "mysqli":
+                mysqli_close($this->instance);
+                $this->instance = null;
+            break;
+        }
     }
 }
