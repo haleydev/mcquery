@@ -26,6 +26,7 @@ composer create-project haleydev/mcquery
     - [Metodo API](#api---metodo-dedicado-a-apis-seu-header-cabeçalho-ja-vem-com-content-typeapplicationjson)
 - [Controllers](#controllers)
 - [Models e conexão](#models-e-conexão)
+- [Migration](#migration)
 - [Enviando e-mails](#enviando--e-mails)
 - [Funções mcquery](#funções-mcquery)
 
@@ -185,8 +186,6 @@ Lembrando que estes arquivos devem estar na pasta Templates.
 - Um model pode ser criado com o comando ( php mcquery model:NomeModel )
 - Ou ele e criado automaticamente ao realizar uma migração via terminal
 
-Para saber mais como usar uma model veja o quivo de exemplo em Private/Examples/usando_model.php
-
 Lembrando que o banco de dados deve estar devidamente configurado em .env
 
 Você pode acessar o banco de dados diretamente dessa forma:
@@ -199,46 +198,67 @@ $conexao->instance; // para realizar operações no banco de dados
 $conexao->close(); // para fechar a conexao
 ```
 
-Exemplo: Acessando o resultado de model em uma view usando controller.
+Exemplo: Acessando um model.
 ```php
-// model Sitemap
-public function select()
-{    
-    $query = "SELECT * FROM sitemap LIMIT 100";       
+$select = usuarios::select([
+    // todos os itens são opcionais:
+    "coluns" => "id,nome,email",
+    "limit" => 10,
+    "order" => "RAND()", // ou id DESC / id ASC
 
-    $sql = $this->conexao->instance->prepare($query);
-    $sql->execute();
+    // so e possivel usar um de cada vez where ou like
+    "where" => [
+        "nome" => "mcquery",
+        "sobrenome" => "haley"
+    ],
 
-    if($sql->rowCount() > 0){
-        $this->result = $sql->fetchAll();
-    }
-    $this->conexao->close();
-    return;
-}
+    // "like" => [
+    //     "nome" => "mc"        
+    // ]
 
-// SitemapController
-class SitemapController extends Controller
-{   
-    public $view = "sitemap";
-    
-    public function sitemap()
-    { 
-        $this->query = new Sitemap;
-        $this->query->select();
-        
-        $this->view();
-    }    
-}
+    // "join" => "id = outra_tabela.coluna,id = outra_tabela.coluna",
+    // ao usar join e necessario especificar os outros argumentos ex: ( "where" => ["usuarios.nome" => "mcquery","usuarios.id" => 1] )
+]);
+dd($select);
 
-// acessando o resultado na view sitemap
-foreach($this->query->result as $sitemap){
-echo
-"<url>
-    <loc>https://yousite/post?p=".$sitemap['titulo']."</loc>        
-    <lastmod>".$sitemap['data']."</lastmod>
-    <priority>1.0</priority>
-</url>";
-}   
+
+$insert = usuarios::insert([
+    // bem simples :)
+    "nome" => "mcquery",
+    "idade" => "55",
+    "sobrenome" => "haley"
+]);
+dd($insert);
+
+
+$update = usuarios::update([
+    // e bom especificar :)
+    "where" => [
+        "id" => 5
+    ],
+
+    "limit" => 1,
+
+    // array update obrigatorio
+    "update" => [
+        "nome" => 'novo nome',
+        "sobrenome" => 'mudei'
+    ]
+]);
+dd($update);
+
+
+$delete = usuarios::delete([
+    // cuidado! se não especificar toda tabela vai ser apagada
+    "limit" => 1,
+
+    "where" => [
+        "id" => 1,
+        "name" => 'haley'
+    ]
+]);
+dd($delete);
+
 ```
 
 ## Enviando  e-mails
@@ -264,6 +284,32 @@ if($email->result == true){
 }
 ```
 Lembrando que o arquivo .env deve estar configurado para enviar e-mails.
+
+## Migration
+Para criar um novo arquivo de migração use o comando ( php mcquery database:Nome)
+
+E para executalo ( php mcquery migrate )
+
+```php
+use App\Database\{DataTypes, Migration};
+require "./App/Database/require.php";
+ 
+(new Migration)->table([($table = new DataTypes),$table->name("usuarios"),
+
+    $table->id(),
+    $table->string('nome',100),  
+    $table->string('sobrenome', 100),
+    $table->string('email',120),
+    $table->string('password',100),    
+    $table->string('access',20)->default('user'),
+    $table->int('idade'),    
+    $table->date_created(),
+    $table->date_edited()
+
+],$table->result());
+```
+
+
 
 ## Funções mcquery
 router()
