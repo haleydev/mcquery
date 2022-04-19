@@ -174,14 +174,10 @@ OBS: Se layout,view ou include estiverem especificados ( ex: $this->layout = 'ma
 Lembrando que estes arquivos devem estar na pasta Templates.
 
 ## Models e conexão
-Um model pode ser criado com o comando ( php mcquery model:NomeModel )
+- Um model pode ser criado com o comando ( php mcquery model:NomeModel )
+- Ou ele e criado automaticamente ao realizar uma migração via terminal
 
-Para ajudar o mcquery cria as models com algumas funções, que podem ser alteradas de acordo com as suas necessidades:
-
-- select
-- insert
-- update
-- delete
+Para saber mais como usar uma model veja o quivo de exemplo em Private/Examples/usando_model.php
 
 Lembrando que o banco de dados deve estar devidamente configurado em .env
 
@@ -245,7 +241,7 @@ use App\Mailer;
 
 $body = '<h1>ola mcquery</h1>';
 
-$email =  new Mailer;
+$email = new Mailer;
 $email->email = 'warleyhacker@hotmail.com';
 $email->name = 'warley rodrigues';
 $email->title = 'ola warley';
