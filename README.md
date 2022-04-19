@@ -31,14 +31,22 @@ composer create-project haleydev/mcquery
 
 
 ## Comandos via terminal
-![mcquery terminal](https://user-images.githubusercontent.com/88275533/162547010-691681c9-898f-4707-b8ce-e6fa8f7f85eb.png)
+![mcquery terminal](https://user-images.githubusercontent.com/88275533/164116042-bfcd39f6-458a-490c-9f8f-1aa4a32530aa.png)
+
 
 - **php mcquery controller:Nome** cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta
-- **php mcquery model:Nome** cria um novo model
-- **php mcquery env** cria um novo arquivo de configurações (.env)
-- **php mcquery conexao** testa a conexão com o banco de dados
 - **php mcquery autoload** atualiza o autoload de classes
+- **php mcquery conexao** testa a conexão com o banco de dados
 - **php mcquery install** instala as dependências do composer
+- **php mcquery env** cria um novo arquivo de configurações (.env)
+- **php mcquery cache:env** armazena e usa as informações do .env em cache
+
+ - **php mcquery model:nome** cria um novo model
+ - **php mcquery database:Nome** cria uma nova base de dados
+ - **php mcquery migrate** executa as bases de dados pendentes e adiciona models
+ - **php mcquery drop:tabela** exclui uma tabela do banco de dados
+ - **php mcquery list:migrations** lista todas as migrações já executadas
+
 
 ## Variáveis de ambiente
 ```php
