@@ -80,10 +80,9 @@ $route->url('/post/{id}', "./Templates/views/post.php")->name('post');
 ```
 ou chamar uma classe ou função, exemplo:
 ```php
-$route->post('/post'", function(){ 
-    echo 'HELO WORD';
-    view('post');
-})->name('post');
+$route->post('/email', function () {
+    (new EmailController)->send();
+})->name('email');
 ```
 
 ### URL - Este metodo não permite que a rota tenha parâmetros
