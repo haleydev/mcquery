@@ -242,13 +242,18 @@ Enviar e-mails no mcquery e bem simples, veja o exemplo abaixo:
 
 ```php
 use App\Mailer;
-$conteudo = "<h1>Helo Word</h1>";
 
-$email = new Mailer;
-$email->send("email_destinatario@hotmail.com","nome_destinatario", "titulo", $conteudo); 
+$body = '<h1>ola mcquery</h1>';
 
-// para enviar e-mails com anexos:
-// $email->send("email_destinatario@hotmail.com","nome_destinatario", "titulo", $conteudo,"Public/images/example.png"); 
+$email =  new Mailer;
+$email->email = 'warleyhacker@hotmail.com';
+$email->name = 'warley rodrigues';
+$email->title = 'ola warley';
+$email->body = $body;
+
+// anexo opcinal:
+// $email->anexo = 'Public/images/....'; 
+$email->send();
         
 if($email->result == true){
     echo "email enviado com sucesso";
@@ -315,4 +320,9 @@ if(postCheck('name,email,senha')){
 }else{
     echo "preencha todos os campos";
 }
+```
+getCheck() / postCheck()
+```php
+// equivalente a var_dump() entre tags <pre></pre>
+dd($item)
 ```
