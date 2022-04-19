@@ -4,71 +4,93 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-/**
- * Envia e-mails utilizando o PHPMailer.
- * @param string $d_email - E-mail do destinatário
- * @param string $d_nome - Nome do destinatário
- * @param string $title - Título do e-mail
- * @param string $body - Corpo do e-mail
- * @param $anexo|null - Anexo do e-mail
- * @return true|false
- */
-
 class Mailer
-{  
+{
     /**
-     * Resultado do envio 
+     * Resultado do envio. 
      * @return true|false
      */
     public $result = false;
+    
+    /**
+     * Email do destinatario.
+     * @param $email
+     */
+    public $email;
 
-    public function send(string $d_email, string $d_name, string $title, $body = null, $anexo = null)
-    {    
-        if(env_required('mailer_name,mailer_response,mailer_host,mailer_port,mailer_username,mailer_password')){
+    /**
+     * Nome do destinatario.
+     * @param $name
+     */
+    public $name;
 
-            $mailer = new PHPMailer;     
+    /**
+     * Titulo do email.
+     * @param $title
+     */
+    public $title;
+
+    /**
+     * Corpo do email.
+     * @param $body
+     */
+    public $body = null;
+
+    /**
+     * Enexo do email 'opcional'.
+     * @param $anexo
+     */
+    public $anexo = null;    
+
+    /**
+     * Envia as informacoes do email para o destinatario.   
+     */
+    public function send()
+    {
+        if (env_required('MAILER_NAME,MAILER_RESPONSE,MAILER_HOST,MAILER_PORT,MAILER_USERNAME,MAILER_PASSWORD')) {
+            $mailer = new PHPMailer;
             $mailer->isSMTP();
             $mailer->SMTPDebug = 0; //2 para exibir relatorio
-            $mailer->Host = env('mailer_host');
-            $mailer->Port = env('mailer_port');
+            $mailer->Host = env('MAILER_HOST');
+            $mailer->Port = env('MAILER_PORT');
             $mailer->SMTPAuth = true;
-            $mailer->Username = env('mailer_username');
-            $mailer->Password = env('mailer_password');
+            $mailer->Username = env('MAILER_USERNAME');
+            $mailer->Password = env('MAILER_PASSWORD');
 
             // informacoes do remetente
-            $mailer->setFrom(env('mailer_username'), env('mailer_name'));
-            $mailer->addReplyTo(env('mailer_response'), env('mailer_name'));
-        
+            $mailer->setFrom(env('MAILER_USERNAME'), env('MAILER_NAME'));
+            $mailer->addReplyTo(env('MAILER_RESPONSE'), env('MAILER_NAME'));
+
             // destinatario
-            $mailer->AddAddress("$d_email", "$d_name");       
-        
+            $mailer->AddAddress($this->email, $this->name);
+
             // titulo do email
-            $mailer->Subject = "$title";  
-            
+            $mailer->Subject = $this->title;
+
             // conteudo do e-mail
-            if($body != null){
-                $mailer->Body = "$body";
-            }  
-            
+            if ($this->body != null) {
+                $mailer->Body = $this->body;
+            }
+
             // ativa html no email
-            $mailer->IsHTML(true); 
+            $mailer->IsHTML(true);
 
             // anexo
-            if($anexo != null){
-                if(file_exists($anexo)){
-                    $mailer->addAttachment("$anexo"); 
+            if ($this->anexo != null) {
+                if (file_exists($this->anexo)) {
+                    $mailer->addAttachment("$this->anexo");
                 }
             }
-        
+
             // envio e resultado
-            if($mailer->send()) {
+            if ($mailer->send()) {
                 $this->result = true;
                 return true;
-            }else{
+            } else {
                 $this->result = false;
                 return false;
-            }        
-        }else{
+            }
+        } else {
             echo "Preencha todos os campos necessários em .env";
         }
     }

@@ -191,7 +191,7 @@ Você pode acessar o banco de dados diretamente dessa forma:
 use App\Conexao;
 $conexao = new Conexao;
 $conexao->pdo(); // ou $conexao->mysqli();
-$conexao->conect; // para conectar
+$conexao->instance; // para realizar operações no banco de dados
 $conexao->close(); // para fechar a conexao
 ```
 
@@ -202,7 +202,7 @@ public function select()
 {    
     $query = "SELECT * FROM sitemap LIMIT 100";       
 
-    $sql = $this->conexao->conect->prepare($query);
+    $sql = $this->conexao->instance->prepare($query);
     $sql->execute();
 
     if($sql->rowCount() > 0){

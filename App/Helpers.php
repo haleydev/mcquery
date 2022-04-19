@@ -1,4 +1,36 @@
 <?php
+use App\Console\Env;
+$array_env = (new Env)->env;
+
+// retorna o valor declarado em .env
+function env(string $value)
+{
+    global $array_env;
+    if (array_key_exists($value, $array_env)) {
+        return $array_env[$value];
+    } else {
+        return null;
+    }
+}
+
+// verifica se os valores estao declarados ou vazios em .env retornando true ou false
+function env_required(string $values)
+{
+    global $array_env;
+    $result = true;
+    $array = explode(',', $values);
+    foreach ($array as $key) {
+        if (!array_key_exists($key, $array_env)) {
+            $result = false;
+        } else {
+            if ($array_env[$key] == null) {
+                $result = false;
+            }
+        }
+    }
+    return $result;
+}
+
 /**
  * Renderiza uma view.
  * @return require_once|string
@@ -171,7 +203,7 @@ function active($url){
  * @return var_dump
  */
 function dd($what){
-    echo "<pre>";
+    echo "<pre>".PHP_EOL;
     var_dump($what);
     echo "</pre>";
     return;
