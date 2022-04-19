@@ -370,8 +370,7 @@ if(postCheck('name,email,senha')){
     echo "preencha todos os campos";
 }
 ```
-getCheck() / postCheck()
+dd()
 ```php
 // equivalente a var_dump() entre tags <pre></pre>
-dd($item)
 ```
