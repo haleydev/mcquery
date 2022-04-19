@@ -41,23 +41,23 @@ composer create-project haleydev/mcquery
 - **php mcquery env** cria um novo arquivo de configurações (.env)
 - **php mcquery cache:env** armazena e usa as informações do .env em cache
 
- - **php mcquery model:nome** cria um novo model
- - **php mcquery database:Nome** cria uma nova base de dados
- - **php mcquery migrate** executa as bases de dados pendentes e adiciona models
- - **php mcquery drop:tabela** exclui uma tabela do banco de dados
- - **php mcquery list:migrations** lista todas as migrações já executadas
+- **php mcquery model:nome** cria um novo model
+- **php mcquery database:Nome** cria uma nova base de dados
+- **php mcquery migrate** executa as bases de dados pendentes e adiciona models
+- **php mcquery drop:tabela** exclui uma tabela do banco de dados
+- **php mcquery list:migrations** lista todas as migrações já executadas
 
 
 ## Variáveis de ambiente
 ```php
 // retorna o valor do item declarado em .env
-env('timezone'); // america/sao_paulo
+env('TIMEZONE'); // America/Sao_Paulo
 ```
 ```php
 // verifica se o item foi declaro em .env retornando true ou false
 // se o item estiver com seu valor vazio retornará false
 // varios valores podem ser passados separados por , exemplo:
-if(env_required('db_database,db_username')){
+if(env_required('DB_SERVER,DB_USERNAME')){
     // ...
 }
 
