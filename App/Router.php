@@ -247,7 +247,7 @@ class Router
         $this->render();
         if ($this->valid == false) {
             $_SESSION['router_error'] = ROOT . "/" . $this->url;
-            header("Location:" . router('error'));
+            header("Location:" . router('erro'));
             ob_end_flush();
             return $this->valid = true;
             die;

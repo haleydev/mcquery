@@ -1,6 +1,7 @@
 <?php
 require 'App/bootstrap.php';
 use Controllers\{ErrorController, HomeController};
+
 // -------------------------------------------------------------------------
 
 $route->url('/', function () {
@@ -29,9 +30,9 @@ $route->url('/', function () {
 
 
 // -------------------------------------------------------------------------
-// a pagina de erro deve ter o nome 404 para q o 'mcquery' reconheça.
-$route->url('/404', function () {
+// a pagina de erro deve ter o nome erro para q o 'mcquery' reconheça.
+$route->url('/erro', function () {
     (new ErrorController)->render();    
-})->name('error');
+})->name('erro');
 
 $route->end();

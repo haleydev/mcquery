@@ -1,31 +1,39 @@
-#nao modifique este arquivo por questoes de seguranca
+# Nao modifique este arquivo por questoes de seguranca
 Options All -Indexes
 RewriteEngine On
+
+# Remove www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
 
 # Facebook fbclid
 RewriteCond %{QUERY_STRING} ^fbclid=[^&]+&?(.*) [NC]
 RewriteRule ^ %{REQUEST_URI}?%1 [R=302,L]
 
-# remov www
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
-
-# Stop processing if already in the /public directory
+# Interrompa o processamento se já estiver no diretório /public
 RewriteRule ^Public/ - [L]
 
-# Static resources if they exist
+# Recursos estáticos, se existirem
 RewriteCond %{DOCUMENT_ROOT}/Public/$1 -f
 RewriteRule (.+) Public/$1 [L]
 
-# Route all other requests
+# Encaminhe todas as outras solicitações
 RewriteRule (.*) router.php?url=$1 [L,QSA]
 
-#erros pages
-ErrorDocument 404 /404
-ErrorDocument 403 /403
-ErrorDocument 500 /500
+# Error pages
+ErrorDocument 400 /erro
+ErrorDocument 401 /erro
+ErrorDocument 403 /erro
+ErrorDocument 404 /erro
+ErrorDocument 500 /erro
 
-#performace
+# Segurança adicional para arquivos que começando com .
+<files ".*">
+order allow,deny
+deny from all
+</files>
+
+# Performace
 <IfModule mod_expires.c>
   ExpiresActive on
   ExpiresDefault "access plus 1 month"
