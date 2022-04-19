@@ -1,10 +1,12 @@
 <?php
 use Models\usuarios;
+
 // para criar uma model use o comando do mcquery:
 // se estiver criando a partir do database:
 // php mcquery migrate
 // se quiser apenas uma model:
 // php mcquery model:nome
+
 
 $select = usuarios::select([
     // todos os itens são opcionais:

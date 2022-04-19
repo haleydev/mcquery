@@ -7,9 +7,9 @@ $route->url('/', function () {
     (new HomeController)->render();
 })->name('home');
 
-$route->url('/teste', function () {
-    view('teste');
-})->name('teste');
+
+
+
 
 
 
@@ -29,8 +29,8 @@ $route->url('/teste', function () {
 
 
 // -------------------------------------------------------------------------
-// a pagina de erro deve ter o nome error para q o 'mcquery' reconheça.
-$route->url('/error', function () {
+// a pagina de erro deve ter o nome 404 para q o 'mcquery' reconheça.
+$route->url('/404', function () {
     (new ErrorController)->render();    
 })->name('error');
 
