@@ -42,12 +42,8 @@ class DataTypes
      * @param string $nome
      * @param int $size tamanho máximo , paradrão 255          
      */
-    public function string(string $name, int $size = null)
-    {
-        if ($size == null) {
-            $size = 255;
-        }
-
+    public function string(string $name, int $size = 255)
+    { 
         if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
             $this->add("$name VARCHAR($size)");
         }
@@ -148,11 +144,8 @@ class DataTypes
      * @param $size padrão 10,2
      * @param string $name     
      */
-    public function decimal(string $name, $size = null)
-    {
-        if($size == null){
-            $size = '10,2';
-        }
+    public function decimal(string $name, $size = '10,2')
+    {     
         $this->add("$name DECIMAL($size)");
     }
 
