@@ -12,7 +12,7 @@ class Env
         } elseif (file_exists('.env')) {            
             $this->env();
         } else {
-            die("Aplicação não iniciada! arquivo de configuração não encontrado");
+            die("Aplicação não iniciada, use o comando 'php mcquery' para criar o arquivo de configuração e instalar dependências.");
         }
     }
 
