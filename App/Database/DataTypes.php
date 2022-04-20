@@ -19,12 +19,12 @@ class DataTypes
 
     /**
      * Nome da tabela a ser criada.
-     * @param string $name      
+     * @param string $table      
      */
-    public function name(string $colun)
+    public function name(string $table)
     {
-        if ($this->filter_name($colun, "nome da tabela '$colun' inválido!")) {
-            $this->name = $colun;
+        if ($this->filter_name($table, "nome da tabela '$table' inválido!")) {
+            $this->name = $table;
             return;
         }
     }
@@ -108,7 +108,11 @@ class DataTypes
      */
     public function int(string $name)
     {
-        $this->add("$name INT");
+        if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
+            $this->add("$name INT");
+        }
+        
+        return $this;
     }
 
     /**
@@ -117,7 +121,11 @@ class DataTypes
      */
     public function big_int(string $name)
     {
-        $this->add("$name BIGINT");
+        if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
+            $this->add("$name BIGINT");
+        }
+        
+        return $this;
     }
 
     /**
@@ -126,7 +134,11 @@ class DataTypes
      */
     public function float(string $name)
     {
-        $this->add("$name FLOAT");
+        if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
+            $this->add("$name FLOAT");
+        }
+
+        return $this;        
     }
 
     /**
@@ -135,7 +147,11 @@ class DataTypes
      */
     public function double(string $name)
     {
-        $this->add("$name DOUBLE");
+        if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
+            $this->add("$name DOUBLE");
+        }
+
+        return $this;        
     }
 
     /**
@@ -145,8 +161,12 @@ class DataTypes
      * @param string $name     
      */
     public function decimal(string $name, $size = '10,2')
-    {     
-        $this->add("$name DECIMAL($size)");
+    {    
+        if ($this->filter_name($name, "nome da coluna '$name' inválido!")) {
+            $this->add("$name DECIMAL($size)");
+        } 
+
+        return $this;        
     }
 
     /**
