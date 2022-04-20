@@ -2,10 +2,10 @@
 function mold_migrate($name){
 $mold=
 '<?php
-use App\Database\{DataTypes, Migration};
+use App\Database\Migration;
 require "./App/Database/require.php";
  
-(new Migration)->table([($table = new DataTypes),$table->name("'.$name.'"),
+(new Migration)->table([$table->name("'.$name.'"),
 
     $table->id(),
     $table->string(\'nome\',100),  

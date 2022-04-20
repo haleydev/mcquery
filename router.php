@@ -31,7 +31,7 @@ $route->url('/', function () {
 
 
 // -------------------------------------------------------------------------
-// a pagina de erro deve ter o nome erro para q o 'mcquery' reconheça.
+// a pagina de erro deve ter o nome erro para que o 'mcquery' reconheça.
 $route->url('/erro', function () {
     (new ErrorController)->render();    
 })->name('erro');
