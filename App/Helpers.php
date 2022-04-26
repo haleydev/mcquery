@@ -258,3 +258,12 @@ function dd($what)
     echo "</pre>";
     return;
 }
+
+/**
+ * Redirecionar para a $url 
+ */
+function redirect($url, $statusCode = 303)
+{  
+   header("Location: $url",TRUE,$statusCode);
+   die();
+}
