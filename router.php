@@ -1,23 +1,11 @@
 <?php
-require 'App/bootstrap.php';
-use Controllers\{ErrorController, HomeController};
+use Controllers\{HomeController};
 
-// -------------------------------------------------------------------------
+//--------------------------------------------------------------------------|
+//                            MCQUERY ROUTES                                |
+//--------------------------------------------------------------------------|
 
-$route->url('/', function () {
-    (new HomeController)->render();
-})->name('home');
-
-
-
-
-
-
-
-
-
-
-
+$route->url('/', [HomeController::class, 'render'])->name('home');
 
 
 
@@ -31,9 +19,3 @@ $route->url('/', function () {
 
 
 // -------------------------------------------------------------------------
-// a pagina de erro deve ter o nome erro para que o 'mcquery' reconheça.
-$route->url('/erro', function () {
-    (new ErrorController)->render();    
-})->name('erro');
-
-$route->end();

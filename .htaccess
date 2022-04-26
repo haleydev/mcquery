@@ -2,30 +2,8 @@
 Options All -Indexes
 RewriteEngine On
 
-# Remove www
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
-
-# Facebook fbclid
-RewriteCond %{QUERY_STRING} ^fbclid=[^&]+&?(.*) [NC]
-RewriteRule ^ %{REQUEST_URI}?%1 [R=302,L]
-
-# Interrompa o processamento se já estiver no diretório /public
-RewriteRule ^Public/ - [L]
-
-# Recursos estáticos, se existirem
-RewriteCond %{DOCUMENT_ROOT}/Public/$1 -f
-RewriteRule (.+) Public/$1 [L]
-
 # Encaminhe todas as outras solicitações
-RewriteRule (.*) router.php?url=$1 [L,QSA]
-
-# Error pages
-ErrorDocument 400 /erro
-ErrorDocument 401 /erro
-ErrorDocument 403 /erro
-ErrorDocument 404 /erro
-ErrorDocument 500 /erro
+RewriteRule (.*) Public/$1 [L,QSA]
 
 # Segurança adicional para arquivos que começando com .
 <files ".*">
@@ -33,49 +11,4 @@ order allow,deny
 deny from all
 </files>
 
-# Performace
-<IfModule mod_expires.c>
-  ExpiresActive on
-  ExpiresDefault "access plus 1 month"
-  ExpiresByType image/jpg "access plus 1 month"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType image/gif "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType text/css "access plus 1 month"
-  ExpiresByType text/javascript "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 month"
-  ExpiresByType application/x-shockwave-flash "access plus 1 month"
-  ExpiresByType image/ico "access plus 1 month"
-  ExpiresByType image/x-icon "access plus 1 month"
-  ExpiresByType text/html "access plus 1 month"
-</IfModule>
-
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html
-  AddOutputFilterByType DEFLATE text/css
-  AddOutputFilterByType DEFLATE text/javascript
-  AddOutputFilterByType DEFLATE text/xml
-  AddOutputFilterByType DEFLATE text/plain
-  AddOutputFilterByType DEFLATE image/x-icon
-  AddOutputFilterByType DEFLATE image/svg+xml
-  AddOutputFilterByType DEFLATE application/rss+xml
-  AddOutputFilterByType DEFLATE application/javascript
-  AddOutputFilterByType DEFLATE application/x-javascript
-  AddOutputFilterByType DEFLATE application/xml
-  AddOutputFilterByType DEFLATE application/xhtml+xml
-  AddOutputFilterByType DEFLATE application/x-font
-  AddOutputFilterByType DEFLATE application/x-font-truetype
-  AddOutputFilterByType DEFLATE application/x-font-ttf
-  AddOutputFilterByType DEFLATE application/x-font-otf
-  AddOutputFilterByType DEFLATE application/x-font-opentype
-  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-  AddOutputFilterByType DEFLATE font/ttf
-  AddOutputFilterByType DEFLATE font/otf
-  AddOutputFilterByType DEFLATE font/opentype
-  # For Older Browsers Which Can't Handle Compression
-  BrowserMatch ^Mozilla/4 gzip-only-text/html
-  BrowserMatch ^Mozilla/4\.0[678] no-gzip
-  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-</IfModule>
+ErrorDocument 403 /

@@ -1,10 +1,61 @@
 <?php
+function mold_env()
+{
+$mold = 
+'APP_NAME = MCQUERY
+APP_URL = automatic
+TIMEZONE = America/Sao_Paulo
+
+DB_CONNECTION = mysql
+DB_SERVER = localhost
+DB_PORT = 3306
+DB_DATABASE = mcquery
+DB_USERNAME = root
+DB_PASSWORD = root
+
+MAILER_NAME = nome do remetente
+MAILER_RESPONSE = emailderespostas@hotmal.com
+MAILER_HOST =
+MAILER_PORT =
+MAILER_USERNAME =
+MAILER_PASSWORD =';
+return $mold;
+}
+
+function mold_controller($string,$namespace = null)
+{
+$mold = 
+'<?php
+namespace Controllers'.$namespace.';
+use App\Controller;
+
+class '.$string.' extends Controller
+{        
+    public $title = "'.$string.'";
+    public $view = "";    
+
+    public function render()
+    {
+        $this->layout("main");         
+    }
+}';
+return $mold;
+}
+
+function mold_env_cacher($array){
+$mold =
+'<?php
+$cache = 
+'.var_export($array,true).';';
+return $mold;
+}
+
 function mold_migrate($name){
 $mold=
 '<?php
 use App\Database\Migration;
 require "./App/Database/require.php";
- 
+    
 (new Migration)->table([$table->name("'.$name.'"),
 
     $table->id(),
@@ -19,9 +70,9 @@ require "./App/Database/require.php";
 return $mold;
 }
 
-function model($string)
+function mold_model($string)
 {
-$file =
+$mold =
 '<?php
 namespace Models;
 use App\Database\Model;
@@ -41,7 +92,7 @@ class '.$string.'
     {            
         return (new Model)->table(\''.$string.'\')->select($arguments);        
     }
-  
+    
     /**       
      * @example $arguments ["nome" => "mcquery","sobrenome" => "haley"]
      * @return true|false Támbem retornará false em caso de erro. 
@@ -50,7 +101,7 @@ class '.$string.'
     {            
         return (new Model)->table(\''.$string.'\')->insert($arguments);        
     }
- 
+    
     /**
     * @example $arguments "update" => ["name" => "mcquery","sobrenome" => "example"]
     * @example $arguments "where" => ["name" => "haley","sobrenome" => "example"]
@@ -73,13 +124,5 @@ class '.$string.'
         return (new Model)->table(\''.$string.'\')->delete($arguments);        
     }
 }';
-return $file;
-}
-
-function db_cacher($array){
-$data =
-'<?php
-$cache = 
-'.var_export($array,true).';';
-return $data;
+return $mold;
 }

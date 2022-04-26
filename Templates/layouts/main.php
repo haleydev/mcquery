@@ -8,14 +8,15 @@
 
     <link rel="stylesheet" href="<?=ROOT?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?=ROOT?>/css/main.css">
+
     <script src="<?=ROOT?>/js/jquery.min.js"></script>    
 
-    <title><?=$this->title?></title>
+    <title><?= $this->title ?></title>
 </head>
 <body> 
 
 <div class="main"> 
-    <?php $this->view() ?> 
+    <?php $this->view($this->view) ?> 
 
 </div> 
 

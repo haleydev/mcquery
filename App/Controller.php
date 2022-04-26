@@ -1,5 +1,6 @@
 <?php
 namespace App;
+
 /**
  * Gerenciador de funções dos controllers.
  */
@@ -11,12 +12,12 @@ class Controller
      * @return string|require   
      */
     public function view(string $view = null)
-    {
+    { 
         if (isset($this->view) and $view == null) {
             $view = $this->view;
         }
 
-        $fileview = "Templates/views/$view.php";
+        $fileview = dirname(__DIR__)."/./Templates/views/$view.php";
         if (file_exists($fileview)) {
             require $fileview;
         } else {
@@ -35,8 +36,8 @@ class Controller
         if (isset($this->layout) and $layout == null) {
             $layout = $this->layout;
         }
-        if (file_exists("Templates/layouts/$layout.php")) {
-            require "Templates/layouts/$layout.php";
+        if (file_exists(dirname(__DIR__)."/./Templates/layouts/$layout.php")) {
+            require dirname(__DIR__)."/./Templates/layouts/$layout.php";
             return $this;
         } else {
             echo "layout não encontrado";
@@ -50,19 +51,19 @@ class Controller
      * Retorna um include contido em Templates/includes.  
      * @return string|require         
      */
-    public function include(string $include  = null)
+    public function includer(string $include  = null)
     {
         if (isset($this->include) and $include == null) {
             $include = $this->include;
         }
 
-        if (file_exists("Templates/includes/$include.php")) {
-            require "Templates/includes/$include.php";
+        if (file_exists(dirname(__DIR__)."/./Templates/includes/$include.php")) {
+            require dirname(__DIR__)."/./Templates/includes/$include.php";
         } else {
             echo "include não encontrado";
             return;
         }
 
         return $this;
-    }
+    }    
 }

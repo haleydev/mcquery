@@ -8,7 +8,7 @@ class ErrorController extends Controller
 
     public function render()
     {
-        http_response_code(404);      
+        http_response_code(404);           
         $this->view("error");        
     }
 }

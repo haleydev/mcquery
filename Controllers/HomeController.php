@@ -4,7 +4,7 @@ use App\Controller;
 
 class HomeController extends Controller
 {  
-    public $title = "mcquery";
+    public $title = "MCQUERY";
     public $view = "home";  
    
     public function render()

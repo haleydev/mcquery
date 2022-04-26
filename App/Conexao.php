@@ -1,6 +1,5 @@
 <?php
 namespace App;
-use App\Console\Env;
 use PDO;
 use PDOException;
 use mysqli_sql_exception;
@@ -14,6 +13,7 @@ class Conexao
     private $database;
     private $username;
     private $servername;
+    private $port;
     private $password;
     private $drive;
     private $method = null;
@@ -34,6 +34,7 @@ class Conexao
     {
         $env = new Env;
         $this->database = $env->env['DB_DATABASE'];
+        $this->port = $env->env['DB_PORT'];
         $this->username = $env->env['DB_USERNAME'];
         $this->servername = $env->env['DB_SERVER'];
         $this->password = $env->env['DB_PASSWORD'];
@@ -50,7 +51,7 @@ class Conexao
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
         try {
-            $this->instance = new PDO("$this->drive:host=$this->servername;dbname=$this->database", $this->username, $this->password, $options);
+            $this->instance = new PDO("$this->drive:host=$this->servername;port=$this->port;dbname=$this->database", $this->username, $this->password, $options);
             $this->method = "pdo";
             return;
         } catch (PDOException) {
@@ -66,7 +67,7 @@ class Conexao
     public function mysqli()
     {
         try {
-            $this->instance = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
+            $this->instance = mysqli_connect($this->servername.':'.$this->port, $this->username, $this->password, $this->database);
             $this->method = "mysqli";
             return;
         } catch (mysqli_sql_exception) {

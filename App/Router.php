@@ -1,5 +1,6 @@
 <?php
 namespace App;
+use Controllers\ErrorController;
 
 /**
  * O lindo e complexo gerenciador de rotas do mcquery.
@@ -27,7 +28,7 @@ class Router
 
     public function __construct()
     {        
-        $this->url = filter_var(filter_input(INPUT_GET, "url", FILTER_DEFAULT), FILTER_SANITIZE_URL);
+        $this->url = filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
     }
 
     /**
@@ -134,17 +135,16 @@ class Router
 
     protected function param($router)
     {
-        $this->urlrouter = substr($router, 1);
-        $this->router = substr($router, 1);
+        $this->urlrouter = $router;
+        $this->router = $router;
 
         // id url code            
         $patternVariable = '/{(.*?)}/';
-        if (preg_match_all($patternVariable, $this->router, $for_view)) {
-
+        if (preg_match_all($patternVariable, $this->router, $for_view)) {           
             $array_url_view = explode('/', $this->router);
             $array_url_get = explode('/', $this->url);
 
-            if (count($array_url_view) == count($array_url_get) and !in_array(null, $array_url_get)) {               
+            if (count($array_url_view) == count($array_url_get)) {               
                 $new_url = "";
                 $array_define = array();
                 foreach ($for_view[0] as $variable) {                  
@@ -166,7 +166,7 @@ class Router
                 }
 
                 define("routerget", $array_define);
-
+                
                 if ($new_url == $this->url) {
                     $this->router = $new_url;
                 }
@@ -185,20 +185,25 @@ class Router
                     ob_end_flush();
                     return;
                 } else {
-                    if (is_callable($this->validaction)) {
-                        // function detect                     
-                        call_user_func($this->validaction);
-                        $this->valid = true;
-                        ob_end_flush();
-                        return;
-                    } else {
+                    if(is_string($this->validaction)){
                         if (file_exists($this->validaction)) {
                             include_once $this->validaction;
                             $this->valid = true;
                             ob_end_flush();
                             return;
-                        }
+                        }                        
                     }
+
+                    if(is_array($this->validaction)){
+                        $this->validaction[0] = new $this->validaction[0]();
+                    }
+
+                    if (is_callable($this->validaction)) {   
+                        call_user_func($this->validaction);
+                        $this->valid = true;
+                        ob_end_flush();
+                        return; 
+                    }                
                 }
             }
         }
@@ -226,7 +231,7 @@ class Router
         } else {
             $url = $this->router;
         }
-        $this->names[$name] = rtrim(ROOT . "/" . $url, "/");
+        $this->names[$name] =ROOT . $url;
     }
 
     protected function validator($action)
@@ -244,12 +249,13 @@ class Router
     public function end()
     {
         define("routernames", $this->names);
+     
         $this->render();
         if ($this->valid == false) {
-            $_SESSION['router_error'] = ROOT . "/" . $this->url;
-            header("Location:" . router('erro'));
-            ob_end_flush();
-            return $this->valid = true;
+            $_SESSION['router_error'] = ROOT . $_SERVER['REQUEST_URI'];
+            (new ErrorController)->render();   
+            $this->valid = true; 
+            ob_end_flush();   
             die;
         } else {
             ob_end_flush();

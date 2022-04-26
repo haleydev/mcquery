@@ -12,7 +12,7 @@
 
 <div class="main">
     <h1><?=$this->title?></h1>
-    <p class="inf-url"><?=routerError()?></p> 
+    <p class="inf-url"><?=routerError()?></p>     
 </div> 
 
 <style>

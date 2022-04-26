@@ -1,8 +1,8 @@
 <?php
-use App\Console\Env;
-$array_env = (new Env)->env;
+use App\Env;
 
 // retorna o valor declarado em .env
+$array_env = (new Env)->env;
 function env(string $value)
 {
     global $array_env;
@@ -35,12 +35,52 @@ function env_required(string $values)
  * Renderiza uma view.
  * @return require_once|string
  */
-function view(string $view){
-    $file = './Templates/views/'.$view.'.php';
-    if(file_exists($file)){        
-        require_once $file;                               
-    }else{
+function view(string $view, $params = [])
+{
+    $file = dirname(__DIR__) . "/./Templates/views/$view.php";
+    if (file_exists($file)) {
+        foreach($params as $key => $value){
+            $$key = $value;
+        }
+        return require $file;
+    } else {
         echo "view não encontrada";
+        return;
+    }
+}
+
+/**
+ * Renderiza um include.
+ * @return require_once|string
+ */
+function includer(string $include, $params = [])
+{
+    $file = dirname(__DIR__) . "/./Templates/includes/$include.php";
+    if (file_exists($file)) {
+        foreach($params as $key => $value){
+            $$key = $value;
+        }
+        return require $file;
+    } else {
+        echo "include não encontrado";
+        return;
+    }
+}
+
+/**
+ * Renderiza um layout.
+ * @return require_once|string
+ */
+function layout(string $layout, $params = [])
+{   
+    $file = dirname(__DIR__) . "/./Templates/layouts/$layout.php";
+    if (file_exists($file)) {    
+        foreach($params as $key => $value){
+            $$key = $value;
+        }
+        return require $file;
+    } else {
+        echo "layout não encontrado";
         return;
     }
 }
@@ -49,14 +89,15 @@ function view(string $view){
  * Retorna o valor do parâmetro passado em router.
  * @return string|null
  */
-function get(string $id){
-    if(defined('routerget')){ 
-        if(array_key_exists($id,routerget)){
+function get(string $id)
+{
+    if (defined('routerget')) {
+        if (array_key_exists($id, routerget)) {
             return routerget[$id];
-        }else{
+        } else {
             return null;
         }
-    } 
+    }
 }
 
 /**
@@ -65,40 +106,42 @@ function get(string $id){
  * separados por , vírgula.
  * @return string|null
  */
-function router(string $name, string $params = null){
-    if(defined('routernames')){
-        if(array_key_exists($name,routernames)){
-            if($params != null){
-                $arrayrouter = explode('/',routernames[$name]); 
-                $arrayparams = explode(',',$params);
+function router(string $name, string $params = null)
+{
+    if (defined('routernames')) {
+        if (array_key_exists($name, routernames)) {
+            if ($params != null) {
+                $arrayrouter = explode('/', routernames[$name]);
+                $arrayparams = explode(',', $params);
                 $paramsn = 0;
-                $tringr = "";   
+                $tringr = "";
 
-                foreach($arrayrouter as $key){
-                    if($key == "{id}"){
-                        $tringr.=$arrayparams[$paramsn]."/";
+                foreach ($arrayrouter as $key) {
+                    if ($key == "{id}") {
+                        $tringr .= $arrayparams[$paramsn] . "/";
                         $paramsn++;
-                    }else{
-                        $tringr.=$key."/";
-                    } 
-                }    
-                   
-                return rtrim($tringr,"/") ;      
-            }else{
+                    } else {
+                        $tringr .= $key . "/";
+                    }
+                }
+
+                return rtrim($tringr, "/");
+            } else {
                 return routernames[$name];
             }
-        }else{
+        } else {
             return null;
         }
     }
-} 
+}
 
 /**
  * Retorna a url procurada não encontrada pelo router.
  * @return string
- */ 
-function routerError(){
-    if(isset($_SESSION['router_error'])){
+ */
+function routerError()
+{
+    if (isset($_SESSION['router_error'])) {
         $error = $_SESSION['router_error'];
         unset($_SESSION['router_error']);
         return $error;
@@ -109,26 +152,28 @@ function routerError(){
  * Cria um token para segurança para formularios.
  * @return string
  */
-function validate(){
-    if(isset($_SESSION['token'])){
+function validate()
+{
+    if (isset($_SESSION['token'])) {
         $token = $_SESSION['token'];
-    }else{
-        $token = md5("9856b".uniqid(microtime())); 
-    }    
-    $_SESSION['token'] = $token;   
-    echo "<input type='hidden' name='token' value='$token'/>".PHP_EOL;  
-    return;   
+    } else {
+        $token = md5("9856b" . uniqid(microtime()));
+    }
+    $_SESSION['token'] = $token;
+    echo "<input type='hidden' name='token' value='$token'/>" . PHP_EOL;
+    return;
 }
 
 /**
  * Retorna o token atual.
  * @return string
  */
-function token(){
-    if(isset($_SESSION['token'])){        
+function token()
+{
+    if (isset($_SESSION['token'])) {
         return $_SESSION['token'];
-    }else{
-        $token = md5("9856b".uniqid(microtime()));  
+    } else {
+        $token = md5("9856b" . uniqid(microtime()));
         $_SESSION['token'] = $token;
         return $token;
     }
@@ -138,8 +183,9 @@ function token(){
  * Desvalida o token atual se existir.
  * @return true
  */
-function unsetToken(){
-    if(isset($_SESSION['token'])){        
+function unsetToken()
+{
+    if (isset($_SESSION['token'])) {
         unset($_SESSION['token']);
     }
     return true;
@@ -150,17 +196,18 @@ function unsetToken(){
  * Pode ser passado varios $_POST separados por ,
  * @return true|false
  */
-function postCheck(string $post){
+function postCheck(string $post)
+{
     $return = true;
-    $array = explode(",",$post);
+    $array = explode(",", $post);
     foreach ($array as $valid) {
-        if(isset($_POST[$valid])){           
-            if($_POST[$valid] == null or $_POST[$valid] == ""){
-                $return = false; 
+        if (isset($_POST[$valid])) {
+            if ($_POST[$valid] == null or $_POST[$valid] == "") {
+                $return = false;
             }
-        }else{
-            $return = false;           
-        }   
+        } else {
+            $return = false;
+        }
     }
     return $return;
 }
@@ -170,17 +217,18 @@ function postCheck(string $post){
  * Pode ser passado varios $_GET separados por ,
  * @return true|false
  */
-function getCheck(string $get){
+function getCheck(string $get)
+{
     $return = true;
-    $array = explode(",",$get);
+    $array = explode(",", $get);
     foreach ($array as $valid) {
-        if(isset($_GET[$valid])){           
-            if($_GET[$valid] == null or $_GET[$valid] == ""){
-                $return = false; 
+        if (isset($_GET[$valid])) {
+            if ($_GET[$valid] == null or $_GET[$valid] == "") {
+                $return = false;
             }
-        }else{
-            $return = false;           
-        }   
+        } else {
+            $return = false;
+        }
     }
     return $return;
 }
@@ -190,20 +238,22 @@ function getCheck(string $get){
  * Deve ser passado a url completa.
  * @return true|false
  */
-function active($url){    
-    $atual =  ROOT."/".filter_var(filter_input(INPUT_GET,"url", FILTER_DEFAULT),FILTER_SANITIZE_URL);
-    if($url == rtrim($atual, "/")){
+function active($url)
+{
+    $atual =  ROOT . filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
+    if ($url == rtrim($atual, "/")) {
         return true;
-    }else{
-        return false;	
+    } else {
+        return false;
     }
 }
 
 /**
  * @return var_dump
  */
-function dd($what){
-    echo "<pre>".PHP_EOL;
+function dd($what)
+{
+    echo "<pre>" . PHP_EOL;
     var_dump($what);
     echo "</pre>";
     return;

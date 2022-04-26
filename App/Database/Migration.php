@@ -1,8 +1,8 @@
 <?php
 namespace App\Database;
-require 'molds.php';
 use App\Conexao;
 use PDO;
+require_once 'App/Resources/Molds.php';
 
 class Migration
 {
@@ -225,7 +225,7 @@ class Migration
             }
 
             if ($confirm == true) {
-                $file = model($string);
+                $file = mold_model($string);
                 file_put_contents('Models/' . strtolower($string) . '.php', $file);               
                 echo "\033[0;32mmodel $string criado com sucesso \033[0m" . PHP_EOL;
                 return;

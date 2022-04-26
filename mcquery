@@ -1,2 +1,2 @@
 <?php
-    require './App/Console/Inicialize.php';
+    require './App/Resources/Console_Inicializer.php';
