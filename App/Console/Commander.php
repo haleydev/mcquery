@@ -36,7 +36,7 @@ class Commander
             (new Command_Server)->port($this->headline);
         });
 
-        $this->console->command('controllers', function () {
+        $this->console->command('controller', function () {
             (new Command_Controller)->controller($this->headline);
         });
 
