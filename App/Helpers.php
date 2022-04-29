@@ -1,8 +1,9 @@
 <?php
 use App\Env;
+use App\Template;
+$array_env = (new Env)->env;
 
 // retorna o valor declarado em .env
-$array_env = (new Env)->env;
 function env(string $value)
 {
     global $array_env;
@@ -32,57 +33,14 @@ function env_required(string $values)
 }
 
 /**
- * Renderiza uma view.
- * @return require_once|string
+ * Renderiza um template.
+ * @param string $layout
+ * @param array|object $params
+ * @return template
  */
-function view(string $view, $params = [])
-{
-    $file = dirname(__DIR__) . "/./Templates/views/$view.php";
-    if (file_exists($file)) {
-        foreach($params as $key => $value){
-            $$key = $value;
-        }
-        return require $file;
-    } else {
-        echo "view não encontrada";
-        return;
-    }
-}
-
-/**
- * Renderiza um include.
- * @return require_once|string
- */
-function includer(string $include, $params = [])
-{
-    $file = dirname(__DIR__) . "/./Templates/includes/$include.php";
-    if (file_exists($file)) {
-        foreach($params as $key => $value){
-            $$key = $value;
-        }
-        return require $file;
-    } else {
-        echo "include não encontrado";
-        return;
-    }
-}
-
-/**
- * Renderiza um layout.
- * @return require_once|string
- */
-function layout(string $layout, $params = [])
-{   
-    $file = dirname(__DIR__) . "/./Templates/layouts/$layout.php";
-    if (file_exists($file)) {    
-        foreach($params as $key => $value){
-            $$key = $value;
-        }
-        return require $file;
-    } else {
-        echo "layout não encontrado";
-        return;
-    }
+function template(string $layout, array|object $params = [])
+{ 
+    return (new Template)->template($layout,$params);
 }
 
 /**
@@ -127,12 +85,12 @@ function router(string $name, string $params = null)
 
                 return rtrim($tringr, "/");
             } else {
-                return routernames[$name];
+                return rtrim(routernames[$name], "/");
             }
-        } else {
-            return null;
-        }
+        } 
     }
+
+    return null;
 }
 
 /**

@@ -183,7 +183,7 @@ class DataTypes
     /**
      * Data de criacao.    
      */
-    public function date_created()
+    public function created_dt()
     {
         $this->add("created_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
     }
@@ -191,7 +191,7 @@ class DataTypes
     /**
      * Data de atualizacao.      
      */
-    public function date_edited()
+    public function edited_dt()
     {
         $this->add("edited_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP");
     }

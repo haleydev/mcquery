@@ -15,7 +15,5 @@ require dirname(__DIR__)."/./App/Helpers.php";
 date_default_timezone_set(env('TIMEZONE'));
 define("ROOT", env('APP_URL'));
 
-use App\Router;
-$route = new Router;
 require dirname(__DIR__)."/./router.php";
 $route->end();

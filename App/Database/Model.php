@@ -16,7 +16,7 @@ class Model
         $this->conexao->pdo();
 
         if ($this->conexao->error) {
-            die('falha na conexão com o banco de dados');
+            die('falha na conexão com o banco de dados'.PHP_EOL);
         }
     }
 

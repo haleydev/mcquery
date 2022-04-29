@@ -22,7 +22,7 @@
     },
     
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.0.2",      
         "phpmailer/phpmailer": "^6.6"
     },
 

@@ -5,7 +5,7 @@ use App\Database\Model;
 class usuarios
 { 
     /** 
-     * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"]
+     * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
      * @example $arguments "like" => ["nome" => "mc"]
      * @example $arguments "coluns" => "email,nome"
      * @example $arguments "limit" => "1"

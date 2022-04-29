@@ -24,19 +24,19 @@ return $mold;
 
 function mold_controller($string,$namespace = null)
 {
-$mold = 
+$mold =
 '<?php
-namespace Controllers'.$namespace.';
+namespace Controllers;
 use App\Controller;
 
 class '.$string.' extends Controller
-{        
-    public $title = "'.$string.'";
-    public $view = "";    
-
+{
     public function render()
-    {
-        $this->layout("main");         
+    {  
+        $this->view = "";
+        $this->title = "";       
+
+        return template("layouts/main", $this); 
     }
 }';
 return $mold;
@@ -63,8 +63,8 @@ require "./App/Database/require.php";
     $table->string(\'sobrenome\', 100),
     $table->string(\'password\',100),
     $table->int(\'idade\'),    
-    $table->date_created(),
-    $table->date_edited()
+    $table->edited_dt(),
+    $table->created_dt()
 
 ],$table->result());';
 return $mold;
@@ -80,7 +80,7 @@ use App\Database\Model;
 class '.$string.'
 { 
     /** 
-     * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"]
+     * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
      * @example $arguments "like" => ["nome" => "mc"]
      * @example $arguments "coluns" => "email,nome"
      * @example $arguments "limit" => "1"
@@ -124,5 +124,13 @@ class '.$string.'
         return (new Model)->table(\''.$string.'\')->delete($arguments);        
     }
 }';
+return $mold;
+}
+
+function mold_cron_job($string)
+{
+$mold =
+'*/1 * * * * cd '.$string.'; php -f Cron_Inicializer.php >> '.$string.'../Logs/cronjob.txt NEWLINE
+';
 return $mold;
 }
