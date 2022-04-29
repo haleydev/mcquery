@@ -34,13 +34,13 @@ function env_required(string $values)
 
 /**
  * Renderiza um template.
- * @param string $layout
+ * @param string $template
  * @param array|object $params
  * @return template
  */
-function template(string $layout, array|object $params = [])
+function template(string $template, array|object $params = [])
 { 
-    return (new Template)->template($layout,$params);
+    return (new Template)->template($template,$params);
 }
 
 /**
