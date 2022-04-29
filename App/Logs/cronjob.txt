@@ -14,3 +14,11 @@
 
 02:01 29/04/2022 ( a cada minuto ) executado
 
+02:02 29/04/2022 ( banco de dados ) executado
+
+02:02 29/04/2022 ( a cada minuto ) executado
+
+02:03 29/04/2022 ( banco de dados ) executado
+
+02:03 29/04/2022 ( a cada minuto ) executado
+

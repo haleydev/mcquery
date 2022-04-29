@@ -2,7 +2,7 @@
 Options All -Indexes
 RewriteEngine On
 
-# Encaminhe todas as outras solicitações
+# Encaminhe todas as solicitações
 RewriteRule (.*) Public/$1 [L,QSA]
 
 # Segurança adicional para arquivos que começando com .
