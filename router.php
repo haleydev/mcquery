@@ -1,6 +1,6 @@
 <?php
 $route = new App\Router;
-use Controllers\{HomeController, TesteController};
+use Controllers\{HomeController, TestController};
 
 //--------------------------------------------------------------------------|
 //                            MCQUERY ROUTES                                |
@@ -8,7 +8,7 @@ use Controllers\{HomeController, TesteController};
 
 $route->url('/', [HomeController::class, 'render'])->name('home');
 
-$route->get('/teste',[TesteController::class, 'render'])->name('teste');
+$route->get('/test',[TestController::class, 'render'])->name('test');
 
 
 

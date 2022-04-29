@@ -3,7 +3,7 @@ namespace Controllers;
 use App\Controller;
 use Models\usuarios;
 
-class TesteController extends Controller
+class TestController extends Controller
 {
     public function render()
     {  
