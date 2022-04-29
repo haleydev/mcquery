@@ -14,11 +14,20 @@ $schedule = new App\Crontab\Crontab;
 //     echo "echo cada hora";
 // })->description('a cada hora');
 
-$schedule->everyMinute(5,function(){
-    usuarios::insert([
-        "nome" => 'mcquery',
-        "sobrenome" => 'rodrigues'
-    ]);
+$schedule->everyMinute(1,function(){
+
+    //stress teste em producao
+    //10000 insert em 1 minuto
+    $max = 10000;
+    $limit = 1;
+    while ($max <= $limit) {
+        usuarios::insert([
+            "nome" => 'mcquery',
+            "sobrenome" => 'rodrigues'
+        ]);
+        $limit ++;
+    }
+    
 })->description('banco de dados 5 minutos');
 
 $schedule->everyMinute(5,function(){
