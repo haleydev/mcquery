@@ -11,7 +11,7 @@ class TestController extends Controller
         $this->view = "views/teste";
         
         $this->usuarios = usuarios::select([
-            "coluns" => "nome,created_dt",
+            "coluns" => "count(*)",
         ]);
 
         // usuarios::delete();

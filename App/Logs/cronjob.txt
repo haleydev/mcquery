@@ -54,3 +54,27 @@
 
 03:14 29/04/2022 ( banco de dados 1 minutos ) executado
 
+03:15 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:15 29/04/2022 ( cada 5 minutos ) executado
+
+03:16 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:17 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:18 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:19 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:20 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:20 29/04/2022 ( cada 5 minutos ) executado
+
+03:21 29/04/2022 ( banco de dados 1 minutos ) executado
+03:22 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:23 29/04/2022 ( banco de dados 1 minutos ) executado
+
+03:24 29/04/2022 ( banco de dados 1 minutos ) executado
+03:25 29/04/2022 ( banco de dados 1 minutos ) executado
+

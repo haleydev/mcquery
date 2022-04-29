@@ -16,15 +16,15 @@ $schedule = new App\Crontab\Crontab;
 
 $schedule->everyMinute(1,function(){
 
-    //stress teste em producao
-    //10000 insert em 1 minuto
+    // stress teste em producao
+    // 10000 insert em 1 minuto
     // $max = 10000;
     // $limit = 1;
-    // while ($max <= $limit) {
-    //     usuarios::insert([
-    //         "nome" => 'mcquery',
-    //         "sobrenome" => 'rodrigues'
-    //     ]);
+    // while ($limit <= $max) {
+        usuarios::insert([
+            "nome" => 'mcquery',
+            "sobrenome" => 'rodrigues'
+        ]);
     //     $limit ++;
     // }
     
