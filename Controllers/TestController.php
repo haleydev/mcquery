@@ -14,6 +14,8 @@ class TestController extends Controller
             "coluns" => "nome,created_dt",
         ]);
 
+        // usuarios::delete();
+
         return template("layouts/main", $this); 
     }
 }

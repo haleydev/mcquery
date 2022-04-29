@@ -14,16 +14,16 @@ $schedule = new App\Crontab\Crontab;
 //     echo "echo cada hora";
 // })->description('a cada hora');
 
-$schedule->everyMinute(1,function(){
+$schedule->everyMinute(5,function(){
     usuarios::insert([
         "nome" => 'mcquery',
         "sobrenome" => 'rodrigues'
     ]);
-})->description('banco de dados');
+})->description('banco de dados 5 minutos');
 
 $schedule->everyMinute(5,function(){
 //    echo "cada 5 minutos";
-})->description('a cada minuto');
+})->description('cada 5 minutos');
 
 // $schedule->dailyAt('23:45',function(){
 //     echo "todo dia no horario x";
