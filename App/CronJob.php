@@ -28,7 +28,7 @@ $schedule->everyMinute(1,function(){
         $limit ++;
     }
     
-})->description('banco de dados 5 minutos');
+})->description('banco de dados 1 minutos');
 
 $schedule->everyMinute(5,function(){
 //    echo "cada 5 minutos";
