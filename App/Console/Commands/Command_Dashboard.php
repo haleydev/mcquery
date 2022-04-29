@@ -6,7 +6,7 @@ class Command_Dashboard
     public function dashboard()
     {       
 echo "\033[1;34m 
-mcquery v1.6.00
+mcquery v1.7.00
 _ __ ___   ___ __ _ _   _  ___ _ __ _   _ 
 | '_ ` _ \ / __/ _` | | | |/ _ \ '__| | | |
 | | | | | | (_| (_| | |_| |  __/ |  | |_| |
