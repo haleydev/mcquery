@@ -1,7 +1,6 @@
 <?php
 namespace App\Database;
 use App\Conexao;
-use PDO;
 require_once 'App/Resources/Molds.php';
 
 class Migration
