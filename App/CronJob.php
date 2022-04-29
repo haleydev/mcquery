@@ -18,15 +18,15 @@ $schedule->everyMinute(1,function(){
 
     //stress teste em producao
     //10000 insert em 1 minuto
-    $max = 10000;
-    $limit = 1;
-    while ($max <= $limit) {
-        usuarios::insert([
-            "nome" => 'mcquery',
-            "sobrenome" => 'rodrigues'
-        ]);
-        $limit ++;
-    }
+    // $max = 10000;
+    // $limit = 1;
+    // while ($max <= $limit) {
+    //     usuarios::insert([
+    //         "nome" => 'mcquery',
+    //         "sobrenome" => 'rodrigues'
+    //     ]);
+    //     $limit ++;
+    // }
     
 })->description('banco de dados 1 minutos');
 
