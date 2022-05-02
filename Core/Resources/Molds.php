@@ -22,12 +22,12 @@ MAILER_PASSWORD =';
 return $mold;
 }
 
-function mold_controller($string,$namespace = null)
+function mold_controller($string, $namespace = null)
 {
 $mold =
 '<?php
 namespace Controllers;
-use App\Controller;
+use Core\Controller;
 
 class '.$string.' extends Controller
 {
@@ -53,8 +53,8 @@ return $mold;
 function mold_migrate($name){
 $mold=
 '<?php
-use App\Database\Migration;
-require "./App/Database/require.php";
+use Core\Database\Migration;
+require "./Core/Resources/Database_requires.php";
     
 (new Migration)->table([$table->name("'.$name.'"),
 
@@ -66,7 +66,7 @@ require "./App/Database/require.php";
     $table->edited_dt(),
     $table->created_dt()
 
-],$table->result());';
+],$table->exec());';
 return $mold;
 }
 
@@ -75,7 +75,7 @@ function mold_model($string)
 $mold =
 '<?php
 namespace Models;
-use App\Database\Model;
+use Core\Database\Model;
 
 class '.$string.'
 { 
@@ -130,7 +130,40 @@ return $mold;
 function mold_cron_job($string)
 {
 $mold =
-'*/1 * * * * cd '.$string.'; php -f Cron_Inicializer.php >> '.$string.'../Logs/cronjob.txt NEWLINE
+'*/1 * * * * cd '.$string.'; php -f Cronjob_Inicializer.php >/dev/null 2>&1 &
 ';
+return $mold;
+}
+
+function mold_crontab($string)
+{
+$mold =
+'<?php
+require dirname(__DIR__).\'/../Core/Resources/Requires.php\';
+$schedule = new Core\Cron; 
+
+// execute classes ou funcoes na hora programada
+// CUIDADO: se o escript for muito demorado e recomendado que se crie outro documento cronjob para que seja executado de forma assíncrona
+// Voce pode verificar se o comando foi executado em App/Logs/cronjob.log
+
+//--------------------------------------------------------------------------
+// Tarefa: '.$string.'
+//--------------------------------------------------------------------------
+
+$schedule->everyMinute(5,[classExample::class, \'example\'])->description(\''.$string.' a cada 5 minutos\');
+
+// $schedule->cron(\'23:45\',27,04,2022,[classExample::class, \'example\'])->description(\'data especifica\');
+
+// $schedule->everyHour(1,[classExample::class, \'example\'])->description(\'a cada 1 hora\');
+
+// $schedule->dailyAt(\'04:30\',[classExample::class, \'example\'])->description(\'na hora 04:30 todos os dias\');
+
+// $schedule->everyMonth(5,\'23:45\',[classExample::class, \'example\'])->description(\'as 23:45 do dia 5 de cada mes\');
+
+// $schedule->yearly([classExample::class, \'example\'])->description(\'no inicio de cada ano 01/01/xxxx na hora 00:00\');
+
+//---------------------------------------------------------------------------
+
+$schedule->execute();';
 return $mold;
 }

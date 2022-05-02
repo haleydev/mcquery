@@ -1,6 +1,6 @@
 <?php
 namespace App\Console\Commands;
-use App\Conexao;
+use Core\Conexao;
 
 class Command_Conexao
 {   

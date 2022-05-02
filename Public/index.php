@@ -10,7 +10,7 @@ if (!isset($_SESSION)) {
 }
 
 require dirname(__DIR__)."/./vendor/autoload.php";
-require dirname(__DIR__)."/./App/Helpers.php";
+require dirname(__DIR__)."/./Core/Helpers.php";
 
 date_default_timezone_set(env('TIMEZONE'));
 define("ROOT", env('APP_URL'));

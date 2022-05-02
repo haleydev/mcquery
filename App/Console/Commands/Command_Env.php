@@ -5,7 +5,7 @@ class Command_Env
 {   
     public function env()
     {
-        if (file_exists('.env')) {
+        if (file_exists(MCQUERY.'/.env')) {
             echo "\033[1;31msubstituir o .env atual ? (s/n)\033[0m ";
             $console_env = (string)readline('');
             if ($console_env == 's') {
@@ -22,8 +22,8 @@ class Command_Env
     private function new_env()
     {
         $file = mold_env();
-        file_put_contents('.env', $file);
-        if (file_exists('.env')) {
+        file_put_contents(MCQUERY.'/.env', $file);
+        if (file_exists(MCQUERY.'/.env')) {
             echo "\033[0;32m.env criado com sucesso \033[0m" . PHP_EOL;
             die();
         } else {

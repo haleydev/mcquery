@@ -1,11 +1,11 @@
 <?php
 use App\Console\Commander;
-require './App/Resources/Molds.php';
+require MCQUERY.'/Core/Resources/Molds.php';
 
-if (file_exists("./vendor")) {
-    if(file_exists(".env") or file_exists("./App/cache/env.php")){
-        require_once './vendor/autoload.php';   
-        require_once './App/Helpers.php';
+if (file_exists(MCQUERY."/vendor")) {
+    if(file_exists(MCQUERY."/.env") or file_exists(MCQUERY."/Core/cache/env.php")){
+        require_once MCQUERY.'/vendor/autoload.php';   
+        require_once MCQUERY.'/Core/Helpers.php';
         date_default_timezone_set(env('TIMEZONE'));
         $action = false;
     }else{
@@ -22,7 +22,7 @@ if ($action == true) {
 
     if ($console == 's') {
         $file = mold_env();
-        file_put_contents('.env', $file);
+        file_put_contents(MCQUERY.'/.env', $file);
         shell_exec('composer install');
 
         if (file_exists("README.md")) {

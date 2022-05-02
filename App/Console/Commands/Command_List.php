@@ -1,6 +1,6 @@
 <?php
 namespace App\Console\Commands;
-use App\Database\Migration;
+use Core\Database\Migration;
 
 class Command_List
 {   

@@ -1,7 +1,8 @@
 <?php
-namespace App\Database;
-use App\Conexao;
-require_once 'App/Resources/Molds.php';
+namespace Core\Database;
+use Core\Conexao;
+
+require_once 'Core/Resources/Molds.php';
 
 class Migration
 {
@@ -17,7 +18,7 @@ class Migration
         };
     }
 
-    public function newDatabase($name)
+    public function new_database($name)
     {
         $name = strtolower($name);
         $m_name = $name . "_" . date("Ymd") . "_" . date("Gis");
@@ -83,12 +84,12 @@ class Migration
         if ($this->valid_table($name)) {
             $this->creat_table($name, $values, $migration);
             if(!file_exists('Models/'. $name . '.php')){
-                $this->newModel($name);
+                $this->new_model($name);
             }
             echo "\033[0;32mtabela $name adicionada ao banco de dados\033[0m" . PHP_EOL;
         } else {
             if(!file_exists('Models/'. $name . '.php')){
-                $this->newModel($name);
+                $this->new_model($name);
             }
             $this->alter_table($name, $values, $alter, $migration, $drop);
         }
@@ -199,7 +200,7 @@ class Migration
         }
     }
 
-    public function newModel(string $string)
+    public function new_model(string $string)
     {
         if ($string == "") {
             echo "\033[1;31mnome do model não informado\033[0m" . PHP_EOL;

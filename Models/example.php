@@ -2,7 +2,7 @@
 namespace Models;
 use Core\Database\Model;
 
-class usuarios
+class example
 { 
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
@@ -15,7 +15,7 @@ class usuarios
      */
     static public function select(array $arguments = [])
     {            
-        return (new Model)->table('usuarios')->select($arguments);        
+        return (new Model)->table('example')->select($arguments);        
     }
     
     /**       
@@ -24,7 +24,7 @@ class usuarios
      */
     static public function insert(array $arguments)
     {            
-        return (new Model)->table('usuarios')->insert($arguments);        
+        return (new Model)->table('example')->insert($arguments);        
     }
     
     /**
@@ -35,7 +35,7 @@ class usuarios
     */
     static public function update(array $arguments)
     {            
-        return (new Model)->table('usuarios')->update($arguments);        
+        return (new Model)->table('example')->update($arguments);        
     }
 
     /** 
@@ -46,6 +46,6 @@ class usuarios
     */    
     static public function delete(array $arguments = null)
     {            
-        return (new Model)->table('usuarios')->delete($arguments);        
+        return (new Model)->table('example')->delete($arguments);        
     }
 }

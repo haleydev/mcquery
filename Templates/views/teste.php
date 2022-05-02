@@ -1,8 +1,1 @@
-<?php
-    // foreach($usuarios as $u){
-    //     echo $u['nome']." - ". $u['created_dt'] . "<br>";
-    // }
-
-    dd($usuarios);
-    // dd(router('home'));
-?>
+<h4><?php dd($usuarios) ?></h4>

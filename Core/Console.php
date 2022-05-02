@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Core;
 use App\Console\Commands\Command_Dashboard;
 
 class Console

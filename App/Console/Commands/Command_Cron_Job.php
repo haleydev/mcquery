@@ -3,19 +3,18 @@ namespace App\Console\Commands;
 
 class Command_Cron_Job
 {
-    public function cron_job()
+    public function cron_start()
     {
         if (strtolower(PHP_OS) == 'linux') {
-            if (file_exists('App/cache/cron_job.txt')) {
-                unlink('App/cache/cron_job.txt');
+            if (file_exists(MCQUERY.'/App/cache/cron_job.txt')) {
+                unlink(MCQUERY.'/App/cache/cron_job.txt');
                 shell_exec('crontab -r');
                 echo "\033[1;31mcron job desativado\033[0m" . PHP_EOL;
-            } else {                
-                $folder_app = str_replace('/Console', '', dirname(__DIR__));
-                $cron = mold_cron_job("$folder_app/Crontab/");
-                file_put_contents("$folder_app/cache/cron_job.txt", $cron);
+            } else {        
+                $cron = mold_cron_job(MCQUERY."/Core/Resources/");
+                file_put_contents(MCQUERY."/App/cache/cron_job.txt", $cron);
 
-                $file = "$folder_app/cache/cron_job.txt";
+                $file = MCQUERY."/App/cache/cron_job.txt";
                 shell_exec('crontab ' . $file);
 
                 $check = shell_exec('crontab -l');
@@ -30,6 +29,28 @@ class Command_Cron_Job
             }
         } else {
             echo "\033[1;31mseu sistema operacional não é linux\033[0m" . PHP_EOL;
+        }
+    }
+
+    public function crontab($job)
+    {
+        $folder = str_replace('/Console', '', dirname(__DIR__));
+        $job_file = mold_crontab($job);
+        $msg = "\033[0;32mcronjob $job criado com sucesso ( Core/Jobs/Job_".str_replace(" ", "", $job).".php )\033[0m" . PHP_EOL;
+        $job = str_replace(" ", "", $job);
+
+        if (file_exists("$folder/Jobs/Job_$job.php")) {
+            echo "\033[1;31msubstituir o job '$job' ? (s/n)\033[0m ";
+            $console = (string)readline('');
+            if ($console == 's') {
+                file_put_contents("$folder/Jobs/Job_$job.php", $job_file);
+                echo $msg;
+            } else {
+                echo "\033[1;31moperação cancelada\033[0m" . PHP_EOL;               
+            }
+        } else {
+            file_put_contents("$folder/Jobs/Job_$job.php", $job_file);
+            echo $msg;
         }
     }
 }

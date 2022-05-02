@@ -1,21 +1,20 @@
 <?php
 namespace Controllers;
-use App\Controller;
-use Models\usuarios;
+use Core\Controller;
+use Models\example;
 
 class TestController extends Controller
 {
     public function render()
     {  
         $this->title = "testes";
-        $this->view = "views/teste";
-        
-        $this->usuarios = usuarios::select([
-            "coluns" => "count(*)",
-        ]);
+        $this->view = "views/teste";        
+       
+        // $test = example::insert([
+        //     'nome' => 'warley'
+        // ]);  
+        // dd($test);     
 
-        // usuarios::delete();
-
-        return template("layouts/main", $this); 
+        return template("layouts/main", $this);
     }
 }

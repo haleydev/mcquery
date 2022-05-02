@@ -1,0 +1,2 @@
+model static coluns
+passar array nas funcoes help

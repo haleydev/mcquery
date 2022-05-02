@@ -1,6 +1,6 @@
 <?php
 namespace App\Console\Commands;
-use App\Database\Migration;
+use Core\Database\Migration;
 
 class Command_Database
 {   
@@ -10,7 +10,7 @@ class Command_Database
             echo "\033[1;31merro: nome inválido '$database'\033[0m" . PHP_EOL;
             die();
         } else {
-            (new Migration)->newDatabase($database);
+            (new Migration)->new_database($database);
         }       
     }
 }

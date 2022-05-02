@@ -1,5 +1,5 @@
 <?php
-namespace App\Database;
+namespace Core\Database;
 
 class DataTypes
 {
@@ -251,7 +251,7 @@ class DataTypes
     }
 
     // finalize ------------------------------------------------------------------------------------------
-    public function result()
+    public function exec()
     {
         // atributes  
         if (count($this->array) > 0) {

@@ -1,5 +1,6 @@
 <?php
-namespace App;
+namespace Core;
+
 use PDO;
 use PDOException;
 use mysqli_sql_exception;
@@ -54,7 +55,10 @@ class Conexao
             $this->instance = new PDO("$this->drive:host=$this->servername;port=$this->port;dbname=$this->database", $this->username, $this->password, $options);
             $this->method = "pdo";
             return;
-        } catch (PDOException) {
+        } catch (PDOException $e) {
+            // Registra o log de erro            
+            file_put_contents(dirname(__DIR__) . "/App/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+
             $this->error = true;
             // die("Falha na conexao");       
             return;
@@ -67,10 +71,13 @@ class Conexao
     public function mysqli()
     {
         try {
-            $this->instance = mysqli_connect($this->servername.':'.$this->port, $this->username, $this->password, $this->database);
+            $this->instance = mysqli_connect($this->servername . ':' . $this->port, $this->username, $this->password, $this->database);
             $this->method = "mysqli";
             return;
-        } catch (mysqli_sql_exception) {
+        } catch (mysqli_sql_exception $e) {
+            // Registra o log de erro            
+            file_put_contents(dirname(__DIR__) . "/App/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+
             $this->error = true;
             // die("Falha na conexao");           
             return;

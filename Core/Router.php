@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Core;
 use Controllers\ErrorController;
 
 /**

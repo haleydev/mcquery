@@ -1,9 +1,9 @@
 <?php
-namespace App\Crontab;
-use Exception;
+namespace Core;
+use Throwable;
 
-class Crontab
-{
+class Cron
+{    
     private $minute;
     private $hours;
     private $day;
@@ -16,6 +16,7 @@ class Crontab
 
     public function __construct()
     {
+        $this->seconds = date('s');
         $this->minute = date('i');
         $this->hours = date('H');
         $this->day = date('d');
@@ -24,7 +25,7 @@ class Crontab
     }   
 
     // especifico
-    public function cron(string $at = '00:00', int $day = 01, int $month = 01, int $year = 0000, callable $action)
+    public function cron(string $at = '00:00', int $day = 01, int $month = 01, int $year = 0000, callable|array $action)
     {
         if($year == 0000){
             $year = $this->year;
@@ -39,7 +40,7 @@ class Crontab
     }
 
     // a cada minuto
-    public function everyMinute(int $minute = 1, callable $action)
+    public function everyMinute(int $minute = 1, callable|array $action)
     {
         if($this->clock($minute, 'm')){ 
             $this->actions[$this->count] = $action;
@@ -50,7 +51,7 @@ class Crontab
     }
 
     // a cada hora
-    public function everyHour(int $hour = 1, callable $action)
+    public function everyHour(int $hour = 1, callable|array $action)
     {
         if($this->clock($hour, 'h')){
             $this->actions[$this->count] = $action;
@@ -61,7 +62,7 @@ class Crontab
     }
 
     // todo dia do mes
-    public function everyMonth(int $day, string $at = '00:00', callable $action)
+    public function everyMonth(int $day, string $at = '00:00', callable|array $action)
     {
         if($this->day == $day){
             if($at == $this->hours.":".$this->minute){
@@ -74,7 +75,7 @@ class Crontab
     }
 
     // uma vez ao dia
-    public function dailyAt(string $at = '00:00', callable $action)
+    public function dailyAt(string $at = '00:00', callable|array $action)
     {
         $date = explode(':',$at,2);
         if($date[0] == $this->hours and $date[1] == $this->minute){
@@ -86,7 +87,7 @@ class Crontab
     }
 
     // primeiro dia do ano
-    public function yearly(callable $action)
+    public function yearly(callable|array $action)
     {       
         if($this->hours == 00 and $this->minute == 00 and $this->day == 01 and $this->month == 01){
             $this->actions[$this->count] = $action; 
@@ -147,22 +148,41 @@ class Crontab
 
     public function execute()
     {  
-        foreach($this->actions as $key => $value){  
-           
-            if(isset($this->descriptions[$key])){
-                echo "$this->hours:$this->minute $this->day/$this->month/$this->year ( ".$this->descriptions[$key]." ) executado". PHP_EOL;
-            }else{
-                echo "$this->hours:$this->minute $this->day/$this->month/$this->year ( ??? ) executado". PHP_EOL;
-            }
-           
-            if(is_callable($value)){
-                try {
-                    call_user_func($value);
-                } catch (Exception $e) {
-                    echo 'falha ao executar verifique o codigo: ',  $e->getMessage(), "\n";
+        foreach($this->actions as $key => $value){ 
+            try {
+                if (is_array($value)) {
+                    $value[0] = new $value[0]();
                 }
 
-                echo PHP_EOL; 
+                if(isset($this->descriptions[$key])){               
+                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: executando". PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);
+                }else{
+                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: executando". PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);
+                }
+
+                // executa
+                if(is_callable($value)){
+                    call_user_func($value);
+                }                
+                
+                if(isset($this->descriptions[$key])){               
+                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: concluido". PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);
+                }else{
+                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: concluido". PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);
+                }
+
+            } catch (Throwable $e) {
+                if(isset($this->descriptions[$key])){    
+                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: " . $e->getMessage() . PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);                   
+                }else{
+                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: " . $e->getMessage() . PHP_EOL;
+                    file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);                       
+                }         
             }
         }        
     }

@@ -1,4 +1,4 @@
 <?php
-use App\Database\DataTypes;
+use Core\Database\DataTypes;
 require "./vendor/autoload.php";
 $table = new DataTypes;

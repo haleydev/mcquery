@@ -1,7 +1,7 @@
 <?php
 namespace App\Console;
 
-use App\Console;
+use Core\Console;
 use App\Console\Commands\Command_Autoload;
 use App\Console\Commands\Command_Cache;
 use App\Console\Commands\Command_Conexao;
@@ -18,7 +18,7 @@ use App\Console\Commands\Command_Server;
 
 class Commander
 {
-    private $headline;
+    private $headline = false;
     private $console;
 
     public function __construct()
@@ -68,6 +68,14 @@ class Commander
             endswitch;
         });
 
+        $this->console->command('cronjob', function () {
+            if($this->headline == false){
+                (new Command_Cron_Job)->cron_start();
+            }else{
+                (new Command_Cron_Job)->crontab($this->headline);
+            }
+        });
+
         // commands data base
         $this->console->command('model', function () {
             (new Command_Model)->model($this->headline);
@@ -94,40 +102,7 @@ class Commander
                     $this->command_end();
                     break;
             endswitch;
-        });
-
-        $this->console->command('cronjob', function () {
-            (new Command_Cron_Job)->cron_job();
-        });
-
-        $this->console->command('testes', function () {
-            //teste distro linux
-            if (strtolower(substr(PHP_OS, 0, 5)) === 'linux') {
-                $vars = array();
-                $files = glob('/etc/*-release');
-
-                foreach ($files as $file)
-                {
-                    $lines = array_filter(array_map(function($line) {
-
-                        // split value from key
-                        $parts = explode('=', $line);
-
-                        // makes sure that "useless" lines are ignored (together with array_filter)
-                        if (count($parts) !== 2) return false;
-
-                        // remove quotes, if the value is quoted
-                        $parts[1] = str_replace(array('"', "'"), '', $parts[1]);
-                        return $parts;
-
-                    }, file($file)));
-
-                    foreach ($lines as $line)
-                    $vars[$line[0]] = $line[1];
-                }
-                print_r($vars);
-            }
-        });
+        });   
 
         $this->command_end();
     }

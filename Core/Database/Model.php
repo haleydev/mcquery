@@ -1,7 +1,6 @@
 <?php
-namespace App\Database;
-
-use App\Conexao;
+namespace Core\Database;
+use Core\Conexao;
 use PDO;
 use PDOException;
 

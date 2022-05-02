@@ -17,8 +17,8 @@ class Command_Controller
                 $folder .= $key . "/";
                 $namespace .= "\\" . $key;
 
-                if (!file_exists("Controllers/$folder")) {
-                    mkdir("Controllers/$folder", 0777, true);
+                if (!file_exists(MCQUERY."/Controllers/$folder")) {
+                    mkdir(MCQUERY."/Controllers/$folder", 0777, true);
                 }
             }
             $count++;
@@ -35,7 +35,7 @@ class Command_Controller
             $file = mold_controller($nameclass, $namespace);
 
             $confirm = true;
-            if (file_exists("Controllers/$folder$nameclass.php")) {
+            if (file_exists(MCQUERY."/Controllers/$folder$nameclass.php")) {
                 echo "\033[1;31msubstituir controller '$nameclass' ? (s/n)\033[0m ";
                 $console = (string)readline('');
                 if ($console == 's') {
@@ -51,7 +51,7 @@ class Command_Controller
                 echo "\033[1;31meste nome de controller não pode ser usado\033[0m" . PHP_EOL;
             } else {
                 if ($confirm == true) {
-                    file_put_contents('Controllers/' . $folder . '' . $nameclass . '.php', $file);
+                    file_put_contents(MCQUERY.'/Controllers/' . $folder . '' . $nameclass . '.php', $file);
                     shell_exec('composer dumpautoload');
                     echo "\033[0;32mcontroller ( $nameclass ) criado com sucesso\033[0m" . PHP_EOL;
                     die();

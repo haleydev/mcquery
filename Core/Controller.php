@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Core;
 
 /**
  * Gerenciador de funções dos controllers.
@@ -7,5 +7,5 @@ namespace App;
 
 class Controller
 {
-   
+
 }

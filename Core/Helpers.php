@@ -1,8 +1,8 @@
 <?php
-use App\Env;
-use App\Template;
-$array_env = (new Env)->env;
+use Core\Env;
+use Core\Template;
 
+$array_env = (new Env)->env;
 // retorna o valor declarado em .env
 function env(string $value)
 {
