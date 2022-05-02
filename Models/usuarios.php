@@ -4,6 +4,9 @@ use Core\Database\Model;
 
 class usuarios
 { 
+    public static $id = 'id';
+    public static $nome = 'nome';
+
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
      * @example $arguments "like" => ["nome" => "mc"]

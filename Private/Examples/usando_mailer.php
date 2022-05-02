@@ -1,5 +1,5 @@
 <?php
-use App\Mailer;
+use Core\Mailer;
 
 $body = '<h1>ola mcquery</h1>';
 

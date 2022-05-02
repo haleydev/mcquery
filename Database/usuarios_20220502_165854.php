@@ -8,7 +8,7 @@ require "./Core/Resources/Database_requires.php";
     $table->string('nome',100),  
     $table->string('sobrenome', 100),
     $table->string('password',100),
-    $table->int('idade'),    
+    $table->int('idade'),
     $table->edited_dt(),
     $table->created_dt()
 

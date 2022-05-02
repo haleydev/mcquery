@@ -4,6 +4,7 @@ namespace App\Console;
 use Core\Console;
 use App\Console\Commands\Command_Autoload;
 use App\Console\Commands\Command_Cache;
+use App\Console\Commands\Command_Class;
 use App\Console\Commands\Command_Conexao;
 use App\Console\Commands\Command_Controller;
 use App\Console\Commands\Command_Cron_Job;
@@ -39,6 +40,10 @@ class Commander
 
         $this->console->command('controller', function () {
             (new Command_Controller)->controller($this->headline);
+        });
+
+        $this->console->command('class', function () {
+            (new Command_Class)->class($this->headline);
         });
 
         $this->console->command('install', function () {

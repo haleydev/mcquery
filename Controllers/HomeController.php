@@ -8,7 +8,7 @@ class HomeController extends Controller
     {  
         $this->view = 'views/home';
         $this->title = 'MCQUERY';
-        $this->teste = 'string teste'; 
+        $this->teste = 'string teste';       
 
         return template('layouts/main', $this); 
     }

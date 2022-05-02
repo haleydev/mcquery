@@ -16,7 +16,8 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
         \033[0m" . PHP_EOL . PHP_EOL;
         echo "\033[1;33m comandos disponiveis\033[0m" . PHP_EOL;
         echo "\033[0;32m server\033[0m ativa servidor de desenvolvimento mcquery" . PHP_EOL;
-        echo "\033[0;32m controller:nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta" . PHP_EOL;        
+        echo "\033[0;32m controller:nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta" . PHP_EOL;      
+        echo "\033[0;32m class:nome\033[0m cria uma nova classe, adicione 'pasta/NomeClasse' caso queira adicionar uma subpasta" . PHP_EOL;    
         echo "\033[0;32m conexao\033[0m testa a conexão com o banco de dados" . PHP_EOL;       
         echo "\033[0;32m install\033[0m instala as dependências do composer" . PHP_EOL;
         echo "\033[0;32m autoload\033[0m atualiza o autoload de classes" . PHP_EOL;
@@ -37,7 +38,7 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
 
     private function env_check()
     {
-        if (file_exists(MCQUERY.'/App/cache/env.php')) {
+        if (file_exists(MCQUERY.'/App/Cache/env.php')) {
             return "\033[0;32mativo\033[0m" . PHP_EOL;
         } else {
             return "\033[1;31mdesativado\033[0m" . PHP_EOL;;

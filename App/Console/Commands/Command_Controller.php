@@ -31,7 +31,7 @@ class Command_Controller
             if (!preg_match("/^[a-zA-Z _]*$/", $nameclass)) {
                 echo "\033[1;31mnome do controller inválido\033[0m" . PHP_EOL;
                 die();
-            }
+            }           
             $file = mold_controller($nameclass, $namespace);
 
             $confirm = true;

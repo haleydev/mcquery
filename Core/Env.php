@@ -7,7 +7,7 @@ class Env
 
     public function __construct()
     {         
-        if (file_exists(dirname(__DIR__).'/App/cache/env.php')) {            
+        if (file_exists(dirname(__DIR__).'/App/Cache/env.php')) {            
             $this->cache();
         } elseif (file_exists(dirname(__DIR__).'/.env')) {
             $this->env();
@@ -37,7 +37,7 @@ class Env
 
     private function cache()
     {
-        require dirname(__DIR__).'/App/cache/env.php';
+        require dirname(__DIR__).'/App/Cache/env.php';
         $this->return($cache);        
     }
 

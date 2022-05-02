@@ -7,10 +7,10 @@ $schedule = new Core\Cron;
 // Voce pode verificar se o comando foi executado em App/Logs/cronjob.log
 
 //--------------------------------------------------------------------------
-// Tarefa: tafera1
+// Tarefa: example
 //--------------------------------------------------------------------------
 
-$schedule->everyMinute(1,[classExample::class, 'example'])->description('tafera1 a cada 1 minutos');
+$schedule->everyMinute(1,[classExample::class, 'example'])->description('example a cada 1 minuto');
 
 // $schedule->cron('23:45',27,04,2022,[classExample::class, 'example'])->description('data especifica');
 

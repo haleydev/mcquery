@@ -26,7 +26,7 @@ function mold_controller($string, $namespace = null)
 {
 $mold =
 '<?php
-namespace Controllers;
+namespace Controllers'.$namespace.';
 use Core\Controller;
 
 class '.$string.' extends Controller
@@ -37,6 +37,22 @@ class '.$string.' extends Controller
         $this->title = "";       
 
         return template("layouts/main", $this); 
+    }
+}';
+return $mold;
+}
+
+function mold_class($string, $namespace = null)
+{
+$mold =
+'<?php
+namespace App\Classes'.$namespace.';
+
+class '.$string.'
+{
+    public function '.$string.'()
+    { 
+       //... 
     }
 }';
 return $mold;

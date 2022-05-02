@@ -6,15 +6,15 @@ class Command_Cron_Job
     public function cron_start()
     {
         if (strtolower(PHP_OS) == 'linux') {
-            if (file_exists(MCQUERY.'/App/cache/cron_job.txt')) {
-                unlink(MCQUERY.'/App/cache/cron_job.txt');
+            if (file_exists(MCQUERY.'/App/Cache/cron_job.txt')) {
+                unlink(MCQUERY.'/App/Cache/cron_job.txt');
                 shell_exec('crontab -r');
                 echo "\033[1;31mcron job desativado\033[0m" . PHP_EOL;
             } else {        
                 $cron = mold_cron_job(MCQUERY."/Core/Resources/");
-                file_put_contents(MCQUERY."/App/cache/cron_job.txt", $cron);
+                file_put_contents(MCQUERY."/App/Cache/cron_job.txt", $cron);
 
-                $file = MCQUERY."/App/cache/cron_job.txt";
+                $file = MCQUERY."/App/Cache/cron_job.txt";
                 shell_exec('crontab ' . $file);
 
                 $check = shell_exec('crontab -l');
@@ -37,7 +37,7 @@ class Command_Cron_Job
         $folder = str_replace('/Console', '', dirname(__DIR__));
         $job_file = mold_crontab($job);
         $msg = "\033[0;32mcronjob $job criado com sucesso ( Core/Jobs/Job_".str_replace(" ", "", $job).".php )\033[0m" . PHP_EOL;
-        $job = str_replace(" ", "", $job);
+        $job = str_replace(" ", "_", $job);
 
         if (file_exists("$folder/Jobs/Job_$job.php")) {
             echo "\033[1;31msubstituir o job '$job' ? (s/n)\033[0m ";
