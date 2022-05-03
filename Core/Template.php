@@ -1,6 +1,12 @@
 <?php
 namespace Core;
+use Error;
 use Throwable;
+
+// tratamento de erros
+set_error_handler(function($_errno, $errstr) {    
+    throw new Error($errstr);
+});
 
 class Template
 {
@@ -77,9 +83,7 @@ class Template
                 return eval(";?>" . $template);
             }
         } catch (Throwable $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
-            echo "File: " . str_replace(dirname(__DIR__), "", $this->file) . "<br>";
-            echo "line: " . $e->getLine();
+            echo "Error: " . $e->getMessage() . "<br>";  
         }
     }
 }

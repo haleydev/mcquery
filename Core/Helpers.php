@@ -1,5 +1,6 @@
 <?php
 use Core\Env;
+use Core\Hashing;
 use Core\Template;
 
 $array_env = (new Env)->env;
@@ -222,6 +223,27 @@ function dd($what)
  */
 function redirect($url, $statusCode = 303)
 {  
-   header("Location: $url",TRUE,$statusCode);
-   die();
+    header("Location: $url",TRUE,$statusCode);
+    die();
+}
+
+/**
+ * Retorna um hash de uma string.
+ * @param string $value
+ * @return string|false 
+ */
+function hash_create(string $value)
+{
+    return (new Hashing)->hash_create($value);
+}
+
+/**
+ * Verifica se o hash bate com a string, retorna true ou false.
+ * @param string $value
+ * @param string $hash
+ * @return true|false 
+ */
+function hash_check(string $value, string $hash)
+{
+    return (new Hashing)->hash_check($value,$hash);
 }

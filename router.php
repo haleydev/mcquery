@@ -8,8 +8,11 @@ use Controllers\{HomeController, TestController};
 
 $route->url('/', [HomeController::class, 'render'])->name('home');
 
-
 $route->get('/test',[TestController::class, 'render'])->name('test');
+
+
+
+
 
 
 

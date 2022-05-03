@@ -1,1 +1,1 @@
-<?='Helo World'?>
+Helo World

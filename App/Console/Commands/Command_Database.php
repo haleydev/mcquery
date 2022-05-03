@@ -10,7 +10,7 @@ class Command_Database
             echo "\033[1;31merro: nome inválido '$database'\033[0m" . PHP_EOL;
             die();
         } else {
-            (new Migration)->new_database($database);
+            (new Migration)->new_database(str_replace(" ","_",trim($database)));
         }       
     }
 }

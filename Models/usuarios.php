@@ -4,13 +4,13 @@ use Core\Database\Model;
 
 class usuarios
 { 
-    public static $id = 'id';        
-    public static $nome = 'nome';        
-    public static $sobrenome = 'sobrenome';        
-    public static $password = 'password';        
-    public static $idade = 'idade';        
-    public static $edited_dt = 'edited_dt';        
-    public static $created_dt = 'created_dt';
+    public const id = 'id';        
+    public const nome = 'nome';        
+    public const sobrenome = 'sobrenome';        
+    public const password = 'password';        
+    public const idade = 'idade';        
+    public const edited_dt = 'edited_dt';        
+    public const created_dt = 'created_dt';
 
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros

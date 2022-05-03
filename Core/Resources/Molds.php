@@ -179,8 +179,8 @@ $schedule->everyMinute(5,[classExample::class, \'example\'])->description(\''.$s
 
 // $schedule->yearly([classExample::class, \'example\'])->description(\'no inicio de cada ano 01/01/xxxx na hora 00:00\');
 
-//---------------------------------------------------------------------------
+$schedule->execute();
 
-$schedule->execute();';
+//---------------------------------------------------------------------------';
 return $mold;
 }

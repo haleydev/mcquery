@@ -30,6 +30,7 @@ body{
 .logo{
     object-fit: cover;
     max-width: 85%;
+    width: 800px;
 }
 
 .info{    

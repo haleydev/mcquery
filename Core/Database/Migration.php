@@ -18,8 +18,7 @@ class Migration
     }
 
     public function new_database($name)
-    {
-        $name = strtolower($name);
+    {        
         $m_name = $name . "_" . date("Ymd") . "_" . date("Gis");
         $file = mold_migrate($name);
         file_put_contents('Database/' . $m_name . '.php', $file);
@@ -65,7 +64,7 @@ class Migration
 
     public function table($null, array $array)
     {
-        $name = strtolower($array['table']);
+        $name = $array['table'];
         $values = $array['values'];
         $alter = $array['alter'];
         $drop = $array['drop'];
@@ -230,7 +229,7 @@ class Migration
 
             if ($confirm == true) { 
                 $file = mold_model($string,$coluns);
-                file_put_contents('Models/' . strtolower($string) . '.php', $file);               
+                file_put_contents('Models/' . $string . '.php', $file);               
                 echo "\033[0;32mmodel $string criado com sucesso \033[0m" . PHP_EOL;
                 return;
             }
@@ -246,7 +245,7 @@ class Migration
         $coluns = "";
         foreach($coluns_sql as $value){
         $coluns.= '        
-    public static $'.$value['Field'].' = \''.$value['Field'].'\';';                     
+    public const '.$value['Field'].' = \''.$value['Field'].'\';';                     
         }
 
         $coluns = trim($coluns);
@@ -344,7 +343,7 @@ class Migration
                 if ($sql->rowCount() > 0) {
                     $this->result = $sql->fetchAll();
                     foreach ($this->result as $date) {
-                        $file = strtolower($date['table_name']) . ".php";
+                        $file = $date['table_name'] . ".php";
                         if (file_exists("Models/" . $file)) {
                             unlink("Models/" . $file);
                             echo "\033[0;32mmodel $table excluida\033[0m" . PHP_EOL;
