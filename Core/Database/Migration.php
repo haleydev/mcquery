@@ -1,7 +1,6 @@
 <?php
 namespace Core\Database;
 use Core\Conexao;
-
 require_once 'Core/Resources/Molds.php';
 
 class Migration
@@ -202,6 +201,11 @@ class Migration
 
     public function new_model(string $string)
     {
+        $coluns = '';
+        if(!$this->valid_table($string)){
+            $coluns = $this->table_analizer($string);
+        }
+
         if ($string == "") {
             echo "\033[1;31mnome do model não informado\033[0m" . PHP_EOL;
             return;
@@ -213,7 +217,7 @@ class Migration
 
             $confirm = true;
             if (file_exists("Models/$string.php")) {
-                echo "\033[1;31msubstituir model '$string' ? (s/n)\033[0m ";
+                echo "\033[1;31msubstituir model '$string' ? (s/n)\033[0m "; 
                 $console = (string)readline('');
                 if ($console == 's') {
                     $confirm == true;
@@ -224,13 +228,29 @@ class Migration
                 }
             }
 
-            if ($confirm == true) {
-                $file = mold_model($string);
+            if ($confirm == true) { 
+                $file = mold_model($string,$coluns);
                 file_put_contents('Models/' . strtolower($string) . '.php', $file);               
                 echo "\033[0;32mmodel $string criado com sucesso \033[0m" . PHP_EOL;
                 return;
             }
         }
+    }
+
+    private function table_analizer($table){
+        $query_a = "show columns from $table";
+        $sql_a = $this->conexao->instance->prepare($query_a);
+        $sql_a->execute();        
+        $coluns_sql = $sql_a->fetchAll(); 
+
+        $coluns = "";
+        foreach($coluns_sql as $value){
+        $coluns.= '        
+    public static $'.$value['Field'].' = \''.$value['Field'].'\';';                     
+        }
+
+        $coluns = trim($coluns);
+        return $coluns.PHP_EOL;        
     }
 
     private function table_migrations()

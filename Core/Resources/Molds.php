@@ -86,7 +86,7 @@ require "./Core/Resources/Database_requires.php";
 return $mold;
 }
 
-function mold_model($string)
+function mold_model($string,$coluns)
 {
 $mold =
 '<?php
@@ -95,6 +95,7 @@ use Core\Database\Model;
 
 class '.$string.'
 { 
+    '.$coluns.'
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
      * @example $arguments "like" => ["nome" => "mc"]

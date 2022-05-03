@@ -37,8 +37,17 @@ class Model
             }
         }
 
+        $coluns = "";
         if (isset($arguments['coluns'])) {
-            $coluns = $arguments['coluns'];
+            if(is_array($arguments['coluns'])){
+                foreach($arguments['coluns'] as $key){
+                    $coluns .= "$key,";
+                }   
+                
+                $coluns = rtrim($coluns,",");
+            }else{
+                $coluns = $arguments['coluns'];
+            }           
         } else {
             $coluns = "*";
         }

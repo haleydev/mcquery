@@ -107,7 +107,7 @@ function routerError()
 }
 
 /**
- * Cria um token para segurança para formularios.
+ * Cria um token de segurança para formularios.
  * @return string
  */
 function validate()

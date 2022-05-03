@@ -28,7 +28,7 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
         echo "\033[0;32m model:nome\033[0m cria um novo model" . PHP_EOL;
         echo "\033[0;32m database:nome\033[0m cria uma nova base de dados" . PHP_EOL;
         echo "\033[0;32m migrate\033[0m executa as bases de dados pendentes e adiciona models" . PHP_EOL;
-        echo "\033[0;32m drop:tabela\033[0m exclui uma tabela do banco de dados" . PHP_EOL;
+        echo "\033[0;32m drop:nome\033[0m exclui uma tabela do banco de dados" . PHP_EOL;
         echo "\033[0;32m list:migrations\033[0m lista todas as migrações já executadas" . PHP_EOL . PHP_EOL;
 
         echo "\033[1;33m cron job\033[0m" . PHP_EOL;
