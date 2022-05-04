@@ -16,7 +16,7 @@ function env(string $value)
 }
 
 // verifica se os valores estao declarados ou vazios em .env retornando true ou false
-function env_required(string $values)
+function envRequired(string $values)
 {
     global $array_env;
     $result = true;

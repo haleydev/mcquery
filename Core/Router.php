@@ -255,6 +255,7 @@ class Router
         define("routernames", $this->names);
 
         $this->render();
+        
         if ($this->valid == false) {
             $_SESSION['router_error'] = ROOT . $_SERVER['REQUEST_URI'];
             (new ErrorController)->render();

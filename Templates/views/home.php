@@ -7,5 +7,3 @@
    <div class="div-versão">
       <p class="versao">mcquery v2.4.00 beta - PHP <?= phpversion() ?></p>
    </div>
-
-   @include(includes/example)

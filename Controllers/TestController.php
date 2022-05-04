@@ -9,27 +9,23 @@ class TestController extends Controller
     {
         $this->title = "testes";
         $this->view = "views/teste";
-
-        // $max = 100;
-        // $count = 0;
-
-        // while($count <= $max){
-            // usuarios::insert([
-            //     usuarios::idade => 23.99,
-            //     usuarios::nome => 'warley rodrigues',
-            //     usuarios::sobrenome => 'rodrigues',
-            //     usuarios::password => hash_create('teste')
-            // ]);
-        //     $count ++;
-        // }
-
-        $delete = usuarios::delete([
-           
+    
+        usuarios::insert([
+            usuarios::idade => 23.99,
+            usuarios::nome => 'warley rodrigues',
+            usuarios::sobrenome => 'rodrigues',
+            usuarios::password => hash_create('teste')
         ]);
-        dd($delete);
+ 
+
+        // $delete = usuarios::delete([
+           
+        // ]);
+        // dd($delete);
 
         $select = usuarios::select([
-                
+            'limit' => 5,
+            'coluns' => [usuarios::nome,usuarios::idade],                
         ]);
 
 
@@ -44,6 +40,6 @@ class TestController extends Controller
         // dd($update);
 
 
-        // return template("layouts/main", $this);
+        return template("layouts/main", $this);
     }
 }

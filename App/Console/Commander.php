@@ -66,7 +66,7 @@ class Commander
             switch ($this->headline):
                 case "env":
                     (new Command_Cache)->cache_env();
-                    break;
+                    break;           
                 default:
                     $this->command_end();
                     break;

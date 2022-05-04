@@ -4,8 +4,8 @@ use Core\Controller;
 
 class HomeController extends Controller
 {
-    public function render()
-    {  
+     public function render()
+    { 
         $this->view = 'views/home';
         $this->title = 'MCQUERY';
         $this->teste = 'string teste';       

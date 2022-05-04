@@ -14,7 +14,7 @@ $schedule->everyMinute(5,[classExample::class, 'example'])->description('Example
 
 // $schedule->cron('23:45',27,04,2022,[classExample::class, 'example'])->description('data especifica');
 
-$schedule->everyHour(1,[classExample::class, 'example'])->description('a cada 1 hora');
+// $schedule->everyHour(1,[classExample::class, 'example'])->description('a cada 1 hora');
 
 // $schedule->dailyAt('04:30',[classExample::class, 'example'])->description('na hora 04:30 todos os dias');
 
