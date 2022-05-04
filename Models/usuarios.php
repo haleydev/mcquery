@@ -7,6 +7,7 @@ class usuarios
     public const id = 'id';        
     public const nome = 'nome';        
     public const sobrenome = 'sobrenome';        
+    public const email = 'email';        
     public const password = 'password';        
     public const idade = 'idade';        
     public const edited_dt = 'edited_dt';        

@@ -41,7 +41,7 @@ class Router
         if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == NULL) {
             if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 if ($this->router == $this->url) {
-                    $this->validator($action);
+                    $this->validator($action);                    
                 }
             }
         }
@@ -59,6 +59,7 @@ class Router
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             if ($this->router == $this->url) {
                 $this->validator($action);
+                $_SESSION['mcquery_old'] = $_GET;
             }
         }
 
@@ -77,13 +78,12 @@ class Router
                 if ($_POST['token'] == $_SESSION['token']) {
                     if ($this->router == $this->url) {
                         if ($this->autoToken == true) {
-                            unsetToken();
+                            unset_token();
                         }
+                        $_SESSION['mcquery_old'] = $_POST;
                         $this->validator($action);
                     }
                 }
-            } else {
-                echo "Token de seguranca não definido";
             }
         }
 
@@ -101,11 +101,10 @@ class Router
             if (isset($_POST['token']) and isset($_SESSION['token'])) {
                 if ($_POST['token'] == $_SESSION['token']) {
                     if ($this->router == $this->url) {
+                        $_SESSION['mcquery_old'] = $_POST;
                         $this->validator($action);
                     }
                 }
-            } else {
-                echo "Token de seguranca não definido";
             }
         }
 
@@ -126,6 +125,7 @@ class Router
             foreach ($array_methods as $mt) {
                 if ($_SERVER['REQUEST_METHOD'] == $mt) {
                     $this->validator($action);
+                    break;
                 }
             }
         }
@@ -262,6 +262,10 @@ class Router
             $_SESSION['router_error'] = ROOT . $_SERVER['REQUEST_URI'];
             (new ErrorController)->render();
             $this->valid = true;
+        }
+
+        if (isset($_SESSION['mcquery_old'])) {          
+            unset($_SESSION['mcquery_old']);
         }
 
         $this->ob_end();

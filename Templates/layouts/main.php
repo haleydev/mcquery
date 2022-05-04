@@ -18,5 +18,6 @@
 
 </div> 
 
+<script src="<?=ROOT?>/js/bootstrap.min.js"></script>
 </body>
 </html>

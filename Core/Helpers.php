@@ -16,7 +16,7 @@ function env(string $value)
 }
 
 // verifica se os valores estao declarados ou vazios em .env retornando true ou false
-function envRequired(string $values)
+function env_required(string $values)
 {
     global $array_env;
     $result = true;
@@ -98,13 +98,49 @@ function router(string $name, string $params = null)
  * Retorna a url procurada não encontrada pelo router.
  * @return string
  */
-function routerError()
+function router_error()
 {
     if (isset($_SESSION['router_error'])) {
         $error = $_SESSION['router_error'];
         unset($_SESSION['router_error']);
         return $error;
     }
+}
+
+/**
+ * Cria uma mensagem de sessão ou a retorna caso nao passe nenhum parametro.
+ * @param mixed $mesage
+ * @return string|false|true
+ */
+function session_mesage($mesage = null)
+{
+    if($mesage === null){         
+        if (isset($_SESSION['mcquery_msg'])) {
+            $msg = $_SESSION['mcquery_msg']; 
+            unset($_SESSION['mcquery_msg']);          
+            return $msg;
+        }else{
+            return false;
+        }
+    }else{
+        $_SESSION['mcquery_msg'] = $mesage;
+        return true;
+    }
+}
+
+/**
+ * Retorna o valor passado em um formulario anteriormente.
+ * @param string $value
+ * @return string|false
+ */
+function old($value)
+{    
+    if (isset($_SESSION['mcquery_old'][$value])) {
+        $old = $_SESSION['mcquery_old'][$value];
+        return $old;
+    }else{
+        return false;
+    }    
 }
 
 /**
@@ -142,7 +178,7 @@ function token()
  * Desvalida o token atual se existir.
  * @return true
  */
-function unsetToken()
+function unset_token()
 {
     if (isset($_SESSION['token'])) {
         unset($_SESSION['token']);
@@ -155,7 +191,7 @@ function unsetToken()
  * Pode ser passado varios $_POST separados por ,
  * @return true|false
  */
-function postCheck(string $post)
+function post_check(string $post)
 {
     $return = true;
     $array = explode(",", $post);
@@ -176,7 +212,7 @@ function postCheck(string $post)
  * Pode ser passado varios $_GET separados por ,
  * @return true|false
  */
-function getCheck(string $get)
+function get_check(string $get)
 {
     $return = true;
     $array = explode(",", $get);
