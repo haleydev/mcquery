@@ -3,9 +3,7 @@ namespace Core\Database;
 
 class DataTypes
 {
-    private $count = 0;
-    private $count_alter = 1;
-
+    private $count = 0; 
     private $migration = null;    
     private $default = [];
     private $coluns = [];
@@ -203,8 +201,7 @@ class DataTypes
             array_push($this->alter, $array);
         }
 
-        unset($this->coluns[$this->count - 1]);
-        $this->count_alter++;
+        unset($this->coluns[$this->count - 1]);       
     }
 
     /**

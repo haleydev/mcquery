@@ -67,16 +67,7 @@ class Migration
         $values = $array['coluns'];
         $alter = $array['alter'];
         $drop = $array['drop'];
-
-        $name_file = debug_backtrace()[0]['file'];
-        if(strpos($name_file,'\\')){
-            $bath_array = explode("\\", $name_file);
-        }else{
-            $bath_array = explode("/", $name_file);
-        }
-      
-        $bath_count = count($bath_array) - 1;
-        $migration = str_replace(".php", "", $bath_array[$bath_count]);
+        $migration = $array['migration'];       
 
         if ($this->valid_table($name)) {
             $this->creat_table($name, $values, $migration);
