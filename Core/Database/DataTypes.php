@@ -3,31 +3,15 @@ namespace Core\Database;
 
 class DataTypes
 {
-    /**
-     * Retorna nome da tabela a ser criada.
-     * @return string $name      
-     */
-
     private $count = 0;
     private $count_alter = 1;
 
-    private $name = "???";
+    private $migration = null;    
     private $default = [];
-    private $array = [];
+    private $coluns = [];
     private $alter = [];
     private $drop = [];
-
-    /**
-     * Nome da tabela a ser criada.
-     * @param string $table      
-     */
-    public function name(string $table)
-    {
-        if ($this->filter_name($table, "nome da tabela '$table' inválido!")) {
-            $this->name = $table;
-            return;
-        }
-    }
+    private $error =[];
 
     /**
      * Cria a tabela com chave primária id.
@@ -209,17 +193,17 @@ class DataTypes
      * Altera a estrutura de uma coluna.
      * @param string $colun              
      */
-    public function alter(string $colun)
+    public function alter(string $colun,$update)
     {
         if (isset($this->default[$this->count - 1])) {
-            $array =  array($colun, $this->array[$this->count - 1] . " " . $this->default[$this->count - 1]);
+            $array =  array($colun, $this->coluns[$this->count - 1] . " " . $this->default[$this->count - 1]);
             array_push($this->alter, $array);
         } else {
-            $array =  array($colun, $this->array[$this->count - 1]);
+            $array =  array($colun, $this->coluns[$this->count - 1]);
             array_push($this->alter, $array);
         }
 
-        unset($this->array[$this->count - 1]);
+        unset($this->coluns[$this->count - 1]);
         $this->count_alter++;
     }
 
@@ -235,52 +219,58 @@ class DataTypes
 
     private function add(string $string)
     {
-        array_push($this->array, $string);
+        array_push($this->coluns, $string);
         $this->count++;
     }
 
     // filters
     private function filter_name(string $name, string $error_msg)
-    {
+    { 
         if (!preg_match("/^[a-zA-Z _]*$/", $name)) {
-            echo "\033[1;31merro (tabela " . $this->name . "): $error_msg\033[0m" . PHP_EOL;
-            die();
+            array_push($this->error, $error_msg); 
         } else {
             return true;
         }
     }
 
     // finalize ------------------------------------------------------------------------------------------
-    public function exec()
+    /**
+     * Retorna todas as informações das colunas passadas.
+     * @return array      
+     */
+    public function migrate()
     {
-        // atributes  
-        if (count($this->array) > 0) {
-            $count = 0;
+        // name file migration
+        $file_migrate = debug_backtrace()[0]['file'];        
+        if(strpos($file_migrate,'\\')){
+            $bath_array = explode("\\", $file_migrate);
+        }else{
+            $bath_array = explode("/", $file_migrate);
+        }   
 
-            // defalt
-            foreach ($this->array as $value) {                
-                if (isset($this->default[$count])) {
-                    $this->array[$count] = $value . " " . $this->default[$count];
-                }
-
-                $count++;
+        $bath_count = count($bath_array) - 1;
+        $migration = str_replace(".php", "", $bath_array[$bath_count]); 
+        $this->migration = $migration;
+       
+        // defalt
+        $count = 0;
+        foreach ($this->coluns as $value) {                
+            if (isset($this->default[$count])) {
+                $this->coluns[$count] = $value . " " . $this->default[$count];
             }
 
-            // result
-            $array = array(
-                "table" => $this->name,
-                "values" => $this->array,
-                "alter" => $this->alter,
-                "drop" => $this->drop
-            );
-
-            return $array;
-        } else {
-            $bath_array = explode("\\", debug_backtrace()[0]['file']);
-            $bath_count = count($bath_array) - 1;
-            $migration = str_replace(".php", "", $bath_array[$bath_count]);
-            echo "\033[1;31merro: $migration não possui nenhuma coluna\033[0m" . PHP_EOL;
-            die();
+            $count++;
         }
+
+        // result
+        $array = array(
+            "error" => $this->error,
+            "migration" => $this->migration,
+            "coluns" => $this->coluns,
+            "alter" => $this->alter,
+            "drop" => $this->drop
+        );
+
+        return $array;        
     }
 }

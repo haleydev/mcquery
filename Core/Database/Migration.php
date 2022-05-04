@@ -62,10 +62,9 @@ class Migration
         }
     }
 
-    public function table($null, array $array)
-    {
-        $name = $array['table'];
-        $values = $array['values'];
+    public function table($name, array $array)
+    { 
+        $values = $array['coluns'];
         $alter = $array['alter'];
         $drop = $array['drop'];
 

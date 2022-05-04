@@ -69,20 +69,18 @@ return $mold;
 function mold_migrate($name){
 $mold=
 '<?php
-use Core\Database\Migration;
+use Core\Database\Schema;
 require "./Core/Resources/Database_requires.php";
-    
-(new Migration)->table([$table->name("'.$name.'"),
 
-    $table->id(),
-    $table->string(\'nome\',100),  
-    $table->string(\'sobrenome\', 100),
-    $table->string(\'password\',100),
-    $table->int(\'idade\'),    
-    $table->edited_dt(),
-    $table->created_dt()
-
-],$table->exec());';
+$table->id();
+$table->string(\'nome\',100);
+$table->string(\'sobrenome\', 100);
+$table->string(\'password\',100);
+$table->int(\'idade\');    
+$table->edited_dt();
+$table->created_dt();
+  
+Schema::table(\''.$name.'\',$table->migrate());';
 return $mold;
 }
 
