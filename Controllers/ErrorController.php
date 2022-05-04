@@ -1,7 +1,6 @@
 <?php
 namespace Controllers;
 use Core\Controller;
-use Models\usuarios;
 
 class ErrorController extends Controller
 {

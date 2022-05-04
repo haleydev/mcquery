@@ -5,14 +5,12 @@ use Core\Database\Model;
 class usuarios
 { 
     public const id = 'id';        
-    public const helo = 'helo';        
-    public const json = 'json';        
+    public const nome = 'nome';        
+    public const sobrenome = 'sobrenome';        
     public const password = 'password';        
     public const idade = 'idade';        
     public const edited_dt = 'edited_dt';        
-    public const created_dt = 'created_dt';        
-    public const nome = 'nome';        
-    public const sobrenome = 'sobrenome';
+    public const created_dt = 'created_dt';
 
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros

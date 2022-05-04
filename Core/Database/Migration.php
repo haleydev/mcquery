@@ -76,10 +76,10 @@ class Migration
             }
             echo "\033[0;32mtabela $name adicionada ao banco de dados\033[0m" . PHP_EOL;
         } else {
+            $this->alter_table($name, $values, $alter, $migration, $drop);
             if(!file_exists('Models/'. $name . '.php')){
                 $this->new_model($name);
-            }
-            $this->alter_table($name, $values, $alter, $migration, $drop);
+            }           
         }
 
         $this->conexao->close();
