@@ -129,7 +129,7 @@ function session_mesage($mesage = null)
 }
 
 /**
- * Retorna o valor passado em um formulario anteriormente.
+ * Retorna o valor passado em um campo "formulario" anteriormente.
  * @param string $value
  * @return string|false
  */
@@ -155,7 +155,7 @@ function validate()
         $token = md5("9856b" . uniqid(microtime()));
     }
     $_SESSION['token'] = $token;
-    echo "<input type='hidden' name='token' value='$token'/>" . PHP_EOL;
+    echo "<input type='hidden' name='token' id='token' value='$token'/>" . PHP_EOL;
     return;
 }
 

@@ -94,17 +94,12 @@ class Model
 
             $sql->execute();
             $this->conexao->close();
-            $total = $sql->rowCount();
-
-            if ($total == 0 or $total == 1) {
-                if ($total == 0) {
-                    return null;
-                } else {
-                    return $sql->fetch(PDO::FETCH_ASSOC);
-                }
-            } else {
+           
+            if($sql->rowCount() > 0){
                 return $sql->fetchAll(PDO::FETCH_ASSOC);
-            }
+            }else{
+                return null;
+            }           
         } catch (PDOException) {
             return null;
         }

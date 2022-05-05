@@ -12,6 +12,8 @@ $route->url('/formulario', [testController::class, 'render'])->name('formulario'
 
 $route->post('/login', [testController::class, 'login'])->name('login');
 
+$route->ajax('/pesquisa',[testController::class, 'pesquisa'])->name('pesquisa');
+
 
 
 
