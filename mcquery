@@ -1,3 +1,0 @@
-<?php
-    define('MCQUERY',__DIR__);   
-    require MCQUERY.'/Core/Resources/Console_Inicializer.php';
