@@ -177,10 +177,10 @@ class Cron
 
             } catch (Throwable $e) {
                 if(isset($this->descriptions[$key])){    
-                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: " . $e->getMessage() . PHP_EOL;
+                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - error: " . $e->getMessage() . PHP_EOL;
                     file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);                   
                 }else{
-                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: " . $e->getMessage() . PHP_EOL;
+                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - error: " . $e->getMessage() . PHP_EOL;
                     file_put_contents(dirname(__DIR__).'/App/Logs/cronjob.log', $text, FILE_APPEND);                       
                 }         
             }

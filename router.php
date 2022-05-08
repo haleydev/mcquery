@@ -31,5 +31,4 @@ $route->ajax('/pesquisa',[testController::class, 'pesquisa'])->name('pesquisa');
 
 
 
-
 //---------------------------------------------------------------------------

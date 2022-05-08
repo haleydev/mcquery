@@ -38,18 +38,19 @@ class testController extends Controller
     public function pesquisa()
     {
         if(post_check('pesquisa')){
-            if(strlen($_POST['pesquisa']) > 3){                
-                $pesquisa = usuarios::select([
-                    'like' => [usuarios::nome => $_POST['pesquisa']]
-                ]);
+            if(strlen($_POST['pesquisa']) > 3){     
 
+                $pesquisa = usuarios::select([
+                    'like' => [
+                        usuarios::nome => $_POST['pesquisa'],
+                        usuarios::email => $_POST['pesquisa']
+                    ]
+                ]);
                        
                 if($pesquisa == null){
                     echo "sem resultados";
                 }else{
-
                     echo "Total: ".count($pesquisa);
-
                     foreach($pesquisa as $user):?>
                         <p>Nome: <?=$user['nome']?> - Email:<?=$user['email']?> </p>       
                     <?php endforeach;

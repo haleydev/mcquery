@@ -26,11 +26,6 @@ class Router
     private $validaction = false;
     private $validrouter = false;
 
-    public function __construct()
-    {
-        $this->url = filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
-    }
-
     /**
      * @param string $route
      * @param string|callable|null $action
@@ -135,6 +130,7 @@ class Router
 
     protected function param($router)
     {
+        $this->url = filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
         $this->urlrouter = $router;
         $this->router = $router;
 
@@ -252,7 +248,7 @@ class Router
     /**
      * Finaliza a execução da rota e retona pagina de erro se a rota não for encontrada.   
      */
-    public function end()
+   private function end()
     {
         define("routernames", $this->names);
 
@@ -269,5 +265,10 @@ class Router
         }
 
         $this->ob_end();
+    }
+
+    public function __destruct()
+    {
+        $this->end();
     }
 }

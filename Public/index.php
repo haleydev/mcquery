@@ -16,4 +16,3 @@ date_default_timezone_set(env('TIMEZONE'));
 define("ROOT", env('APP_URL'));
 
 require dirname(__DIR__)."/./router.php";
-$route->end();

@@ -14,7 +14,7 @@ class Migration
         if ($this->conexao->error) {
             echo "\033[1;31mfalha na conexão com o banco de dados\033[0m" . PHP_EOL;
             die();
-        };
+        }
     }
 
     public function new_database($name)
