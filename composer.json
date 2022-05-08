@@ -1,0 +1,38 @@
+{
+    "name": "haleydev/mcquery",
+    "type": "project",
+    "description": "The mcquery framework",
+    "keywords": ["framework", "mcquery", "mcv", "haleydev", "php"],
+    "license": "MIT",
+    "authors": [
+        {            
+            "name": "Warley Rodrigues de Moura",            
+            "email": "haleytrader@hotmail.com",
+            "homepage": "https://github.com/haleydev/mcquery",
+            "role": "Developer"             
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "App\\": "App/",
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/"
+        }
+    },
+    
+    "require": {
+        "php": "^8.0.2",      
+        "phpmailer/phpmailer": "^6.6"
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true  
+}

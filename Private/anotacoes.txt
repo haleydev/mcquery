@@ -1,0 +1,1 @@
+passar array nas funcoes help

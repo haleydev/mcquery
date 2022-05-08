@@ -1,0 +1,14 @@
+# Nao modifique este arquivo por questoes de seguranca
+Options All -Indexes
+RewriteEngine On
+
+# Encaminhe todas as solicitacoes
+RewriteRule (.*) Public/$1 [L,QSA]
+
+# Segurança adicional para arquivos com .*
+<files ".*">
+order allow,deny
+deny from all
+</files>
+
+ErrorDocument 403 /
