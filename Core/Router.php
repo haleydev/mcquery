@@ -15,7 +15,7 @@ class Router
      */
     public $autoToken = true;
 
-    private array $names;
+    private $names = [];
     private $urlrouter = null;
     private $valid = false;
     private $router;
