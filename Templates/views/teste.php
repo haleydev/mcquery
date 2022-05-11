@@ -8,13 +8,19 @@
     <?=validate()?>
     <input class="form-control form-control-lg bg-dark text-white" value="<?=old('nome')?>" type="text" name="nome" placeholder="nome">
     <input class="form-control form-control-lg bg-dark text-white" value="<?=old('email')?>" type="email" name="email" placeholder="E-mail">
-    <input class="form-control form-control-lg bg-dark text-white" value="<?=old('senha')?>" type="password" name="senha" placeholder="Senha">
+    <input class="form-control form-control-lg bg-dark text-white" value="<?=old('senha')?>" type="password" name="senha" placeholder="Senha">    
     <input class="btn btn-primary" type="submit" name="nova_conta" id="btn_new" value="Criar conta">
 </form>
 
 <br><br>                                                 
 
 <div id="result"> </div><br>
+
+<form action="<?=router('userdelete')?>" method="POST">
+    <?= validate() ?>
+    <input type="text" placeholder="id usuario para deletar" name="delete">
+    <input type="submit" value="apagar">
+</form>
 
 <script>
  $("#form_pesquisa").keyup(function(){

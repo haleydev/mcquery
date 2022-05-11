@@ -28,7 +28,7 @@ class Router
 
     /**
      * @param string $route
-     * @param string|callable|null $action
+     * @param string|callable|array|null $action
      */
     public function url(string $route, $action = null)
     {
@@ -46,7 +46,7 @@ class Router
 
     /**
      * @param string $route
-     * @param string|callable|null $action
+     * @param string|callable|array|null $action
      */
     public function get(string $route, $action = null)
     {
@@ -63,7 +63,7 @@ class Router
 
     /**
      * @param string $route
-     * @param string|callable|null $action
+     * @param string|callable|array|null $action
      */
     public function post(string $route, $action = null)
     {
@@ -87,7 +87,7 @@ class Router
 
     /**
      * @param string $route
-     * @param string|callable|null $action
+     * @param string|callable|array|null $action
      */
     public function ajax(string $route, $action = null)
     {
@@ -108,7 +108,7 @@ class Router
 
     /**
      * @param string $route
-     * @param string|callable|null $action
+     * @param string|callable|array|null $action
      * @param string $method     
      */
     public function api(string $route, $action = null, string $methods)

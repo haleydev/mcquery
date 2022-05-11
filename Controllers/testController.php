@@ -20,7 +20,6 @@ class testController extends Controller
     public function login()
     {
         if(post_check('nome,email,senha')){
-
             usuarios::insert([
                 usuarios::nome => $_POST['nome'],
                 usuarios::email => $_POST['email'],
@@ -38,8 +37,7 @@ class testController extends Controller
     public function pesquisa()
     {
         if(post_check('pesquisa')){
-            if(strlen($_POST['pesquisa']) > 3){     
-
+            if(strlen($_POST['pesquisa']) > 3){ 
                 $pesquisa = usuarios::select([
                     'like' => [
                         usuarios::nome => $_POST['pesquisa'],
@@ -52,10 +50,37 @@ class testController extends Controller
                 }else{
                     echo "Total: ".count($pesquisa);
                     foreach($pesquisa as $user):?>
-                        <p>Nome: <?=$user['nome']?> - Email:<?=$user['email']?> </p>       
+                        <p>ID:<?= $user['id'] ?> Nome: <?=$user['nome']?> - Email:<?=$user['email']?> </p>       
                     <?php endforeach;
                 }
             }
+        }
+    }
+
+    public function delete()
+    {
+        if(post_check('delete')){  
+            $select = usuarios::select([
+                'coluns' => [usuarios::id,usuarios::nome],
+                'where' => [usuarios::id => $_POST['delete']],
+                'limit' => 1
+            ]);
+            
+           $delete = usuarios::delete([
+               'where' => [usuarios::id => $_POST['delete']],
+               'limit' => 1
+           ]);
+
+           if($delete === true) {
+                session_mesage("usuario" . $select[usuarios::nome] . " excluido");
+                redirect(router('formulario')); 
+           }else{
+                session_mesage("usuario nao exite");
+                redirect(router('formulario'));              
+           }
+           return;
+        }else{
+            return false;
         }
     }
 }
