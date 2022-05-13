@@ -1,6 +1,6 @@
 <?php
 $route = new Core\Router;
-use Controllers\{HomeController, testController};
+use Controllers\{ajaxController, HomeController, testController};
 
 //--------------------------------------------------------------------------|
 //                            MCQUERY ROUTES                                |
@@ -15,6 +15,11 @@ $route->post('/login', [testController::class, 'login'])->name('login');
 $route->post('/delete', [testController::class, 'delete'])->name('userdelete');
 
 $route->ajax('/pesquisa',[testController::class, 'pesquisa'])->name('pesquisa');
+
+$route->ajax('/ajax',function(){
+    return (new ajaxController)->session();
+})->name('ajax');
+
 
 
 

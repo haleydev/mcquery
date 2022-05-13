@@ -194,10 +194,10 @@ class DataTypes
     public function alter(string $colun,$update)
     {
         if (isset($this->default[$this->count - 1])) {
-            $array =  array($colun, $this->coluns[$this->count - 1] . " " . $this->default[$this->count - 1]);
+            $array = array($colun, $this->coluns[$this->count - 1] . " " . $this->default[$this->count - 1]);
             array_push($this->alter, $array);
         } else {
-            $array =  array($colun, $this->coluns[$this->count - 1]);
+            $array = array($colun, $this->coluns[$this->count - 1]);
             array_push($this->alter, $array);
         }
 
