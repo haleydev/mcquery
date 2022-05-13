@@ -29,7 +29,8 @@ $("#form_new").submit(function(event){
 		data : form_data,
         dataType:"JSON",
 	}).done(function(response){ //       
-        $(".result").html(response);     
+        // $(".cart_total").html(response.itens_total);   
+        // $(".result").html(response.itens_total);  
         console.log(response.itens_total);
         console.log(response.valor_total);
 	});
