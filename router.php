@@ -17,7 +17,7 @@ $route->post('/delete', [testController::class, 'delete'])->name('userdelete');
 $route->ajax('/pesquisa',[testController::class, 'pesquisa'])->name('pesquisa');
 
 $route->ajax('/ajax',function(){
-    return (new ajaxController)->session();
+    return (new ajaxController)->addCart();
 })->name('ajax');
 
 
