@@ -8,8 +8,9 @@
     <script src="<?= ROOT ?>/js/jquery.min.js""></script>
     <link rel="stylesheet" href="<?= ROOT ?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= ROOT ?>/css/main.css">  
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+ 
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+
     <title>Validate</title>
 </head>
 <body> 
@@ -85,8 +86,6 @@ $("#form_new").submit(function(event){
         }    
 });  
 </script>
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script> -->
 <script src="<?=ROOT?>/js/bootstrap.min.js"></script>
 </body>
 </html>
