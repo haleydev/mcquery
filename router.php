@@ -20,6 +20,12 @@ $route->ajax('/ajax',function(){
     return (new ajaxController)->addCart();
 })->name('ajax');
 
+$route->get('/validate',function(){
+    return template('views/validate');
+})->name('validate');
+
+$route->post('/validate',[])->name('validate');
+
 
 
 
