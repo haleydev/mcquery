@@ -21,7 +21,7 @@
             "Models\\": "Models/"
         }
     },
-    
+
     "require": {
         "php": "^8.0.2",      
         "phpmailer/phpmailer": "^6.6"

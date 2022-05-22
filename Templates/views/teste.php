@@ -1,6 +1,6 @@
 <h4><?= session_mesage() ?></h4>
 
-<form class="row g-3 container-sm" method="post" id="form_new" action="<?= router('ajax') ?>"> 
+<form class="row g-3 container-sm" method="post" id="form_new" action="<?= route('ajax') ?>"> 
     <?=validate()?>
     <input class="form-control form-control-lg bg-dark text-white" value="<?=old('email')?>" type="text" name="id" placeholder="id">
     <input class="form-control form-control-lg bg-dark text-white" value="<?=old('senha')?>" type="text" name="quantidade" placeholder="quantidade">    
@@ -11,7 +11,7 @@
 
 <div class="result"> </div><br>
 
-<form action="<?=router('userdelete')?>" method="POST">
+<form action="<?=route('userdelete')?>" method="POST">
     <?= validate() ?>
     <input type="text" placeholder="id usuario para deletar" name="delete">
     <input type="submit" value="apagar">

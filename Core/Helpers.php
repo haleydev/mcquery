@@ -65,8 +65,12 @@ function get(string $id)
  * separados por , vírgula.
  * @return string|null
  */
-function router(string $name, string $params = null)
+function route(string $name = null, string $params = null)
 {
+    if ($name == null) {
+        return env('APP_URL');
+    }
+
     if (defined('routernames')) {
         if (array_key_exists($name, routernames)) {
             if ($params != null) {

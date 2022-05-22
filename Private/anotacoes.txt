@@ -1,1 +1,2 @@
-passar array nas funcoes help
+request
+drop schema

@@ -16,7 +16,7 @@
 <body> 
 
 <div class="main">
-    <form class="row g-3 container-sm" method="post" id="form_new" action="<?= router('validate') ?>"> 
+    <form class="row g-3 container-sm" method="post" id="form_new" action="<?= route('validate') ?>"> 
         <?=validate()?>
         <input class="form-control form-control-lg bg-dark text-white" value="<?=old('email')?>" type="text" name="nome" placeholder="nome">
         <input class="form-control form-control-lg bg-dark text-white" value="<?=old('senha')?>" type="text" name="email" placeholder="email">    
