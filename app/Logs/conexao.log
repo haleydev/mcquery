@@ -1,0 +1,6 @@
+[12/05/2022 09:41:16] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[12/05/2022 09:41:52] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[12/05/2022 09:41:52] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[12/05/2022 09:41:53] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[12/05/2022 09:42:51] SQLSTATE[HY000] [1045] Access denied for user 'haley'@'localhost' (using password: YES)
+[21/05/2022 10:04:27] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'

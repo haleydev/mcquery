@@ -3,7 +3,7 @@ Options All -Indexes
 RewriteEngine On
 
 # Encaminhe todas as solicitacoes
-RewriteRule (.*) Public/$1 [L,QSA]
+RewriteRule (.*) public/$1 [L,QSA]
 
 # Segurança adicional para arquivos com .*
 <files ".*">
