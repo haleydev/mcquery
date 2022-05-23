@@ -155,10 +155,10 @@ class Cron
                 }
 
                 if(isset($this->descriptions[$key])){               
-                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: executando". PHP_EOL;
+                    $text = "[" . date('d/m/Y h:i:s') . "] ".$this->descriptions[$key]." - status: iniciado". PHP_EOL;
                     file_put_contents(dirname(__DIR__).'/app/Logs/cronjob.log', $text, FILE_APPEND);
                 }else{
-                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: executando". PHP_EOL;
+                    $text = "[" . date('d/m/Y h:i:s') . "] ??? - status: iniciado". PHP_EOL;
                     file_put_contents(dirname(__DIR__).'/app/Logs/cronjob.log', $text, FILE_APPEND);
                 }
 

@@ -1,8 +1,8 @@
 <?php
-namespace Controllers\testes;
+namespace Controllers;
 use Core\Controller;
 
-class testeController extends Controller
+class PostController extends Controller
 {
     public function render()
     {  

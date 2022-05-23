@@ -1,6 +1,6 @@
 <?php
 $route = new Core\Router;
-use Controllers\{ajaxController, HomeController, testController};
+use Controllers\{formController, HomeController, postController, testController};
 
 //--------------------------------------------------------------------------|
 //                            MCQUERY ROUTES                                |
@@ -8,36 +8,15 @@ use Controllers\{ajaxController, HomeController, testController};
 
 $route->url('/', [HomeController::class, 'render'])->name('home');
 
-$route->url('/formulario', [testController::class, 'render'])->name('formulario');
+$route->get('/testes/{teste}', [testController::class, 'render'])->name('testes');
 
-$route->post('/login', [testController::class, 'login'])->name('login');
+$route->ajax('/post', [postController::class, 'render'])->name('post');
 
-$route->post('/delete', [testController::class, 'delete'])->name('userdelete');
+$route->get('/form',[formController::class, 'render'])->name('form');
 
-$route->ajax('/pesquisa',[testController::class, 'pesquisa'])->name('pesquisa');
-
-$route->ajax('/ajax',function(){
-    return (new ajaxController)->addCart();
-})->name('ajax');
-
-$route->get('/validate',function(){
-    return template('views/validate');
-})->name('validate');
-
-$route->post('/validate',[])->name('validate');
-
-
-
-
-
-
-
-
-
-
-
-
-
+// $route->api('/form',function(){
+//     return (new ApiController)->api();   
+// },'get,post')->name('api');
 
 
 

@@ -48,11 +48,11 @@ function template(string $template, array|object $params = [])
  * Retorna o valor do parâmetro passado em router.
  * @return string|null
  */
-function get(string $id)
+function get(string $param)
 {
     if (defined('routerget')) {
-        if (array_key_exists($id, routerget)) {
-            return routerget[$id];
+        if (array_key_exists($param, routerget)) {
+            return routerget[$param];
         } else {
             return null;
         }

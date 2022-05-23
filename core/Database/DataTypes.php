@@ -6,6 +6,7 @@ class DataTypes
     private $count = 0; 
     private $migration = null;    
     private $default = [];
+    private $unique = [];
     private $coluns = [];
     private $alter = [];
     private $drop = [];
@@ -185,6 +186,16 @@ class DataTypes
     public function default(string $def)
     {
         $this->default[$this->count - 1] = "DEFAULT '$def'";
+        return $this;
+    }
+    
+    /**
+     * A UNIQUE restrição garante que todos os valores em uma coluna sejam diferentes.
+     */    
+    public function unique()
+    {
+        $this->unique[$this->count - 1] = "UNIQUE";
+        return $this;        
     }
 
     /**
@@ -254,6 +265,16 @@ class DataTypes
         foreach ($this->coluns as $value) {                
             if (isset($this->default[$count])) {
                 $this->coluns[$count] = $value . " " . $this->default[$count];
+            }
+
+            $count++;
+        }
+
+        // unique
+        $count = 0;      
+        foreach ($this->coluns as $value) {                
+            if (isset($this->unique[$count])) {
+                $this->coluns[$count] = $value . " " . $this->unique[$count];
             }
 
             $count++;
