@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__).'/../core/Resources/Requires.php';
+require dirname(__DIR__,2).'/core/Resources/Requires.php';;
 $schedule = new Core\Cron; 
 
 // execute classes ou funcoes na hora programada
@@ -7,12 +7,12 @@ $schedule = new Core\Cron;
 // Voce pode verificar se o comando foi executado em App/Logs/cronjob.log
 
 //--------------------------------------------------------------------------
-// Tarefa: Example
+// Tarefa: Exemplo
 //--------------------------------------------------------------------------
 
 $schedule->everyMinute(1,function(){
-    // ...
-})->description('A cada 1 minuto');
+
+})->description('Exemplo a cada 1 minuto');
 
 // $schedule->cron('23:45',27,04,2022,[classExample::class, 'example'])->description('data especifica');
 

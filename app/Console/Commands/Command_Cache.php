@@ -6,7 +6,6 @@ class Command_Cache
 {   
     public function cache_env()
     {
-
         if (file_exists(MCQUERY.'/app/Cache/env.php')) {
             unlink('app/Cache/env.php');
             echo "\033[1;31mcache env desativado\033[0m" . PHP_EOL;

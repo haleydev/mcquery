@@ -11,27 +11,27 @@ class testController extends Controller
         // $this->view = "views/teste";
         // $this->title = "formulario";
 
+        $this->insert = usuarios::insert([
+            usuarios::nome => 'haley',
+            usuarios::sobrenome => 'rodrigues',
+            usuarios::password => hash_create('123'),
+            usuarios::email => 'mcquery3@hotmail.com'
+        ]);        
+        
+        dd(Request::urlFull());
+        dd(Request::getReplace([
+            'teste' => 'haley',
+            'mcquery' => 'frame wor?sdfgdsg5e6 <?php  k'
+        ]));
+
+        dd(Request::get(['teste','mcquery']));
+
         // $this->insert = usuarios::insert([
-        //     usuarios::nome => 'haley',
-        //     usuarios::sobrenome => 'rodrigues',
-        //     usuarios::password => hash_create('123'),
-        //     usuarios::email => 'mcquery3@hotmail.com'
+        //     usuarios::nome => Request::get('mcquery'),           
         // ]);
-        
-        // $this->usuarios = usuarios::select([
-        //     'coluns' => [usuarios::nome,usuarios::email,usuarios::created_dt]
-        // ]);
-        
-        // return template("views/testes", $this);  
 
-        // return dd(Request::input('teste'));
-        // return dd(Request::get('teste,haley'));
-
-        $get = Request::get(['teste']);        
-        if($get){
-            dd($get);
-        }else{
-            echo 'nao';
-        }
+        // dd(usuarios::select([
+        //     'coluns' => usuarios::nome
+        // ]));
     }  
 }

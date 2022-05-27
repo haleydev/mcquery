@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>inpu testes</title>
-        <script src="<?= ROOT ?>/js/jquery.min.js"></script>
+        <script src="<?= URL ?>/js/jquery.min.js"></script>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -22,7 +22,6 @@
     </body>
 
     <script>
-
         $(function(){
             $('#form').submit(function(e){
                 e.preventDefault();  

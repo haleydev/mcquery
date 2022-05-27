@@ -155,7 +155,7 @@ function mold_crontab($string)
 {
 $mold =
 '<?php
-require dirname(__DIR__).\'/../core/Resources/Requires.php\';
+require dirname(__DIR__,2).\'/core/Resources/Requires.php\';;
 $schedule = new Core\Cron; 
 
 // execute classes ou funcoes na hora programada
@@ -166,7 +166,9 @@ $schedule = new Core\Cron;
 // Tarefa: '.$string.'
 //--------------------------------------------------------------------------
 
-$schedule->everyMinute(5,[classExample::class, \'example\'])->description(\''.$string.' a cada 5 minutos\');
+$schedule->everyMinute(1,function(){
+
+})->description(\''.$string.' a cada 1 minuto\');
 
 // $schedule->cron(\'23:45\',27,04,2022,[classExample::class, \'example\'])->description(\'data especifica\');
 

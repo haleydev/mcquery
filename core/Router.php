@@ -1,6 +1,7 @@
 <?php
 namespace Core;
 use Controllers\ErrorController;
+use Core\Http\Request;
 
 /**
  * O lindo e complexo gerenciador de rotas do mcquery.
@@ -224,7 +225,7 @@ class Router
         } else {
             $url = $this->router;
         }
-        $this->names[$name] = ROOT . $url;
+        $this->names[$name] = URL . $url;
     }
 
     protected function validator($action)
@@ -255,7 +256,7 @@ class Router
         $this->render();
         
         if ($this->valid == false) {
-            $_SESSION['router_error'] = ROOT . $_SERVER['REQUEST_URI'];
+            $_SESSION['router_error'] = Request::urlFull();
             (new ErrorController)->render();
             $this->valid = true;
         }

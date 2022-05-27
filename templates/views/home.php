@@ -1,4 +1,4 @@
-   <img class="logo" src="<?= ROOT ?>/img/logo.png">
+   <img class="logo" src="<?= URL ?>/img/logo.png">
 
    <div class="info">
       <p>Bem vindo ao mcquery, leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>

@@ -143,7 +143,7 @@ class Migration
 
         foreach ($array as $alter) {
             $array_add = explode(" ", $alter);
-            // adiociona coluna se nao existir
+            // adiciona coluna se nao existir
             if (!array_key_exists($array_add[0], $coluns)) {  
                 $query = "ALTER TABLE $table ADD COLUMN $alter";
                 $sql = $this->conexao->instance->prepare($query);

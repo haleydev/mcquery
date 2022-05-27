@@ -34,9 +34,9 @@ class Command_Cron_Job
 
     public function crontab($job)
     {
-        $folder = str_replace('/console', '', dirname(__DIR__));
+        $folder = dirname(__DIR__,2);
         $job_file = mold_crontab($job);
-        $msg = "\033[0;32mcronjob $job criado com sucesso ( core/Jobs/Job_".str_replace(" ", "", $job).".php )\033[0m" . PHP_EOL;
+        $msg = "\033[0;32mcronjob $job criado com sucesso ( app/Jobs/Job_".str_replace(" ", "", $job).".php )\033[0m" . PHP_EOL;
         $job = str_replace(" ", "_", $job);
 
         if (file_exists("$folder/Jobs/Job_$job.php")) {

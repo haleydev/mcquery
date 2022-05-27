@@ -1,7 +1,7 @@
 <?php
 use App\Console\Commander;
+define('MCQUERY',dirname(__DIR__,2)); 
 require MCQUERY.'/core/Resources/Molds.php';
-
 if (file_exists(MCQUERY."/vendor")) {
     if(file_exists(MCQUERY."/.env") or file_exists(MCQUERY."/core/cache/env.php")){
         require_once MCQUERY.'/vendor/autoload.php';   

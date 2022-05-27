@@ -13,6 +13,6 @@ require dirname(__DIR__)."/./vendor/autoload.php";
 require dirname(__DIR__)."/./core/Helpers.php";
 
 date_default_timezone_set(env('TIMEZONE'));
-define("ROOT", env('APP_URL'));
+define("URL", env('APP_URL'));
 
 require dirname(__DIR__)."/./router.php";

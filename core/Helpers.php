@@ -235,7 +235,7 @@ function get_check(string $get)
  */
 function active($url)
 {
-    $atual =  ROOT . filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
+    $atual =  URL . filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
     if ($url == rtrim($atual, "/")) {
         return true;
     } else {
