@@ -2,6 +2,7 @@
 namespace Core;
 use Controllers\ErrorController;
 use Core\Http\Request;
+use Core\Router\Route;
 
 /**
  * O lindo e complexo gerenciador de rotas do mcquery.

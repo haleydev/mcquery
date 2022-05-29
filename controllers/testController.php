@@ -11,20 +11,51 @@ class testController extends Controller
         // $this->view = "views/teste";
         // $this->title = "formulario";
 
-        $this->insert = usuarios::insert([
-            usuarios::nome => 'haley',
-            usuarios::sobrenome => 'rodrigues',
-            usuarios::password => hash_create('123'),
-            usuarios::email => 'mcquery3@hotmail.com'
-        ]);        
-        
-        dd(Request::urlFull());
-        dd(Request::getReplace([
-            'teste' => 'haley',
-            'mcquery' => 'frame wor?sdfgdsg5e6 <?php  k'
-        ]));
+        // $insert = usuarios::insert([
+        //     usuarios::nome => 'haley',
+        //     usuarios::sobrenome => 'rodrigues',
+        //     // usuarios::password => hash_create('123'),
+        //     usuarios::email => 'mcquery3@hotmail.com'
+        // ]);             
 
-        dd(Request::get(['teste','mcquery']));
+        // usuarios::delete([
+        //     'where' => [
+        //     usuarios::email => '',
+        //     usuarios::id => ''
+        //     ]
+        // ]);
+
+        // $update = usuarios::update([
+        //     'where' => [
+        //         usuarios::nome => 'haley'
+        //     ],
+
+        //     'update' => [
+        //         usuarios::nome => 'teste'
+        //     ]
+        // ]);
+
+        $select = usuarios::select([
+            'where' => [
+                usuarios::id => 1
+            ]
+        ]);
+
+        return dd($select);
+
+
+        // dd(Request::url());
+        // dd(Request::urlFull());
+
+        // dd(Request::getReplace([
+        //     'teste' => 'haley',
+        //     'mcquery' => null
+        // ]));
+
+        // dd(Request::get(['teste','mcquery']));        
+        // dd(Request::post(['teste','mcquery']));
+
+        // dd(Request::route('form'));      
 
         // $this->insert = usuarios::insert([
         //     usuarios::nome => Request::get('mcquery'),           

@@ -1,13 +1,10 @@
 <?php
 $route = new Core\Router;
 use Controllers\{formController, HomeController, postController, testController};
-use Core\Http\Request;
 
 //--------------------------------------------------------------------------|
 //                            MCQUERY ROUTES                                |
 //--------------------------------------------------------------------------|
-
-echo Request::url();
 
 $route->url('/', [HomeController::class, 'render'])->name('home');
 

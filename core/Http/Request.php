@@ -7,7 +7,7 @@ class Request
      * Retorna o valor do parâmetro passado em router.
      * @return string|false
      */
-    public static function input($param)
+    public static function input(string $param)
     {
         if (defined('routerget')) {
             if (array_key_exists($param, routerget)) {
@@ -17,6 +17,35 @@ class Request
             }
         }
 
+        return false;
+    }
+
+    public static function route(string $name, string $params = null)
+    {
+        if (defined('routernames')) {
+            if (routernames[$name]) {
+                if ($params != null) {
+                    $arrayrouter = explode('/', routernames[$name]);
+                    $arrayparams = explode(',', $params);
+                    $paramsn = 0;
+                    $tringr = "";
+    
+                    foreach ($arrayrouter as $key) {
+                        if ($key == "{id}") {
+                            $tringr .= $arrayparams[$paramsn] . "/";
+                            $paramsn++;
+                        } else {
+                            $tringr .= $key . "/";
+                        }
+                    }
+    
+                    return rtrim($tringr, "/");
+                } else {
+                    return rtrim(routernames[$name], "/");
+                }
+            } 
+        }
+    
         return false;
     }
 
