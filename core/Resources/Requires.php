@@ -1,7 +1,8 @@
 <?php
 /**
- * Esses arquivos sao necessarios para iniciar algumas funcoes do mcquery.
+ * Esses arquivos sao necessarios para iniciar algumas funcoes cronjob do mcquery.
  */
-require_once dirname(__DIR__)."/../vendor/autoload.php";   
-require_once dirname(__DIR__)."/Helpers.php";      
+define('ROOT',dirname(__DIR__,2)); 
+require_once ROOT.'/vendor/autoload.php';   
+require_once ROOT."/core/Helpers.php";      
 date_default_timezone_set(env('TIMEZONE')); 

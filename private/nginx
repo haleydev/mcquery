@@ -1,13 +1,9 @@
 server {
     listen 80;
     server_name mcquery;
-    root /var/www/html/public;
+    root /var/www/mcquery/public;
 
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Content-Type-Options "nosniff";
-
-    error_page 403 404 /index.php;
+    error_page 401 403 404 500 503 /index.php;
     index index.html index.htm index.php;    
 
     charset utf-8;

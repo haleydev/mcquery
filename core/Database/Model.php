@@ -253,7 +253,7 @@ class Model
         foreach ($joins as $j) {
             $array = explode('=', trim($j), 2);
             $table =  explode('.', trim($array[1]), 2)[0];
-            $string .= "INNER JOIN $table ON $this->table.$array[0] = $array[1]";
+            $string .= "RIGHT JOIN $table ON $this->table.$array[0] = $array[1]";
         }
         return trim($string);
     }

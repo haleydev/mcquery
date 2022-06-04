@@ -41,18 +41,18 @@ class testController extends Controller
             ]
         ]);
 
-        return dd($select);
 
 
-        // dd(Request::url());
-        // dd(Request::urlFull());
+
+        dd(Request::url());
+        dd(Request::urlFull());
 
         // dd(Request::getReplace([
         //     'teste' => 'haley',
         //     'mcquery' => null
         // ]));
 
-        // dd(Request::get(['teste','mcquery']));        
+        dd(Request::get());        
         // dd(Request::post(['teste','mcquery']));
 
         // dd(Request::route('form'));      

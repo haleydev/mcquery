@@ -1,17 +1,17 @@
 <?php
 use Core\Env;
 use Core\Hashing;
+use Core\Http\Request;
 use Core\Template;
 
-$array_env = (new Env)->env;
 // retorna o valor declarado em .env
 function env(string $value)
 {
-    global $array_env;
-    if (array_key_exists($value, $array_env)) {
-        return $array_env[$value];
+    $env = (new Env)->env;
+    if (isset($env[$value])) {
+        return $env[$value];
     } else {
-        return null;
+        return false;
     }
 }
 
@@ -48,15 +48,9 @@ function template(string $template, array|object $params = [])
  * Retorna o valor do parâmetro passado em router.
  * @return string|null
  */
-function get(string $param)
+function param(string $param)
 {
-    if (defined('routerget')) {
-        if (array_key_exists($param, routerget)) {
-            return routerget[$param];
-        } else {
-            return null;
-        }
-    }
+    return Request::param($param);
 }
 
 /**
@@ -65,33 +59,9 @@ function get(string $param)
  * separados por , vírgula.
  * @return string|null
  */
-function router(string $name, string $params = null)
+function route(string $name, string $params = null)
 {
-    if (defined('routernames')) {
-        if (array_key_exists($name, routernames)) {
-            if ($params != null) {
-                $arrayrouter = explode('/', routernames[$name]);
-                $arrayparams = explode(',', $params);
-                $paramsn = 0;
-                $tringr = "";
-
-                foreach ($arrayrouter as $key) {
-                    if ($key == "{id}") {
-                        $tringr .= $arrayparams[$paramsn] . "/";
-                        $paramsn++;
-                    } else {
-                        $tringr .= $key . "/";
-                    }
-                }
-
-                return rtrim($tringr, "/");
-            } else {
-                return rtrim(routernames[$name], "/");
-            }
-        } 
-    }
-
-    return null;
+    return Request::route($name,$params);
 }
 
 /**
@@ -108,24 +78,24 @@ function router_error()
 }
 
 /**
- * Cria uma mensagem de sessão ou a retorna caso nao passe nenhum parametro.
+ * Cria uma mensagem de sessão ou a retorna caso não passe nenhum parametro.
  * @param mixed $mesage
  * @return string|false|true
  */
-function session_mesage($mesage = null)
+function session_mesage(string|array $mesage = null)
 {
     if($mesage === null){         
         if (isset($_SESSION['mcquery_msg'])) {
             $msg = $_SESSION['mcquery_msg']; 
             unset($_SESSION['mcquery_msg']);          
             return $msg;
-        }else{
-            return false;
         }
     }else{
-        $_SESSION['mcquery_msg'] = $mesage;
-        return true;
+        $_SESSION['mcquery_msg'] = $mesage; 
+        return;      
     }
+
+    return false;
 }
 
 /**

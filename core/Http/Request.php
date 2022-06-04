@@ -7,11 +7,11 @@ class Request
      * Retorna o valor do parâmetro passado em router.
      * @return string|false
      */
-    public static function input(string $param)
+    public static function param(string $param)
     {
-        if (defined('routerget')) {
-            if (array_key_exists($param, routerget)) {
-                return routerget[$param];
+        if (defined('ROUTER_PARAMS') and ROUTER_PARAMS != null) {
+            if (array_key_exists($param, ROUTER_PARAMS)) {
+                return urldecode(ROUTER_PARAMS[$param]);
             } else {
                 return false;
             }
@@ -21,15 +21,15 @@ class Request
     }
 
     public static function route(string $name, string $params = null)
-    {
-        if (defined('routernames')) {
-            if (routernames[$name]) {
+    { 
+        if (defined('ROUTER_NAMES')) {
+            if (isset(ROUTER_NAMES[$name])) {
                 if ($params != null) {
-                    $arrayrouter = explode('/', routernames[$name]);
+                    $arrayrouter = explode('/', ROUTER_NAMES[$name]);
                     $arrayparams = explode(',', $params);
                     $paramsn = 0;
                     $tringr = "";
-    
+
                     foreach ($arrayrouter as $key) {
                         if ($key == "{id}") {
                             $tringr .= $arrayparams[$paramsn] . "/";
@@ -38,14 +38,14 @@ class Request
                             $tringr .= $key . "/";
                         }
                     }
-    
+
                     return rtrim($tringr, "/");
                 } else {
-                    return rtrim(routernames[$name], "/");
+                    return rtrim(ROUTER_NAMES[$name], "/");
                 }
-            } 
+            }
         }
-    
+
         return false;
     }
 
@@ -139,15 +139,15 @@ class Request
     public static function urlFull()
     {
         $fullUrl = URL . $_SERVER['REQUEST_URI'];
-        return $fullUrl;
+        return rtrim($fullUrl, '/');
     }
 
     public static function getReplace(array $getReplace)
     {
         $gets = filter_input_array(INPUT_GET, $_GET, FILTER_SANITIZE_SPECIAL_CHARS);
         foreach ($getReplace as $key => $value) {
-            $gets[$key] = $value ;
-        }    
+            $gets[$key] = $value;
+        }
 
         $allGets = http_build_query($gets);
 
@@ -156,5 +156,11 @@ class Request
         } else {
             return self::url() . '?' . $allGets;
         }
+    }
+
+    public static function redirect($route, $code = 200)
+    {
+        header('Location: ' . $route, true, $code);
+        die;
     }
 }

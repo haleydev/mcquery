@@ -1,2 +1,3 @@
-<?php    
-    require __DIR__.'/core/Resources/Console_Inicializer.php';
+<?php 
+    require_once __DIR__.'/core/Bootstrap.php';
+    (new Bootstrap)->console();

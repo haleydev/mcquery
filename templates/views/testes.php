@@ -3,14 +3,13 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>inpu testes</title>
-        <script src="<?= URL ?>/js/jquery.min.js"></script>
+        <title>inpu testes</title>        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form id="form" method="POST" action="<?= router('post') ?>">
+        <form id="form" method="POST" action="<?= route('post') ?>">
             <?= validate() ?>
             <input type="text" name="nome" placeholder="nome">
             <input type="text" name="email" placeholder="email">
@@ -21,7 +20,7 @@
 
     </body>
 
-    <script>
+    <!-- <script>
         $(function(){
             $('#form').submit(function(e){
                 e.preventDefault();  
@@ -36,5 +35,5 @@
                 });  
             });
         });  
-    </script>
+    </> -->
 </html>

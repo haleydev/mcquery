@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="<?= URL ?>/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <title><?= $title ?></title>
+    <title> <?= $title ?></title>
 </head>
 <body>   
 
-<div class="main">
-    <h1><?= $title ?></h1>
-    <p class="inf-url"><?= router_error() ?></p>
+<div class="main">   
+    <h1><?= $code ?></h1> 
 </div> 
+
+<div class="absolute"> 
+    <p class="inf-msg" ><?= $msg ?></p>     
+    <p class="inf-url"><?= router_error() ?></p>   
+</div>
 
 <style>
     * {
@@ -27,16 +31,6 @@
         color: rgb(221, 221, 221);
     }
 
-    body{
-        background: rgb(31, 31, 31);
-    }
-
-    .inf-url{
-        color: rgb(169 85 85);
-        font-size: 14px;
-        margin-top: 4px;
-    }
-
     .main{
         padding: 0px 8px;
         display: flex;
@@ -47,15 +41,40 @@
         align-items: center;
     }
 
-    h1{
-        text-align: center;
-        text-transform: uppercase;
+    .absolute {
+        position: absolute;
+        top: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
     }
 
-    @media(max-width: 900px){
-        h1{
-            font-size: 20px;
-        }
+    body{
+        background: rgb(31, 31, 31);
+    }
+
+    .inf-url{
+        color: rgb(169 85 85);
+        font-size: 16px;
+    }
+
+    .inf-msg {
+        color: #bfbfbf;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;     
+        margin-top: 5px; 
+    }
+
+    h1{
+        padding: 5px 40px;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 70px;
+        border: 2px solid rgb(169 85 85);      
+        border-radius: 60px;
     }
 </style>
 </body>
