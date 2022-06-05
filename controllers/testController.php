@@ -8,6 +8,7 @@ class testController extends Controller
 {
     public function render()
     {  
+        return template('views/testes');
         // $this->view = "views/teste";
         // $this->title = "formulario";
 

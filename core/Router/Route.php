@@ -52,7 +52,16 @@ class Route
 
     public static function ajax(string $route, string|array|callable $action)
     {
+        $params = (new RouteResolve)->routeParams($route);
+        self::$routes['ajax'][self::$options] = [
+            'url' => $params['url'],
+            'params' => $params['params'],
+            'route' => $route,
+            'action' => $action
+        ];
 
+        self::$options++;
+        return new RouteOptions(self::$options);
     }
 
     public static function api(string $route, string|array|callable $action)

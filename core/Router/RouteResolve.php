@@ -34,6 +34,12 @@ class RouteResolve
             }
         }        
    
+        if (isset($this->routes['ajax'])) {
+            foreach ($this->routes['ajax'] as $key => $value) {
+                $this->agroup('ajax', $key, $sessions, $security, $options);
+            }
+        }     
+
         define('ROUTER_NAMES', $this->names);
         return (new RouteRequest($this->routes, $this->url));
     }

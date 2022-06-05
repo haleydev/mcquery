@@ -26,6 +26,10 @@ class RouteRequest
         if (isset($routes['post']) and $this->method == 'POST') {
             $this->post($routes['post']);
         }
+
+        if (isset($routes['ajax']) and $this->method == 'POST') {
+            $this->ajax($routes['ajax']);
+        }
     }
 
     private function url(array $routes)
@@ -83,6 +87,34 @@ class RouteRequest
     }
 
     private function post(array $routes)
+    {
+        if ($this->checker == false) {
+            foreach ($routes as $value) {
+
+                if ($value['url'] == $this->url) {
+                    if ($this->verifyToken() and $this->verifySession($value['session']) == true) {
+                        $this->checker = true;
+                        unset_token();
+                        define('ROUTER_PARAMS', $value['params']);                       
+                        return (new RouteAction($value['action']));                      
+                    }                  
+
+                    if ($value['redirect'] != false) {
+                        $this->checker = true;
+                        define('ROUTER_PARAMS', $value['params']);
+                        return Request::redirect($value['redirect']);
+                    }
+    
+                    $this->checker = true;
+                    return (new ErrorController)->error(403, 'Acesso negado');                 
+                }              
+            }
+        }
+
+        return;
+    }
+
+    private function ajax(array $routes)
     {
         if ($this->checker == false) {
             foreach ($routes as $value) {
