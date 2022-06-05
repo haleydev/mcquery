@@ -22,7 +22,7 @@ class RouteOptionsSecurity
     {
         $i = 0;
         while ($i < self::$total) {
-            self::$options[self::$id + $i - 1]['redirect'] = $route;
+            self::$options[self::$id + $i]['redirect'] = $route;
             $i++;
         }
     }

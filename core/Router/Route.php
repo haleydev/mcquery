@@ -99,19 +99,15 @@ class Route
         while ($i < $total) {
             self::$sessions[$count + $i] = $session;
             $i++;           
-        }
+        }        
         
         return new RouteOptionsSecurity(self::$options, $total);
     }
 
     public function __destruct()
-    {
-        if (isset(RouteOptionsSecurity::$options)) {
-            self::$security = RouteOptionsSecurity::$options;
-        } else {
-            self::$security = false;
-        }
-          
+    {   
+        self::$security = RouteOptionsSecurity::$options ?? false;
+                         
         (new RouteResolve)->collection(
             self::$routes,
             self::$sessions,

@@ -18,6 +18,8 @@ class RouteRequest
 
         $this->old();
 
+        dd($routes);
+
         if (isset($routes['url']) and $this->method == 'GET') {
             $this->url($routes['url']);
         }
