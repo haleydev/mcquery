@@ -57,7 +57,7 @@ class Conexao
             return;
         } catch (PDOException $e) {
             // Registra o log de erro            
-            file_put_contents(dirname(__DIR__) . "/app/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+            file_put_contents(ROOT . "/app/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
 
             $this->error = true;
             // die("Falha na conexao");       
@@ -76,7 +76,7 @@ class Conexao
             return;
         } catch (mysqli_sql_exception $e) {
             // Registra o log de erro            
-            file_put_contents(dirname(__DIR__) . "/app/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+            file_put_contents(ROOT . "/app/Logs/conexao.log", "[" . date('d/m/Y h:i:s') . "] " . $e->getMessage() . PHP_EOL, FILE_APPEND);
 
             $this->error = true;
             // die("Falha na conexao");           

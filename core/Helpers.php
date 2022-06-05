@@ -101,32 +101,28 @@ function session_mesage(string|array $mesage = null)
 /**
  * Retorna o valor passado em um campo "formulario" anteriormente.
  * @param string $value
- * @return string|false
+ * @return string|array|false
  */
-function old($value)
-{    
-    if (isset($_SESSION['mcquery_old'][$value])) {
-        $old = $_SESSION['mcquery_old'][$value];
-        return $old;
-    }else{
-        return false;
-    }    
+function old(string $input = null)
+{        
+    if (isset($_SESSION['MCQUERY_OLD'][$input])) {
+        return $_SESSION['MCQUERY_OLD'][$input];       
+    }
+
+    if($input == null and isset($_SESSION['MCQUERY_OLD'])) {
+        return $_SESSION['MCQUERY_OLD'];
+    }
+
+    return false;      
 }
 
 /**
- * Cria um token de segurança para formularios.
+ * Cria um input token de segurança para formularios.
  * @return string
  */
-function validate()
-{
-    if (isset($_SESSION['token'])) {
-        $token = $_SESSION['token'];
-    } else {
-        $token = md5("9856b" . uniqid(microtime()));
-    }
-    $_SESSION['token'] = $token;
-    echo "<input type='hidden' name='token' id='token' value='$token'/>" . PHP_EOL;
-    return;
+function token_input()
+{    
+    return '<input type="hidden" name="mcquery_token" value="'.token().'"/>' . PHP_EOL;
 }
 
 /**
@@ -135,11 +131,11 @@ function validate()
  */
 function token()
 {
-    if (isset($_SESSION['token'])) {
-        return $_SESSION['token'];
+    if (isset($_SESSION['MCQUERY_TOKEN'])) {
+        return $_SESSION['MCQUERY_TOKEN'];
     } else {
-        $token = md5("9856b" . uniqid(microtime()));
-        $_SESSION['token'] = $token;
+        $token = md5("mcquery" . uniqid(microtime()));
+        $_SESSION['MCQUERY_TOKEN'] = $token;
         return $token;
     }
 }
@@ -150,9 +146,10 @@ function token()
  */
 function unset_token()
 {
-    if (isset($_SESSION['token'])) {
-        unset($_SESSION['token']);
+    if (isset($_SESSION['MCQUERY_TOKEN'])) {
+        unset($_SESSION['MCQUERY_TOKEN']);
     }
+
     return true;
 }
 
@@ -227,10 +224,9 @@ function dd($what)
 /**
  * Redirecionar para a $url 
  */
-function redirect($url, $statusCode = 303)
-{  
-    header("Location: $url",TRUE,$statusCode);
-    die();
+function redirect($route, $code = 200)
+{
+    Request::redirect($route,$code);
 }
 
 /**

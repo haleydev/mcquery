@@ -55,7 +55,7 @@ if ($uri !== '/' and file_exists(dirname(__DIR__) . "/../public" . $uri)) {
 
     header("Content-type: " . $mime_types[$extension]);
     $meta = file_get_contents(dirname(__DIR__) . "/../public" . $uri);
-    print_r($meta);
+    print($meta);
     return;
     die;
 } else {

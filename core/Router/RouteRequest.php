@@ -6,14 +6,17 @@ use Core\Http\Request;
 
 class RouteRequest
 {
+    
     private string $method;
     private string $url;
     private bool $checker = false;
 
     public function __construct(array $routes, string $url)
     {
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = $_SERVER['REQUEST_METHOD'];        
         $this->url = $url;
+
+        $this->old();
 
         if (isset($routes['url']) and $this->method == 'GET') {
             $this->url($routes['url']);
@@ -30,6 +33,10 @@ class RouteRequest
         if (isset($routes['ajax']) and $this->method == 'POST') {
             $this->ajax($routes['ajax']);
         }
+
+        if (isset($routes['api'])) {
+            $this->api($routes['api']);
+        }
     }
 
     private function url(array $routes)
@@ -37,7 +44,6 @@ class RouteRequest
         if (!Request::get() and $this->checker == false) {
             foreach ($routes as $value) {
                 if ($value['url'] == $this->url) {
-
                     if ($this->verifySession($value['session']) == true) {
                         $this->checker = true;
                         define('ROUTER_PARAMS', $value['params']);
@@ -62,8 +68,7 @@ class RouteRequest
     private function get(array $routes)
     {
         if ($this->checker == false) {
-            foreach ($routes as $value) {
-                
+            foreach ($routes as $value) {                
                 if ($value['url'] == $this->url) {
                     if ($this->verifySession($value['session']) == true) {
                         $this->checker = true;
@@ -90,7 +95,6 @@ class RouteRequest
     {
         if ($this->checker == false) {
             foreach ($routes as $value) {
-
                 if ($value['url'] == $this->url) {
                     if ($this->verifyToken() and $this->verifySession($value['session']) == true) {
                         $this->checker = true;
@@ -118,7 +122,6 @@ class RouteRequest
     {
         if ($this->checker == false) {
             foreach ($routes as $value) {
-
                 if ($value['url'] == $this->url) {
                     if ($this->verifyToken() and $this->verifySession($value['session']) == true) {
                         $this->checker = true;
@@ -134,6 +137,34 @@ class RouteRequest
     
                     $this->checker = true;
                     return (new ErrorController)->error(403, 'Acesso negado');                 
+                }              
+            }
+        }
+
+        return;
+    }
+
+    private function api(array $routes)
+    {
+        if ($this->checker == false) {
+            foreach ($routes as $value) {
+                if ($value['url'] == $this->url) {
+                    if($this->apiMethods($value['methods'])) {
+                        if ($this->verifySession($value['session']) == true) {
+                            $this->checker = true;
+                            define('ROUTER_PARAMS', $value['params']);
+                            return (new RouteAction($value['action']));                      
+                        } 
+                    }                
+    
+                    if ($value['redirect'] != false) {
+                        $this->checker = true;
+                        define('ROUTER_PARAMS', $value['params']);
+                        return Request::redirect($value['redirect']);
+                    }
+    
+                    $this->checker = true;
+                    return (new ErrorController)->error(403, 'Acesso negado'); 
                 }              
             }
         }
@@ -175,18 +206,50 @@ class RouteRequest
         return false;
     }
 
-    private function verifyToken()
-    {
-        // header("token: numero");
-        // headers_list();
+    private function apiMethods(string $methods)
+    {       
+        $allMethods = explode(',',$methods);
 
-        if (isset($_SESSION['token']) and (Request::post('token'))) {
-            if ($_SESSION['token'] == Request::post('token')) {
+        foreach ($allMethods as $method){
+            if($this->method == $method) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function verifyToken()
+    {        
+        if (isset(getallheaders()['Mcquery-Token'])) {
+            $token_header = getallheaders()['Mcquery-Token'];            
+        }else{
+            $token_header = false;
+        }       
+
+        if (isset($_SESSION['MCQUERY_TOKEN'])) {
+            if ($_SESSION['MCQUERY_TOKEN'] == Request::post('mcquery_token') or $_SESSION['MCQUERY_TOKEN'] == $token_header) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function old()
+    {
+        $post = Request::post();
+        $get = Request::get();
+   
+        if($post) {
+            $_SESSION['MCQUERY_OLD'] = $post;
+        }
+
+        if($get) {
+            $_SESSION['MCQUERY_OLD'] = $get;
+        }
+
+        return;
     }
 
     private function error()

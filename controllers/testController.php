@@ -8,7 +8,12 @@ class testController extends Controller
 {
     public function render()
     {  
+        // header('Content-Type: image/png');
+        // dd();
+
         return template('views/testes');
+
+
         // $this->view = "views/teste";
         // $this->title = "formulario";
 
@@ -36,11 +41,7 @@ class testController extends Controller
         //     ]
         // ]);
 
-        $select = usuarios::select([
-            'where' => [
-                usuarios::id => 1
-            ]
-        ]);
+  
 
 
 

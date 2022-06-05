@@ -3,8 +3,8 @@ namespace Core\Router;
 
 class Route
 {
-    private static array $routes;
-    private static array $sessions;
+    private static array $routes = [];
+    private static array $sessions = [];
     private static array|bool $security;
     private static int $options = 0;
 
@@ -64,14 +64,19 @@ class Route
         return new RouteOptions(self::$options);
     }
 
-    public static function api(string $route, string|array|callable $action)
+    public static function api(string $route, string|array|callable $action, string $methods = 'POST')
     {
+        $params = (new RouteResolve)->routeParams($route);
+        self::$routes['api'][self::$options] = [
+            'url' => $params['url'],
+            'params' => $params['params'],
+            'route' => $route,
+            'action' => $action,
+            'methods' => $methods
+        ];
 
-    }
-
-    public static function file()
-    {
-
+        self::$options++;
+        return new RouteOptions(self::$options);
     }
 
     /**

@@ -4,8 +4,8 @@ namespace Core\Router;
 class RouteResolve
 {
     private string $url;
-    private array $names;
-    private array $routes;    
+    private array $names = [];
+    private array $routes = [];    
 
     public function __construct()
     {
@@ -39,6 +39,12 @@ class RouteResolve
                 $this->agroup('ajax', $key, $sessions, $security, $options);
             }
         }     
+
+        if (isset($this->routes['api'])) {
+            foreach ($this->routes['api'] as $key => $value) {
+                $this->agroup('api', $key, $sessions, $security, $options);
+            }
+        } 
 
         define('ROUTER_NAMES', $this->names);
         return (new RouteRequest($this->routes, $this->url));

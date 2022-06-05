@@ -12,8 +12,6 @@ class Request
         if (defined('ROUTER_PARAMS') and ROUTER_PARAMS != null) {
             if (array_key_exists($param, ROUTER_PARAMS)) {
                 return urldecode(ROUTER_PARAMS[$param]);
-            } else {
-                return false;
             }
         }
 
@@ -27,13 +25,13 @@ class Request
                 if ($params != null) {
                     $arrayrouter = explode('/', ROUTER_NAMES[$name]);
                     $arrayparams = explode(',', $params);
-                    $paramsn = 0;
+                    $params = 0;
                     $tringr = "";
 
                     foreach ($arrayrouter as $key) {
                         if ($key == "{id}") {
-                            $tringr .= $arrayparams[$paramsn] . "/";
-                            $paramsn++;
+                            $tringr .= $arrayparams[$params] . "/";
+                            $params++;
                         } else {
                             $tringr .= $key . "/";
                         }

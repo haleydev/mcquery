@@ -1,6 +1,5 @@
 <?php
 namespace Core\Router;
-
 use Controllers\ErrorController;
 
 class RouteAction
