@@ -6,13 +6,11 @@ use Core\Router\Route;
 //                            ROUTER MCQUERY                                 |
 // --------------------------------------------------------------------------|
 
-// Route::url('/', [HomeController::class, 'home'])->name('index');
+Route::url('/', [HomeController::class, 'home'])->name('index');
+Route::get('/testes', [testController::class, 'render'])->name('testes');
+Route::ajax('/ajax', [ajaxController::class, 'render'])->name('ajax');
+Route::api('/api', [ApiController::class, 'api'], 'GET,POST')->name('api');
 
-// Route::get('/testes', [testController::class, 'render'])->name('testes');
-
-// Route::ajax('/ajax', [ajaxController::class, 'render'])->name('ajax');
-
-// Route::api('/api', [ApiController::class, 'api'], 'GET,POST')->name('api');
 
 Route::session(['auth' => 'adm'],function(){
 
@@ -20,16 +18,15 @@ Route::session(['auth' => 'adm'],function(){
         echo "adm";
     })->name('adm');  
 
-})->redirect('/login');
+});
 
 Route::session(['auth' => 'user'],function(){
 
     Route::get('/user', function(){
         echo "user";
     })->name('user');   
-
-})->redirect('/');
-
+    
+},'/login');
 
 
 Route::session(['auth' => 'testes'],function(){
@@ -42,7 +39,9 @@ Route::session(['auth' => 'testes'],function(){
         echo "testes2";
     })->name('teste2');   
 
-})->redirect('/testes');
+},'/helo');
+
+
 
 
 

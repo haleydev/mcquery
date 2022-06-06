@@ -82,9 +82,10 @@ class Route
     /**
      * @param strig $session 'adm,user' Varias seções separadas por virgula.
      * @param array $session ['auth' => user] Sendo auth nome da seção e user seu valor.
+     * @param string|bool $redirect redireciona para uma url especifica.
      * @param callable $routes
      */
-    public static function session(array|string $session, callable $routes)
+    public static function session(array|string $session, callable $routes, string|bool $redirect = false)
     {
         $count = self::$options;
         
@@ -98,16 +99,15 @@ class Route
 
         while ($i < $total) {
             self::$sessions[$count + $i] = $session;
+            self::$security[$count + $i]['redirect'] = $redirect;
             $i++;           
-        }        
+        }   
         
-        return new RouteOptionsSecurity(self::$options, $total);
+        return;
     }
 
-    public function __destruct()
-    {   
-        self::$security = RouteOptionsSecurity::$options ?? false;
-                         
+    public static function end()
+    {                  
         (new RouteResolve)->collection(
             self::$routes,
             self::$sessions,

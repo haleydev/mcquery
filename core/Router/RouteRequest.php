@@ -1,6 +1,5 @@
 <?php
 namespace Core\Router;
-
 use Controllers\ErrorController;
 use Core\Http\Request;
 
@@ -17,9 +16,7 @@ class RouteRequest
         $this->url = $url;
 
         $this->old();
-
-        dd($routes);
-
+   
         if (isset($routes['url']) and $this->method == 'GET') {
             $this->url($routes['url']);
         }

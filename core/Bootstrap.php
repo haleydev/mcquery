@@ -35,8 +35,8 @@ class Bootstrap
         }
 
         define("URL", env('APP_URL'));
-        require_once ROOT . '/routes/web.php'; 
-        return new Route;
+        require_once ROOT . '/routes/web.php';  
+        Route::end();     
     }
 
     public function console()

@@ -45,7 +45,7 @@ class RouteResolve
                 $this->agroup('api', $key, $sessions, $security, $options);
             }
         } 
-
+       
         define('ROUTER_NAMES', $this->names);
         return (new RouteRequest($this->routes, $this->url));
     }
