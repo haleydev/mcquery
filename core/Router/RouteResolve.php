@@ -12,37 +12,37 @@ class RouteResolve
         $this->url = filter_var(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), FILTER_SANITIZE_URL);
     }
 
-    public function collection(array $routes, array $sessions, array|bool $security, array $options)
+    public function collection(array $routes, array $options, array $middleware)
     {
         $this->routes = $routes;
 
         if (isset($this->routes['url'])) {
             foreach ($this->routes['url'] as $key => $value) {
-                $this->agroup('url', $key, $sessions, $security, $options);
+                $this->agroup('url', $key, $options, $middleware);
             }
         }
 
         if (isset($this->routes['get'])) {
             foreach ($this->routes['get'] as $key => $value) {
-                $this->agroup('get', $key, $sessions, $security, $options);
+                $this->agroup('get', $key, $options, $middleware);
             }
         }
 
         if (isset($this->routes['post'])) {
             foreach ($this->routes['post'] as $key => $value) {
-                $this->agroup('post', $key, $sessions, $security, $options);
+                $this->agroup('post', $key, $options, $middleware);
             }
         }        
    
         if (isset($this->routes['ajax'])) {
             foreach ($this->routes['ajax'] as $key => $value) {
-                $this->agroup('ajax', $key, $sessions, $security, $options);
+                $this->agroup('ajax', $key, $options, $middleware);
             }
         }     
 
         if (isset($this->routes['api'])) {
             foreach ($this->routes['api'] as $key => $value) {
-                $this->agroup('api', $key, $sessions, $security, $options);
+                $this->agroup('api', $key, $options, $middleware);
             }
         } 
        
@@ -50,29 +50,19 @@ class RouteResolve
         return (new RouteRequest($this->routes, $this->url));
     }
 
-    private function agroup(string $method, string $key, array $sessions, array|bool $security, array $options)
+    private function agroup(string $method, string $key, array $options, array $middleware)
     {
         if (isset($options[$key]['name'])) {
             $this->routes[$method][$key]['name'] = $options[$key]['name'];
             $this->names[$options[$key]['name']] = $this->names($this->routes[$method][$key]['route']);
         } else {
             $this->routes[$method][$key]['name'] = false;
-        }
+        }   
 
-        if (isset($sessions[$key])) {
-            $this->routes[$method][$key]['session'] = $sessions[$key];
-        } else {
-            $this->routes[$method][$key]['session'] = false;
-        }
-
-        if ($security != false) {
-            if (isset($security[$key]['redirect'])) {
-                $this->routes[$method][$key]['redirect'] = $security[$key]['redirect'];
-            } else {
-                $this->routes[$method][$key]['redirect'] = false;
-            }
-        } else {
-            $this->routes[$method][$key]['redirect'] = false;
+        if(isset($middleware[$key])){
+            $this->routes[$method][$key]['middleware'] = $middleware[$key];
+        }else{
+            $this->routes[$method][$key]['middleware'] = false;
         }
 
         return $this->routes;

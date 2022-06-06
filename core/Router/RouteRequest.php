@@ -39,23 +39,24 @@ class RouteRequest
     }
 
     private function url(array $routes)
-    {
-        if (!Request::get() and $this->checker == false) {
+    {        
+        if (!Request::get() and $this->checker == false) {            
             foreach ($routes as $value) {
-                if ($value['url'] == $this->url) {
-                    if ($this->verifySession($value['session']) == true) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return (new RouteAction($value['action']));
-                    }
-                   
-                    if ($value['redirect'] != false) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return Request::redirect($value['redirect']);
-                    }
 
-                    $this->checker = true;
+                if ($value['url'] == $this->url) {
+
+                    define('ROUTER_PARAMS', $value['params']);   
+                    
+                    if($value['middleware'] != false) {
+                        $this->middleware($value['middleware']);
+                    }  
+
+                    if($this->checker == false) {
+                        $this->checker = true;                  
+                        return (new RouteAction($value['action'])); 
+                    }
+                    
+                    $this->checker = true;      
                     return (new ErrorController)->error(403, 'Acesso negado');
                 }
             }
@@ -69,11 +70,11 @@ class RouteRequest
         if ($this->checker == false) {
             foreach ($routes as $value) {                
                 if ($value['url'] == $this->url) {
-                    if ($this->verifySession($value['session']) == true) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return (new RouteAction($value['action']));
-                    }
+                    // if ($this->verifySession($value['session']) == true) {
+                    //     $this->checker = true;
+                    //     define('ROUTER_PARAMS', $value['params']);
+                    //     return (new RouteAction($value['action']));
+                    // }
 
                     if ($value['redirect'] != false) {
                         $this->checker = true;
@@ -95,7 +96,7 @@ class RouteRequest
         if ($this->checker == false) {
             foreach ($routes as $value) {
                 if ($value['url'] == $this->url) {
-                    if ($this->verifyToken() and $this->verifySession($value['session']) == true) {
+                    if ($this->verifyToken()) {
                         $this->checker = true;
                         unset_token();
                         define('ROUTER_PARAMS', $value['params']);                       
@@ -122,19 +123,11 @@ class RouteRequest
         if ($this->checker == false) {
             foreach ($routes as $value) {
                 if ($value['url'] == $this->url) {
-                    if ($this->verifyToken() and $this->verifySession($value['session']) == true) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return (new RouteAction($value['action']));                      
-                    }                  
 
-                    if ($value['redirect'] != false) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return Request::redirect($value['redirect']);
-                    }
-    
-                    $this->checker = true;
+                    if ($this->verifyToken()) {
+                                       
+                    } 
+                  
                     return (new ErrorController)->error(403, 'Acesso negado');                 
                 }              
             }
@@ -148,22 +141,10 @@ class RouteRequest
         if ($this->checker == false) {
             foreach ($routes as $value) {
                 if ($value['url'] == $this->url) {
+
                     if($this->apiMethods($value['methods'])) {
-                        if ($this->verifySession($value['session']) == true) {
-                            $this->checker = true;
-                            define('ROUTER_PARAMS', $value['params']);
-                            return (new RouteAction($value['action']));                      
-                        } 
-                    }                
-    
-                    if ($value['redirect'] != false) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return Request::redirect($value['redirect']);
+                       
                     }
-    
-                    $this->checker = true;
-                    return (new ErrorController)->error(403, 'Acesso negado'); 
                 }              
             }
         }
@@ -171,39 +152,20 @@ class RouteRequest
         return;
     }
 
-    private function verifySession(string|array $session)
-    {      
-        if ($session == false || $session == null) {
-            return true;
+    private function middleware(array $middleware)
+    {
+        foreach ($middleware as $class => $function) {
+            $class = "\App\Middleware\\$class";
+            $rum = new $class;
+            $veriry = $rum->$function();
+
+            if($veriry != true){
+                $this->checker = true;
+            }
         }
 
-        if(is_string($session)){
-            $sessions = explode(',', $session);
-
-            foreach ($sessions as $value) {
-                if (isset($_SESSION[$value])) {
-                    return true;                    
-                }
-            }  
-
-            return false;
-        }   
-       
-
-        if (is_array($session)) {
-            foreach ($session as $key => $value) {
-                if (isset($_SESSION[$key])) {
-                    if ($_SESSION[$key] == $value) {
-                        return true;
-                    }
-                } else {
-                    return false;
-                }
-            }
-        }    
-        
-        return false;
-    }
+        return;
+    }   
 
     private function apiMethods(string $methods)
     {       
