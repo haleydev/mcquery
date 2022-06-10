@@ -1,3 +1,3 @@
 <?php 
     require_once __DIR__.'/core/Bootstrap.php';
-    (new Bootstrap)->console();
+    return (new Bootstrap)->console();

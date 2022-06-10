@@ -4,8 +4,7 @@ use Controllers\ErrorController;
 use Core\Http\Request;
 
 class RouteRequest
-{
-    
+{    
     private string $method;
     private string $url;
     private bool $checker = false;
@@ -153,14 +152,15 @@ class RouteRequest
     }
 
     private function middleware(array $middleware)
-    {
+    {     
         foreach ($middleware as $class => $function) {
             $class = "\App\Middleware\\$class";
             $rum = new $class;
             $veriry = $rum->$function();
 
-            if($veriry != true){
-                $this->checker = true;
+            if($veriry !== true){
+                $this->checker = true;         
+                return $this->die();       
             }
         }
 
@@ -211,6 +211,15 @@ class RouteRequest
         }
 
         return;
+    }
+
+    private function die()
+    {
+        while (ob_get_level() > 0) {
+            ob_end_flush();
+        }   
+              
+        die();        
     }
 
     private function error()

@@ -75,6 +75,8 @@ function router_error()
         unset($_SESSION['router_error']);
         return $error;
     }
+
+    return false;
 }
 
 /**
@@ -90,12 +92,12 @@ function session_mesage(string|array $mesage = null)
             unset($_SESSION['mcquery_msg']);          
             return $msg;
         }
-    }else{
-        $_SESSION['mcquery_msg'] = $mesage; 
-        return;      
+
+        return false;    
     }
 
-    return false;
+    $_SESSION['mcquery_msg'] = $mesage; 
+    return; 
 }
 
 /**
