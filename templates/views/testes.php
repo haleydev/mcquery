@@ -11,16 +11,14 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form id="form" method="POST" action="<?= route('api') ?>">
+        <form id="form" method="POST" action="<?= route('ajax') ?>">
             <?= token_input() ?>
             <input value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome">
             <input value="<?= old('email') ?>" type="text" name="email" placeholder="email">
             <input type="submit" value="enviar">
         </form>
         <div id="result"></div>
-    </body>
-
-    
+    </body>    
 
     <script>  
         $('#form').submit(function(e){

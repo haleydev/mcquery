@@ -4,18 +4,18 @@ use Controllers\ErrorController;
 use Core\Http\Request;
 
 class RouteRequest
-{    
+{
     private string $method;
     private string $url;
     private bool $checker = false;
 
     public function __construct(array $routes, string $url)
     {
-        $this->method = $_SERVER['REQUEST_METHOD'];        
+        $this->method = $_SERVER['REQUEST_METHOD'];
         $this->url = $url;
 
         $this->old();
-   
+
         if (isset($routes['url']) and $this->method == 'GET') {
             $this->url($routes['url']);
         }
@@ -38,24 +38,23 @@ class RouteRequest
     }
 
     private function url(array $routes)
-    {        
-        if (!Request::get() and $this->checker == false) {            
-            foreach ($routes as $value) {
+    {
+        if (!Request::get() and $this->checker == false) {
+            foreach ($routes as $route) {
+                if ($route['url'] == $this->url) {
 
-                if ($value['url'] == $this->url) {
+                    define('ROUTER_PARAMS', $route['params']);
 
-                    define('ROUTER_PARAMS', $value['params']);   
-                    
-                    if($value['middleware'] != false) {
-                        $this->middleware($value['middleware']);
-                    }  
-
-                    if($this->checker == false) {
-                        $this->checker = true;                  
-                        return (new RouteAction($value['action'])); 
+                    if ($route['middleware'] != false) {
+                        $this->middleware($route['middleware']);
                     }
-                    
-                    $this->checker = true;      
+
+                    if ($this->checker == false) {
+                        $this->checker = true;
+                        return (new RouteAction($route['action']));
+                    }
+
+                    $this->checker = true;
                     return (new ErrorController)->error(403, 'Acesso negado');
                 }
             }
@@ -67,22 +66,22 @@ class RouteRequest
     private function get(array $routes)
     {
         if ($this->checker == false) {
-            foreach ($routes as $value) {                
-                if ($value['url'] == $this->url) {
-                    // if ($this->verifySession($value['session']) == true) {
-                    //     $this->checker = true;
-                    //     define('ROUTER_PARAMS', $value['params']);
-                    //     return (new RouteAction($value['action']));
-                    // }
+            foreach ($routes as $route) {
+                if ($route['url'] == $this->url) {
 
-                    if ($value['redirect'] != false) {
+                    define('ROUTER_PARAMS', $route['params']);
+
+                    if ($route['middleware'] != false) {
+                        $this->middleware($route['middleware']);
+                    }
+
+                    if ($this->checker == false) {
                         $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return Request::redirect($value['redirect']);
-                    }      
+                        return (new RouteAction($route['action']));
+                    }
 
                     $this->checker = true;
-                    return (new ErrorController)->error(403, 'Acesso negado');   
+                    return (new ErrorController)->error(403, 'Acesso negado');
                 }
             }
         }
@@ -93,24 +92,25 @@ class RouteRequest
     private function post(array $routes)
     {
         if ($this->checker == false) {
-            foreach ($routes as $value) {
-                if ($value['url'] == $this->url) {
-                    if ($this->verifyToken()) {
+
+            foreach ($routes as $route) {
+                if ($route['url'] == $this->url) {
+
+                    define('ROUTER_PARAMS', $route['params']);
+
+                    if ($route['middleware'] != false) {
+                        $this->middleware($route['middleware']);
+                    }
+
+                    if ($this->checker == false and $this->verifyToken()) {
                         $this->checker = true;
                         unset_token();
-                        define('ROUTER_PARAMS', $value['params']);                       
-                        return (new RouteAction($value['action']));                      
-                    }                  
-
-                    if ($value['redirect'] != false) {
-                        $this->checker = true;
-                        define('ROUTER_PARAMS', $value['params']);
-                        return Request::redirect($value['redirect']);
+                        return (new RouteAction($route['action']));
                     }
-    
+
                     $this->checker = true;
-                    return (new ErrorController)->error(403, 'Acesso negado');                 
-                }              
+                    return (new ErrorController)->error(403, 'Acesso negado');
+                }
             }
         }
 
@@ -120,15 +120,24 @@ class RouteRequest
     private function ajax(array $routes)
     {
         if ($this->checker == false) {
-            foreach ($routes as $value) {
-                if ($value['url'] == $this->url) {
+            foreach ($routes as $route) {
 
-                    if ($this->verifyToken()) {
-                                       
-                    } 
-                  
-                    return (new ErrorController)->error(403, 'Acesso negado');                 
-                }              
+                if ($route['url'] == $this->url) {
+
+                    define('ROUTER_PARAMS', $route['params']);
+
+                    if ($route['middleware'] != false) {
+                        $this->middleware($route['middleware']);
+                    }
+
+                    if ($this->checker == false and $this->verifyToken()) {
+                        $this->checker = true;
+                        return (new RouteAction($route['action']));
+                    }
+
+                    $this->checker = true;
+                    return (new ErrorController)->error(403, 'Acesso negado');
+                }
             }
         }
 
@@ -138,13 +147,24 @@ class RouteRequest
     private function api(array $routes)
     {
         if ($this->checker == false) {
-            foreach ($routes as $value) {
-                if ($value['url'] == $this->url) {
 
-                    if($this->apiMethods($value['methods'])) {
-                       
+            foreach ($routes as $route) {
+                if ($route['url'] == $this->url) {
+
+                    define('ROUTER_PARAMS', $route['params']);
+
+                    if ($route['middleware'] != false) {
+                        $this->middleware($route['middleware']);
                     }
-                }              
+
+                    if ($this->checker == false and $this->apiMethods($route['methods'])) {
+                        $this->checker = true;
+                        return (new RouteAction($route['action']));
+                    }
+
+                    $this->checker = true;
+                    return (new ErrorController)->error(403, 'Acesso negado');
+                }
             }
         }
 
@@ -152,27 +172,27 @@ class RouteRequest
     }
 
     private function middleware(array $middleware)
-    {     
+    {
         foreach ($middleware as $class => $function) {
             $class = "\App\Middleware\\$class";
             $rum = new $class;
             $veriry = $rum->$function();
 
-            if($veriry !== true){
-                $this->checker = true;         
-                return $this->die();       
+            if ($veriry !== true) {
+                $this->checker = true;
+                return $this->die();
             }
         }
 
         return;
-    }   
+    }
 
     private function apiMethods(string $methods)
-    {       
-        $allMethods = explode(',',$methods);
+    {
+        $allMethods = explode(',', $methods);
 
-        foreach ($allMethods as $method){
-            if($this->method == $method) {
+        foreach ($allMethods as $method) {
+            if ($this->method == $method) {
                 return true;
             }
         }
@@ -181,12 +201,12 @@ class RouteRequest
     }
 
     private function verifyToken()
-    {        
+    {
         if (isset(getallheaders()['Mcquery-Token'])) {
-            $token_header = getallheaders()['Mcquery-Token'];            
-        }else{
+            $token_header = getallheaders()['Mcquery-Token'];
+        } else {
             $token_header = false;
-        }       
+        }
 
         if (isset($_SESSION['MCQUERY_TOKEN'])) {
             if ($_SESSION['MCQUERY_TOKEN'] == Request::post('mcquery_token') or $_SESSION['MCQUERY_TOKEN'] == $token_header) {
@@ -201,12 +221,12 @@ class RouteRequest
     {
         $post = Request::post();
         $get = Request::get();
-   
-        if($post) {
+
+        if ($post) {
             $_SESSION['MCQUERY_OLD'] = $post;
         }
 
-        if($get) {
+        if ($get) {
             $_SESSION['MCQUERY_OLD'] = $get;
         }
 
@@ -217,9 +237,9 @@ class RouteRequest
     {
         while (ob_get_level() > 0) {
             ob_end_flush();
-        }   
-              
-        die();        
+        }
+
+        die();
     }
 
     private function error()

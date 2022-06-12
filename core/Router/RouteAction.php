@@ -37,7 +37,7 @@ class RouteAction
             return call_user_func($action);                  
         }
 
-        return (new ErrorController)->error(); 
+        return (new ErrorController)->error(500); 
     }
 
     private function callable(callable $action)
@@ -46,6 +46,6 @@ class RouteAction
             return call_user_func($action);            
         }       
 
-        return (new ErrorController)->error(); 
+        return (new ErrorController)->error(500); 
     }
 }

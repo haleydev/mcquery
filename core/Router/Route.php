@@ -100,7 +100,7 @@ class Route
 
     public static function end()
     { 
-        (new RouteResolve)->collection(
+        return (new RouteResolve)->collection(
             self::$routes, 
             RouteOptions::$options,
             self::$middleware
