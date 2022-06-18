@@ -156,7 +156,7 @@ class Request
         }
     }
 
-    public static function redirect($route, $code = 200)
+    public static function redirect($route, $code = 302)
     {
         header('Location: ' . $route, true, $code);
         die;

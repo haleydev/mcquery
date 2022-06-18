@@ -155,7 +155,7 @@ function mold_crontab($string)
 {
 $mold =
 '<?php
-require dirname(__DIR__,2).\'/core/Resources/Requires.php\';;
+require dirname(__DIR__,2).\'/core/Resources/Requires.php\';
 $schedule = new Core\Cron; 
 
 // execute classes ou funcoes na hora programada

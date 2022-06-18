@@ -86,4 +86,6 @@ class Template
             echo "Error: " . $e->getMessage() . "<br>";  
         }
     }
+
+    
 }
