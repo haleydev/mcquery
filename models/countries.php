@@ -1,6 +1,6 @@
 <?php
 namespace Models;
-use Core\Database\Model;
+use Core\Database\Query;
 
 class countries
 { 
@@ -20,7 +20,7 @@ class countries
      */
     static public function select(array $arguments = [])
     {            
-        return (new Model)->table('countries')->select($arguments);        
+        return (new Query)->table('countries')->select($arguments);        
     }
     
     /**       
@@ -29,7 +29,7 @@ class countries
      */
     static public function insert(array $arguments)
     {            
-        return (new Model)->table('countries')->insert($arguments);        
+        return (new Query)->table('countries')->insert($arguments);        
     }
     
     /**
@@ -40,7 +40,7 @@ class countries
     */
     static public function update(array $arguments)
     {            
-        return (new Model)->table('countries')->update($arguments);        
+        return (new Query)->table('countries')->update($arguments);        
     }
 
     /** 
@@ -51,6 +51,6 @@ class countries
     */    
     static public function delete(array $arguments = null)
     {            
-        return (new Model)->table('countries')->delete($arguments);        
+        return (new Query)->table('countries')->delete($arguments);        
     }
 }

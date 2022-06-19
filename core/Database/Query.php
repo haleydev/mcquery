@@ -4,7 +4,7 @@ use Core\Conexao;
 use PDO;
 use PDOException;
 
-class Model
+class Query
 {
     private $table;
     private $conexao;
@@ -17,12 +17,44 @@ class Model
         if ($this->conexao->error) {
             die('falha na conexão com o banco de dados'.PHP_EOL);          
         }
-    }
+    }  
 
     public function table($table)
     {
         $this->table = $table;
         return $this;
+    }
+
+    public function query(string $query,array $bindparams = [])
+    {
+        try {
+            $sql = $this->conexao->instance->prepare($query);
+
+            if(count($bindparams) > 0) {
+                $count = 1;
+                foreach ($bindparams as $value) {
+                    $sql->bindValue($count, $value);
+                    $count++;
+                }
+            } 
+
+            $sql->execute();
+            $this->conexao->close();              
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            if(count($result) > 0) {
+               return $result;
+            }
+
+            if($sql->rowCount() > 0) {
+                return $sql->rowCount();
+            }
+
+            return false;
+                    
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }        
     }
 
     public function select(array $arguments)
@@ -99,6 +131,154 @@ class Model
             }else{
                 return null;
             }           
+        } catch (PDOException) {
+            return null;
+        }
+    }
+
+    public function selectOne(array $arguments)
+    {
+        if (isset($arguments['where'])) {
+            $where = $this->where($arguments['where']);
+        } else {
+            if (isset($arguments['like'])) {
+                $where = $this->where_like($arguments['like']);
+            } else {
+                $where = "";
+            }
+        }
+
+        $coluns = "";
+        if (isset($arguments['coluns'])) {
+            if(is_array($arguments['coluns'])){
+                foreach($arguments['coluns'] as $key){
+                    $coluns .= "$key,";
+                }   
+                
+                $coluns = rtrim($coluns,",");
+            }else{
+                $coluns = $arguments['coluns'];
+            }           
+        } else {
+            $coluns = "*";
+        }
+
+        if (isset($arguments['join'])) {
+            $join = $this->join($arguments['join']);
+        } else {
+            $join = "";
+        }     
+
+        if (!isset($arguments['order'])) {
+            $order = "";
+        } else {
+            $order = "ORDER BY " . trim($arguments['order']);
+        }
+
+        $query = "SELECT $coluns FROM $this->table $join $where $order LIMIT 1";
+
+        try {
+            $sql = $this->conexao->instance->prepare($query);
+
+            if (isset($arguments['where'])) {
+                $count = 1;
+                foreach ($arguments['where'] as $key => $value) {
+                    $sql->bindValue($count, $value);
+                    $count++;
+                }
+            }
+
+            if (isset($arguments['like'])) {
+                $count = 1;
+                foreach ($arguments['like'] as $key => $value) {
+                    $sql->bindValue($count, "%$value%");
+                    $count++;
+                }
+            }
+
+            $sql->execute();
+            $this->conexao->close();
+           
+            if($sql->rowCount() > 0){
+                return $sql->fetch(PDO::FETCH_ASSOC);
+            }else{
+                return null;
+            }           
+        } catch (PDOException) {
+            return null;
+        }
+    }
+
+    public function count(array $arguments)
+    {
+        if (isset($arguments['where'])) {
+            $where = $this->where($arguments['where']);
+        } else {
+            if (isset($arguments['like'])) {
+                $where = $this->where_like($arguments['like']);
+            } else {
+                $where = "";
+            }
+        }
+
+        $coluns = "";
+        if (isset($arguments['coluns'])) {
+            if(is_array($arguments['coluns'])){
+                foreach($arguments['coluns'] as $key){
+                    $coluns .= "$key,";
+                }   
+                
+                $coluns = rtrim($coluns,",");
+            }else{
+                $coluns = $arguments['coluns'];
+            }           
+        } else {
+            $coluns = "*";
+        }
+
+        if (isset($arguments['join'])) {
+            $join = $this->join($arguments['join']);
+        } else {
+            $join = "";
+        }
+
+        if (isset($arguments['limit'])) {
+            $limit = "LIMIT " . $arguments['limit'];
+        } else {
+            $limit = "";
+        }
+
+        if (!isset($arguments['order'])) {
+            $order = "";
+        } else {
+            $order = "ORDER BY " . trim($arguments['order']);
+        }
+
+        $query = "SELECT COUNT($coluns) FROM $this->table $join $where $order $limit";
+
+        try {
+            $sql = $this->conexao->instance->prepare($query);
+
+            if (isset($arguments['where'])) {
+                $count = 1;
+                foreach ($arguments['where'] as $key => $value) {
+                    $sql->bindValue($count, $value);
+                    $count++;
+                }
+            }
+
+            if (isset($arguments['like'])) {
+                $count = 1;
+                foreach ($arguments['like'] as $key => $value) {
+                    $sql->bindValue($count, "%$value%");
+                    $count++;
+                }
+            }
+
+            $sql->execute();
+            $this->conexao->close();                        
+            return $sql->fetchColumn();              
+                   
         } catch (PDOException) {
             return null;
         }
@@ -194,7 +374,7 @@ class Model
                 $this->conexao->close();
 
                 if ($sql->rowCount() > 0) {
-                    return true;
+                    return $sql->rowCount();
                 } else {
                     return false;
                 }
@@ -236,7 +416,7 @@ class Model
             $this->conexao->close();
 
             if ($sql->rowCount() > 0) {
-                return true;
+                return $sql->rowCount();
             } else {
                 return false;
             }

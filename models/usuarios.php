@@ -1,6 +1,6 @@
 <?php
 namespace Models;
-use Core\Database\Model;
+use Core\Database\Query;
 
 class usuarios
 { 
@@ -24,7 +24,12 @@ class usuarios
      */
     static public function select(array $arguments = [])
     {            
-        return (new Model)->table('usuarios')->select($arguments);        
+        return (new Query)->table('usuarios')->select($arguments);        
+    }
+
+    static public function selectOne(array $arguments = [])
+    {            
+        return (new Query)->table('usuarios')->selectOne($arguments);        
     }
     
     /**       
@@ -33,28 +38,28 @@ class usuarios
      */
     static public function insert(array $arguments)
     {            
-        return (new Model)->table('usuarios')->insert($arguments);        
+        return (new Query)->table('usuarios')->insert($arguments);        
     }
     
     /**
     * @example $arguments "update" => ["name" => "mcquery","sobrenome" => "example"]
     * @example $arguments "where" => ["name" => "haley","sobrenome" => "example"]
     * @example $arguments "limit" => "1"
-    * @return true|false Támbem retornará false em caso de erro. 
+    * @return int|false Támbem retornará false em caso de erro. 
     */
     static public function update(array $arguments)
     {            
-        return (new Model)->table('usuarios')->update($arguments);        
+        return (new Query)->table('usuarios')->update($arguments);        
     }
 
     /** 
     * CUIDADO se não for especificado em where ou limit toda a tabela sera excluida.
     * @example $arguments "where" => ["name" => "haley","sobrenome" => "example"]
     * @example $arguments "limit" => "1"
-    * @return true|false Támbem retornará false em caso de erro. 
+    * @return int|false Támbem retornará false em caso de erro. 
     */    
     static public function delete(array $arguments = null)
     {            
-        return (new Model)->table('usuarios')->delete($arguments);        
+        return (new Query)->table('usuarios')->delete($arguments);        
     }
 }
