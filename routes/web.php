@@ -12,7 +12,7 @@ Route::get('/testes', [testController::class, 'render'])->name('testes');
 Route::post('/post', [ApiController::class, 'api'])->name('post');
 Route::ajax('/ajax', [ajaxController::class, 'render'])->name('ajax');
 Route::api('/api', [ApiController::class, 'api'], 'GET,POST')->name('api');
-Route::get('/data',[data::class, 'render'])->name('database');
+Route::get('/data',[database::class, 'render'])->name('database');
 
 Route::middleware(['Auth' => 'user'],function(){
 
