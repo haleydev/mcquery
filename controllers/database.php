@@ -61,13 +61,10 @@ class database extends Controller
         // ->execute();        
         // dd($select);
 
-        // $select = DB::select('id,nome')           
-        // ->like(['nome' => 'haley'])
-        // ->like(['id' => 18])
-        // ->limit(1)
-        // ->order('RAND()')
-        // ->execute();        
-        // dd($select);
+        $select = DB::selectOne('usuarios')
+        ->coluns('count(id) as total') 
+        ->execute();                  
+        dd($select);
 
         // $join = new OptionsSelect;
         // $join->table = 'table';
@@ -81,13 +78,9 @@ class database extends Controller
         // ->execute(); 
         // dd($join);
 
-        // $join = DB::select('usuarios')
-        // // ->join('migrations m',['u.id' => 'm.id', 'm.id' => 1])
-        // // ->group_by('u.nome')
-      
-        // ->limit(2)
-        // ->execute(); 
-        
+        // $query1 = DB::select('usuarios')->coluns()->get_query();
+        // $query2 = DB::select('teste')->coluns()->get_query();
+        // $join = DB::query("$query1 UNION ALL $query2");                  
         // dd($join);
 
 
@@ -98,12 +91,10 @@ class database extends Controller
         
             
 
-        // DB::select('id,nome')
-        //     ->where(['nome' => 'warley'])
-        //     ->limit(1);         
-        // dd(DB::execute());
-
-
-        // SELECT SUM
+        dd(DB::select('usuarios')
+            ->coluns('id,nome')
+            ->where(['nome' => 'warley'])
+            ->limit(30)->execute()
+        );
     }
 }

@@ -2,7 +2,7 @@
 namespace Core\Model;
 use Core\Model\Query;
 
-class QuerySelect
+class QuerySelectOne
 {
     private array $query = [];
     private string $table;
@@ -74,29 +74,6 @@ class QuerySelect
     }
 
     /**
-     * Agrupa os arrays onde as colunas possuem valores iguais
-     * @param array|string $coluns
-     */
-    public function group_by(array|string $coluns)
-    {
-        if (is_array($coluns)) {
-            $all_coluns = 'GROUP BY ';
-            foreach ($coluns as $colun) {
-                $all_coluns .= $colun . ',';
-            }
-
-            $group_by = rtrim($all_coluns, ",");
-        }
-
-        if (is_string($coluns)) {
-            $group_by = 'GROUP BY ' . $coluns;
-        }
-
-        $this->query['group_by'] = $group_by;
-        return $this;
-    }
-
-    /**
      * @example - $condicion 'max(id) > 10'
      * @param string $condicion
      */
@@ -140,24 +117,6 @@ class QuerySelect
             $this->query['like'] = $new_like;
         }
 
-        return $this;
-    }
-
-    /**
-     * @param int|string $limit
-     */
-    public function limit(int|string $limit)
-    {
-        $this->query['limit'] = "LIMIT " . $limit;
-        return $this;
-    }
-
-    /**
-     * @param string $order ASC | DESC | RAND() 
-     */
-    public function order(string $order)
-    {
-        $this->query['order'] = "ORDER BY " . $order;
         return $this;
     }
 
@@ -340,12 +299,6 @@ class QuerySelect
             $having = '';
         }
 
-        if (isset($this->query['group_by'])) {
-            $group_by = $this->query['group_by'];
-        } else {
-            $group_by = '';
-        }
-
         if (isset($this->query['join'])) {
             $join = $this->query['join'];
         } else {
@@ -370,20 +323,8 @@ class QuerySelect
             $cross_join = '';
         }
 
-        if (isset($this->query['limit'])) {
-            $limit = $this->query['limit'];
-        } else {
-            $limit = '';
-        }
-
-        if (isset($this->query['order'])) {
-            $order = $this->query['order'];
-        } else {
-            $order = '';
-        }
-
         $query = preg_replace('/( ){2,}/','$1',
-            "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $group_by $having $order $limit"
+            "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $having LIMIT 1"
         );
 
         return $query;
@@ -415,6 +356,6 @@ class QuerySelect
             $bindparams = [];
         }
 
-        return (new Query)->table($this->table)->select($query, $bindparams);
+        return (new Query)->table($this->table)->selectOne($query, $bindparams);
     }
 }

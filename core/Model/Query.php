@@ -42,87 +42,32 @@ class Query
             $this->conexao->close();              
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-            if(count($result) > 0) {
+            if($result) {
                return $result;
             }
-
-            if($sql->rowCount() > 0) {
-                return $sql->rowCount();
-            }
-
+          
             return false;
                     
-        } catch (PDOException $e) {
-            return $e->getMessage();
+        } catch (PDOException $error) {
+            return $error->getMessage();
         }        
     }
 
-    public function select(array $arguments)
+    public function select(string $query, array $bindparams)
     {
-        if (isset($arguments['where'])) {
-            $where = $arguments['where'];
-        }
-
-        if (isset($arguments['like']) and !isset($arguments['where']) ) {
-            $where = $arguments['like'];
-        }  
-        
-        if(!isset($where)) {
-            $where = '';
-        }
-
-        if(isset($arguments['group_by'])){
-            $group_by = $arguments['group_by'];
-        }else{
-            $group_by = '';
-        }
-
-        if (isset($arguments['join'])) {
-            $join = $arguments['join'];
-        } else {
-            $join = '';
-        }
-
-        if (isset($arguments['cross_join'])) {
-            $cross_join = $arguments['cross_join'];
-        } else {
-            $cross_join = '';
-        }
-
-        if (isset($arguments['limit'])) {
-            $limit = $arguments['limit'];
-        } else {
-            $limit = '';
-        }
-
-        if (isset($arguments['order'])) {
-            $order = $arguments['order'];
-        } else {
-            $order = '';
-        }
-
-        if(isset($arguments['coluns'])){
-            $coluns = $arguments['coluns'];
-        }else{
-            $coluns = '*';
-        }       
-
-        $query = preg_replace('/( ){2,}/', '$1',
-        "SELECT $coluns FROM $this->table $join $cross_join $where $group_by $order $limit");
-
         try {
             $sql = $this->conexao->instance->prepare($query);            
             $count = 1;  
 
-            if (isset($arguments['where'])) {                
-                foreach ($arguments['bindparams']['where'] as $value) {
+            if (isset($bindparams['where'])) {                
+                foreach ($bindparams['where'] as $value) {
                     $sql->bindValue($count, $value);
                     $count++;
                 }
             }
 
-            if (isset($arguments['like'])) {              
-                foreach ($arguments['bindparams']['like'] as $value) {
+            if (isset($bindparams['like'])) {              
+                foreach ($bindparams['like'] as $value) {
                     $sql->bindValue($count, "%$value%");
                     $count++;
                 }
@@ -141,61 +86,21 @@ class Query
         }
     }
 
-    public function selectOne(array $arguments)
+    public function selectOne(string $query, array $bindparams)
     {
-        if (isset($arguments['where'])) {
-            $where = $this->where($arguments['where']);
-        } else {
-            if (isset($arguments['like'])) {
-                $where = $this->where_like($arguments['like']);
-            } else {
-                $where = "";
-            }
-        }
-
-        $coluns = "";
-        if (isset($arguments['coluns'])) {
-            if(is_array($arguments['coluns'])){
-                foreach($arguments['coluns'] as $key){
-                    $coluns .= "$key,";
-                }   
-                
-                $coluns = rtrim($coluns,",");
-            }else{
-                $coluns = $arguments['coluns'];
-            }           
-        } else {
-            $coluns = "*";
-        }
-
-        if (isset($arguments['join'])) {
-            $join = $this->join($arguments['join']);
-        } else {
-            $join = "";
-        }     
-
-        if (!isset($arguments['order'])) {
-            $order = "";
-        } else {
-            $order = "ORDER BY " . trim($arguments['order']);
-        }
-
-        $query = "SELECT $coluns FROM $this->table $join $where $order LIMIT 1";
-
         try {
-            $sql = $this->conexao->instance->prepare($query);
+            $sql = $this->conexao->instance->prepare($query);            
+            $count = 1;  
 
-            if (isset($arguments['where'])) {
-                $count = 1;
-                foreach ($arguments['where'] as $key => $value) {
+            if (isset($bindparams['where'])) {                
+                foreach ($bindparams['where'] as $value) {
                     $sql->bindValue($count, $value);
                     $count++;
                 }
             }
 
-            if (isset($arguments['like'])) {
-                $count = 1;
-                foreach ($arguments['like'] as $key => $value) {
+            if (isset($bindparams['like'])) {              
+                foreach ($bindparams['like'] as $value) {
                     $sql->bindValue($count, "%$value%");
                     $count++;
                 }
@@ -209,83 +114,8 @@ class Query
             }else{
                 return null;
             }           
-        } catch (PDOException) {
-            return null;
-        }
-    }
-
-    public function count(array $arguments)
-    {
-        if (isset($arguments['where'])) {
-            $where = $this->where($arguments['where']);
-        } else {
-            if (isset($arguments['like'])) {
-                $where = $this->where_like($arguments['like']);
-            } else {
-                $where = "";
-            }
-        }
-
-        $coluns = "";
-        if (isset($arguments['coluns'])) {
-            if(is_array($arguments['coluns'])){
-                foreach($arguments['coluns'] as $key){
-                    $coluns .= "$key,";
-                }   
-                
-                $coluns = rtrim($coluns,",");
-            }else{
-                $coluns = $arguments['coluns'];
-            }           
-        } else {
-            $coluns = "*";
-        }
-
-        if (isset($arguments['join'])) {
-            $join = $this->join($arguments['join']);
-        } else {
-            $join = "";
-        }
-
-        if (isset($arguments['limit'])) {
-            $limit = "LIMIT " . $arguments['limit'];
-        } else {
-            $limit = "";
-        }
-
-        if (!isset($arguments['order'])) {
-            $order = "";
-        } else {
-            $order = "ORDER BY " . trim($arguments['order']);
-        }
-
-        $query = "SELECT COUNT($coluns) FROM $this->table $join $where $order $limit";
-
-        try {
-            $sql = $this->conexao->instance->prepare($query);
-
-            if (isset($arguments['where'])) {
-                $count = 1;
-                foreach ($arguments['where'] as $key => $value) {
-                    $sql->bindValue($count, $value);
-                    $count++;
-                }
-            }
-
-            if (isset($arguments['like'])) {
-                $count = 1;
-                foreach ($arguments['like'] as $key => $value) {
-                    $sql->bindValue($count, "%$value%");
-                    $count++;
-                }
-            }
-
-            $sql->execute();
-            $this->conexao->close();                        
-            return $sql->fetchColumn();              
-
-        } catch (PDOException) {
-            return null;
+        } catch (PDOException $error) {
+            return $error->getMessage();
         }
     }
 
