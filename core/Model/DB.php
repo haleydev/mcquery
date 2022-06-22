@@ -1,22 +1,10 @@
 <?php
 namespace Core\Model;
-use Core\Database\Query;
+use Core\Model\Query;
 
 class DB
-{
-    /** 
-    * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
-    * @example $arguments "like" => ["nome" => "mc"]
-    * @example $arguments "coluns" => "email,nome"
-    * @example $arguments "limit" => "10"
-    * @example $arguments "order" => id DESC | id ASC | id DESC | RAND() 
-    * @example $arguments "join" => "id = filmes.id"
-    * @return array|null Támbem retornará null em caso de erro, retorna todos os itens da tabela se se não passar nenhum argumento.
-    */
-    public static function select(string $table, array $arguments = [])
-    {
-        return (new Query)->table($table)->select($arguments);        
-    }
+{ 
+    private static $options; 
 
     /** 
     * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
@@ -84,5 +72,16 @@ class DB
     public static function query(string $query, array $bindparams = [])
     {
         return (new Query)->query($query, $bindparams);              
+    }
+
+    /**   
+    * Select banco de dados
+    * @param string|array $coluns
+    */
+    public static function select(string $table)    
+    {      
+        $select = new QuerySelect;
+        $select->table = $table;     
+        return $select;
     }
 }

@@ -1,10 +1,17 @@
 <?php
 namespace Models;
-use Core\Database\Model;
+use Core\Model\Query;
 
-class permissoes
+class haley
 { 
-    public const id = 'id';
+    public const id = 'id';        
+    public const nome = 'nome';        
+    public const sobrenome = 'sobrenome';        
+    public const email = 'email';        
+    public const password = 'password';        
+    public const idade = 'idade';        
+    public const edited_dt = 'edited_dt';        
+    public const created_dt = 'created_dt';
 
     /** 
      * @example $arguments "where" => ["nome" => "mcquery","sobrenome" => "haley"] ou count(*) para contar registros
@@ -15,10 +22,10 @@ class permissoes
      * @example $arguments "join" => "id = filmes.id"
      * @return array|null Támbem retornará null em caso de erro, retorna todos os itens da tabela se se não passar nenhum argumento.
      */
-    static public function select(array $arguments = [])
-    {            
-        return (new Model)->table('permissoes')->select($arguments);        
-    }
+    // static public function select(array $arguments = [])
+    // {            
+    //     return (new Query)->table('haley')->select($arguments);        
+    // }
     
     /**       
      * @example $arguments ["nome" => "mcquery","sobrenome" => "haley"]
@@ -26,7 +33,7 @@ class permissoes
      */
     static public function insert(array $arguments)
     {            
-        return (new Model)->table('permissoes')->insert($arguments);        
+        return (new Query)->table('haley')->insert($arguments);        
     }
     
     /**
@@ -37,7 +44,7 @@ class permissoes
     */
     static public function update(array $arguments)
     {            
-        return (new Model)->table('permissoes')->update($arguments);        
+        return (new Query)->table('haley')->update($arguments);        
     }
 
     /** 
@@ -48,6 +55,6 @@ class permissoes
     */    
     static public function delete(array $arguments = null)
     {            
-        return (new Model)->table('permissoes')->delete($arguments);        
+        return (new Query)->table('haley')->delete($arguments);        
     }
 }
