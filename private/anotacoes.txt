@@ -1,1 +1,2 @@
-model select uniq
+ @method static bool allows(string $ability, array|mixed $arguments = [])
+ retunr route , code,parans ...
