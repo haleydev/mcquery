@@ -12,12 +12,16 @@ class QuerySelect
         $this->table = $table;
     }
 
-    /**
-     * @param string|array $coluns
-     * @example - $coluns ['colun1', 'colun2'] 'recomendado' ou 'colun1, colun2'
-     * @example - $coluns ['SUM(colun) as total']
-     * @example - $coluns ['MAX(colun)'] ou ['max(colun)']
-     * @example - $coluns ['COUNT(colun) as total']
+    /**  
+     * @param string|array $coluns selecionar colunas
+     * 
+     * example: ['colun1', 'colun2'] 'recomendado' ou 'colun1, colun2'
+     * 
+     * example: ['SUM(colun) as total']
+     * 
+     * example: ['MAX(colun)'] ou ['max(colun)']
+     * 
+     * example: ['COUNT(colun) as total']
      */
     public function coluns(string|array $coluns = '*')
     {
@@ -36,9 +40,11 @@ class QuerySelect
 
     /**
      * Esta função pode ser usada varias vezes.
+     * 
+     * example: ['id' => 1, ...] ou ['NOT id' => 1, ...]
+     * 
      * @param array $condicion
-     * @param string $operator
-     * @example - $condicions ['id' => 1] ou ['NOT id' => 1, ...]
+     * @param string $operator   
      */
     public function where(array $condicions, string $operator = '=')
     {
@@ -144,6 +150,7 @@ class QuerySelect
     }
 
     /**
+     * Limite de resultados
      * @param int|string $limit
      */
     public function limit(int|string $limit)
@@ -402,8 +409,8 @@ class QuerySelect
     }
 
     /**
-     * Executa a query, retornando os resultados.
-     * @return mixed
+     * Executa a query SELECT retornando os resultados.
+     * @return array|null|error
      */
     public function execute()
     {

@@ -5,8 +5,8 @@ use Core\Model\Query;
 class DB
 {
     /**   
-     * Select banco de dados
-     * @param string $table
+     * Query SELECT 1 resultado
+     * @param string $table tabela do banco de dados
      */
     public static function selectOne(string $table)
     {
@@ -15,8 +15,8 @@ class DB
     }
 
     /**   
-     * Select banco de dados '1 resultado'
-     * @param string $table
+     * Query SELECT
+     * @param string $table tabela do banco de dados
      */
     public static function select(string $table)    
     {      
@@ -24,23 +24,38 @@ class DB
         return $select;
     }
 
-    public static function update(string $table, array $arguments)
+    /**   
+     * Query UPDATE
+     * @param string $table tabela do banco de dados
+     */
+    public static function update(string $table)
     {
-        return (new Query)->table($table)->update($arguments);            
+        $update = new QueryUpdate($table);      
+        return $update; 
     }
 
-    public static function delete(string $table, array $arguments = [])
+    /**   
+     * Query DELETE
+     * @param string $table tabela do banco de dados
+     */
+    public static function delete(string $table)
     {
-        return (new Query)->table($table)->delete($arguments);
+        $delete = new QueryDelete($table);      
+        return $delete;
     }
 
-    public static function insert(string $table, array $arguments)
+     /**   
+     * Query INSERT
+     * @param string $table tabela do banco de dados
+     */
+    public static function insert(string $table)
     {
-        return (new Query)->table($table)->insert($arguments);  
+        $insert = new QueryInsert($table);      
+        return $insert;         
     }
 
     /** 
-    * @return array|false|PDOException
+    * @return array|false|error
     */
     public static function query(string $query, array $bindparams = [])
     {

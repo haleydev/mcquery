@@ -16,7 +16,7 @@ class Bootstrap
         if (!file_exists(ROOT. '/.env') or !file_exists(ROOT. '/vendor')) {
             $this->error = true;
         }else{       
-            require_once ROOT .'/vendor/autoload.php';
+            require_once ROOT . '/vendor/autoload.php';
             require_once ROOT . '/core/Helpers.php';
             date_default_timezone_set(env('TIMEZONE'));
         }        

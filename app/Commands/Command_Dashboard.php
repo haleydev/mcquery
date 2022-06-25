@@ -56,14 +56,10 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
 
                 if(str_contains($check,$cron)){
                     return "\033[0;32mativo\033[0m" . PHP_EOL; 
-                }else{
-                    return "\033[1;31mdesativado\033[0m" . PHP_EOL;
                 }
-            }else{
-                return "\033[1;31mdesativado\033[0m" . PHP_EOL;
-            }           
-        }else{
-            return "\033[1;31mdesativado\033[0m" . PHP_EOL;
+            }          
         }   
+
+        return "\033[1;31mdesativado\033[0m" . PHP_EOL;
     }
 }

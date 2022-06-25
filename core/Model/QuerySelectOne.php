@@ -121,6 +121,15 @@ class QuerySelectOne
     }
 
     /**
+     * @param string $order ASC | DESC | RAND() 
+     */
+    public function order(string $order)
+    {
+        $this->query['order'] = "ORDER BY " . $order;
+        return $this;
+    }
+
+    /**
      * Esta função pode ser usada varias vezes.
      * @param string $table
      * @param array $join
@@ -323,8 +332,14 @@ class QuerySelectOne
             $cross_join = '';
         }
 
+        if (isset($this->query['order'])) {
+            $order = $this->query['order'];
+        } else {
+            $order = '';
+        }
+
         $query = preg_replace('/( ){2,}/','$1',
-            "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $having LIMIT 1"
+            "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $having $order LIMIT 1"
         );
 
         return $query;
@@ -343,8 +358,8 @@ class QuerySelectOne
     }
 
     /**
-     * Executa a query, retornando os resultados.
-     * @return mixed
+     * Executa a query SELECT retornando os resultados.
+     * @return array|null|error
      */
     public function execute()
     {

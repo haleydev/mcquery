@@ -49,6 +49,7 @@ class Query
             return false;
                     
         } catch (PDOException $error) {
+            $this->conexao->close(); 
             return $error->getMessage();
         }        
     }
@@ -79,9 +80,11 @@ class Query
             if($sql->rowCount() > 0){
                 return $sql->fetchAll(PDO::FETCH_ASSOC);
             }else{
+                $this->conexao->close(); 
                 return null;
             }           
         } catch (PDOException $error) {
+            $this->conexao->close();
             return $error->getMessage();
         }
     }
@@ -115,33 +118,17 @@ class Query
                 return null;
             }           
         } catch (PDOException $error) {
+            $this->conexao->close(); 
             return $error->getMessage();
         }
     }
 
-    public function insert(array $arguments)
-    {
-        $values = "";
-        $coluns = "";
-        $i = 1;
-        $total = count($arguments);
-        foreach ($arguments as $key => $value) {
-            if ($i < $total) {
-                $v = ", ";
-            } else {
-                $v = "";
-            }
-            $coluns .= "$key$v";
-            $values .= " ? $v";
-            $i++;
-        }
-
-        $query = "INSERT INTO $this->table ( $coluns ) VALUES ( $values )";
-
+    public function insert(string $query, array $bindparams)
+    { 
         try {
             $sql = $this->conexao->instance->prepare($query);
             $count = 1;
-            foreach ($arguments as $key => $value) {
+            foreach ($bindparams['insert'] as $value) {
                 $sql->bindValue($count, $value);
                 $count++;
             }
@@ -154,94 +141,59 @@ class Query
             } else {
                 return false;
             }
-        } catch (PDOException) {
+        } catch (PDOException $error) {
+            $this->conexao->close();
             return false;
+
+            // erro desabilitado retornando apenas false
+            // return $error->getMessage();
         }
     }
 
-    public function update(array $arguments)
-    {
-        if (isset($arguments['update'])) {
-            if (isset($arguments['where'])) {
-                $where = $this->where($arguments['where']);
-            } else {
-                $where = "";
-            }
+    public function update(string $query, array $bindparams)
+    {  
+        try {
+            $sql = $this->conexao->instance->prepare($query);    
 
-            $values = "";
-            $i = 1;
-            $total = count($arguments['update']);
-            foreach ($arguments['update'] as $key => $value) {
-                if ($i < $total) {
-                    $v = " , ";
-                } else {
-                    $v = "";
-                }
-                $values .= "$key = ?$v";
-                $i++;
-            }
-
-            if (isset($arguments['limit'])) {
-                $limit = "LIMIT " . $arguments['limit'];
-            } else {
-                $limit = "";
-            }
-
-            $query = "UPDATE $this->table SET $values $where $limit";
-
-            try {
-                $sql = $this->conexao->instance->prepare($query);
-
-                $count = 1;
-                foreach ($arguments['update'] as $key => $value) {
+            $count = 1; 
+            
+            if (isset($bindparams['update'])) {              
+                foreach ($bindparams['update'] as $value) {
                     $sql->bindValue($count, $value);
                     $count++;
                 }
+            }   
 
-                if (isset($arguments['where'])) {
-                    foreach ($arguments['where'] as $key => $value) {
-                        $sql->bindValue($count, $value);
-                        $count++;
-                    }
+            if (isset($bindparams['where'])) {                
+                foreach ($bindparams['where'] as $value) {
+                    $sql->bindValue($count, $value);
+                    $count++;
                 }
+            }                   
 
-                $sql->execute();
-                $this->conexao->close();
+            $sql->execute();
+            $this->conexao->close();
 
-                if ($sql->rowCount() > 0) {
-                    return $sql->rowCount();
-                } else {
-                    return false;
-                }
-            } catch (PDOException) {
+            if ($sql->rowCount() > 0) {
+                return $sql->rowCount();
+            } else {
                 return false;
             }
-        }else{
-            return false;
+        } catch (PDOException $error) {
+            $this->conexao->close();
+            return $error->getMessage();
         }
+     
     }
 
-    public function delete(array $arguments = null)
+    public function delete(string $query, array $bindparams)
     {
-        if (isset($arguments['where'])) {
-            $where = $this->where($arguments['where']);
-        } else {
-            $where = "";
-        }
-
-        if (isset($arguments['limit'])) {
-            $limit = "LIMIT " . $arguments['limit'];
-        } else {
-            $limit = "";
-        }
-
-        $query = "DELETE FROM $this->table $where $limit";
-
         try {
-            $sql = $this->conexao->instance->prepare($query);
-            if (isset($arguments['where'])) {
-                $count = 1;
-                foreach ($arguments['where'] as $key => $value) {
+            $sql = $this->conexao->instance->prepare($query);            
+            $count = 1;  
+
+            if (isset($bindparams['where'])) {                
+                foreach ($bindparams['where'] as $value) {
                     $sql->bindValue($count, $value);
                     $count++;
                 }
@@ -255,69 +207,9 @@ class Query
             } else {
                 return false;
             }
-        } catch (PDOException) {
-            return false;
+        } catch (PDOException $error) {
+            $this->conexao->close();
+            return $error->getMessage();
         }
-    }
-
-    // funcoes privadas
-    private function join($join)
-    {
-        $joins = explode(',', trim($join), 2);
-        $string = "";
-        foreach ($joins as $j) {
-            $array = explode('=', trim($j), 2);
-            $table =  explode('.', trim($array[1]), 2)[0];
-            $string .= "RIGHT JOIN $table ON $this->table.$array[0] = $array[1]";
-        }
-        return trim($string);
-    }
-
-    private function where_like($where_like)
-    {
-        $new_string = "";
-        $count = count($where_like);
-        $for_count = 1;
-        foreach ($where_like as $key => $like) {
-            if ($count > $for_count) {
-                $and = " OR";
-            } else {
-                $and = "";
-            }
-
-            if ($for_count == 1) {
-                $wh = "WHERE";
-            } else {
-                $wh = "";
-            }
-
-            $new_string .= "$wh $key LIKE ? $and";
-            $for_count++;
-        }
-        return $new_string;
-    }
-
-    private function where($where)
-    {
-        $new_string = "";
-        $count = count($where);
-        $for_count = 1;
-        foreach ($where as $key => $alter) {
-            if ($count > $for_count) {
-                $and = " AND";
-            } else {
-                $and = "";
-            }
-
-            if ($for_count == 1) {
-                $wh = " WHERE";
-            } else {
-                $wh = "";
-            }
-
-            $new_string .= "$wh $key = ? $and";
-            $for_count++;
-        }
-        return $new_string;
     }
 }
