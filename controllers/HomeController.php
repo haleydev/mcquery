@@ -1,14 +1,18 @@
 <?php
 namespace Controllers;
 use Core\Controller;
+use Models\usuarios;
 
 class HomeController extends Controller
 {
     public function home()
-    { 
-        $this->view = 'views/home';
-        $this->title = 'MCQUERY';              
-                              
-        return template('layouts/main', $this); 
+    {          
+        $usuarios = usuarios::select()->execute();       
+        
+        $return = [
+            'title' => 'haley aaa',
+            'usuarios' => $usuarios
+        ];                 
+        return template('views/home', $return); 
     }
 }

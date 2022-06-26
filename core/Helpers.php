@@ -4,44 +4,26 @@ use Core\Hashing;
 use Core\Http\Request;
 use Core\Template;
 
+function template(string $template, array|object $params = [])
+{ 
+    return (new Template)->template($template, $params);
+}
+
 // retorna o valor declarado em .env
 function env(string $value)
 {
     $env = (new Env)->env;
     if (isset($env[$value])) {
         return $env[$value];
-    } else {
-        return false;
-    }
+    } 
+
+    return false;    
 }
 
 // verifica se os valores estao declarados ou vazios em .env retornando true ou false
 function env_required(string $values)
 {
-    global $array_env;
-    $result = true;
-    $array = explode(',', $values);
-    foreach ($array as $key) {
-        if (!array_key_exists($key, $array_env)) {
-            $result = false;
-        } else {
-            if ($array_env[$key] == null) {
-                $result = false;
-            }
-        }
-    }
-    return $result;
-}
 
-/**
- * Renderiza um template.
- * @param string $template
- * @param array|object $params
- * @return template
- */
-function template(string $template, array|object $params = [])
-{ 
-    return (new Template)->template($template,$params);
 }
 
 /**

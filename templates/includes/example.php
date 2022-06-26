@@ -1,1 +1,1 @@
-Helo World
+<?php echo date('H') ?>

@@ -18,7 +18,7 @@ $select_one = DB::selectOne('usuarios')
 dd($select_one);
 
 $insert = DB::insert('usuarios')
-->insert(['nome' => 'ola'])       
+->values(['nome' => 'ola'])       
 ->execute();        
 dd($insert);
 

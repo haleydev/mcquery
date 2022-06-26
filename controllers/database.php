@@ -24,10 +24,10 @@ class database extends Controller
         // ->execute();        
         // dd($select_one);
 
-        // $insert = DB::insert('usuarios')
-        // ->insert(['nome' => 'ola'])       
-        // ->execute();        
-        // dd($insert);
+        $insert = DB::insert('usuarios')
+        ->values(['nome' => 'ola'])       
+        ->execute();        
+        dd($insert);
 
         // $delete = DB::delete('usuarios')
         // ->where(['nome' => 'ppp'])

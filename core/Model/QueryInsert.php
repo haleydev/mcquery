@@ -13,13 +13,14 @@ class QueryInsert
     }
 
     /**
-     * @param array $insert Valores a serem inseridos na tabela.
+     * @param array $values Valores a serem inseridos na tabela.
+     * @example $values ['colun' => 'value', ...]
      */       
-    public function insert(array $insert)
+    public function values(array $values)
     {
         $coluns = '';
         $bind = '';
-        foreach ($insert as $key => $value) {
+        foreach ($values as $key => $value) {
             $coluns .= $key . ',';
             $bind .= '?,';               
             $this->query['bindparams']['insert'][] = $value;
