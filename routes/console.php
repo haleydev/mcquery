@@ -68,7 +68,10 @@ class Console
             switch ($this->headline):
                 case "env":
                     (new Command_Cache)->cache_env();
-                    break;           
+                    break;    
+                case "template":
+                    (new Command_Cache)->cache_template();
+                    break;            
                 default:
                     $this->command_end();
                     break;

@@ -8,18 +8,21 @@ class Template
     private array $get_set = [];
     private array $params;
     private string $file_local;
-    private bool $cache = false;
+    private string $file_time;
 
     //test
     private string $file_root;
 
+    /**
+     * Renderiza um template.
+     * @param string $template ('views/example')
+     * @param array|object $params Parâmetros a serem enviados para o template.
+     * @return template
+     */
     public function template(string $template, array|object $params = [])
     {
-        $file = ROOT . '/templates/' . $template . '.php';
-        $this->file_root = $file;
+        $file = ROOT . '/templates/' . $template . '.php';     
         $this->file_local = $template;        
-
-        dd(filemtime($this->file_root));
 
         if (file_exists($file)) {
 
@@ -29,10 +32,14 @@ class Template
                 $this->params = $params; 
             }
             
-            $file_chache = ROOT . '/app/Cache/template/' . $template . '.php';
+            // start cache
+            $this->file_time = filectime(ROOT . '/templates/');
+            $file_chache = ROOT . '/app/Cache/template/' . $template . '_' . $this->file_time . '.php';            
             if(file_exists($file_chache)){
                 // if(filemtime(ROOT . '/templates/') != )
+                echo "cache existe";
             }
+            // end cache
 
             $this->template = file_get_contents($file);             
             return $this->reader();         
@@ -43,11 +50,15 @@ class Template
     
     private function cache()
     {          
-        // if(!file_exists(ROOT.'/app/Cache/template/file.php')){
-        //     file_put_contents(ROOT.'/app/Cache/template/file.php', $this->template, LOCK_EX); 
-        // }  
-       
-        file_put_contents(ROOT.'/app/Cache/template/' .$this->file_local . '_'.filemtime($this->file_root).'.php', $this->template); 
+        $file_name = ROOT.'/app/Cache/template/' .$this->file_local . '_'.$this->file_time.'.php';
+
+        if(!file_exists($file_name)){
+            file_put_contents($file_name,$this->template); 
+        } 
+
+        if(!file_exists($file_name)){
+            die('Nao foi possivel gravar arquivo de cache tente executar o comando para conceder acesso (sudo chmod -R a+rw ' . ROOT . 'app/Cache/)');
+        }
     }
 
     private function cache_checker()
@@ -58,6 +69,9 @@ class Template
     private function reader()
     {     
         //https://www.phpliveregex.com/#tab-preg-match-all
+
+        //alternativa mat
+        //https://www.w3schools.com/php/phptryit.asp?filename=tryphp_func_regex_preg_replace_callback_array
 
         $render = true;
 
@@ -164,13 +178,8 @@ class Template
                 if (preg_match_all($section, $this->template, $matches_set)) {
     
                     foreach($matches_set[0] as $set_key => $set_value){
-                        if(str_contains($matches_set[1][$set_key],'$')){
-                            $variable_key = str_replace('$','',$matches_set[1][$set_key]);
-                            if(isset($this->params[$variable_key])){
-                                $set_mini = $this->params[$variable_key];
-                            }else{
-                                $set_mini = 'Variável '. $matches_set[1][$set_key] .' não definida';
-                            }                            
+                        if(substr($matches_set[1][$set_key], 0, 1) == '$'){
+                            $set_mini = '<?php echo '. $matches_set[1][$set_key] .' ?>';                        
                         }else{
                             $set_mini = $matches_set[1][$set_key];
                         }

@@ -1,1 +1,3 @@
-<?php echo date('H') ?>
+<?= date('H:i:s') ?>
+
+<p>bla bla bla</p>
