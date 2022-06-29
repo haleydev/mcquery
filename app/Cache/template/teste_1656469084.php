@@ -8,12 +8,22 @@
     <link rel="stylesheet" href="<?= URL ?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL ?>/css/main.css">
     <script src="<?= URL ?>/js/jquery.min.js"></script>
-    <title>@get(title)</title>
+    <title>MCQUERY</title>
 </head>
 <body>
     
 <div class="main">
-    @get(main)
+    
+   <img class="logo" src="<?= URL ?>/img/logo.png">
+
+   <div class="info">
+      <p>Bem vindo ao mcquery , leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>
+   </div>   
+  
+   <div class="div-versão">
+      <p class="versao">mcquery v2.4.00 beta - PHP <?= phpversion() ?></p>
+   </div>  
+
 </div>
 
 {{ $echo }}

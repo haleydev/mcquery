@@ -28,7 +28,7 @@ class Bootstrap
             die("Aplicação não iniciada, use o comando 'php mcquery' para criar o arquivo de configuração e instalar dependências.");
         }  
 
-        ob_start(); 
+       // ob_start(); 
 
         if (!isset($_SESSION)) {
             session_start();
@@ -79,10 +79,10 @@ class Bootstrap
 
     public function __destruct()
     {        
-        while (ob_get_level() > 0) {
-            ob_end_flush();
+       while (ob_get_level() > 0) {
+           ob_end_flush();
         }   
               
-        die();        
+       die();        
     }
 }

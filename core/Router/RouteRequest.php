@@ -35,6 +35,8 @@ class RouteRequest
         if (isset($routes['api'])) {
             $this->api($routes['api']);
         }
+
+        $this->die();
     }
 
     private function url(array $routes)
@@ -180,7 +182,7 @@ class RouteRequest
 
             if ($veriry !== true) {
                 $this->checker = true;
-                return $this->die();
+               
             }
         }
 
@@ -235,22 +237,10 @@ class RouteRequest
 
     private function die()
     {
-        while (ob_get_level() > 0) {
-            ob_end_flush();
-        }
-
-        die();
-    }
-
-    private function error()
-    {
         if ($this->checker === false) {
             return (new ErrorController)->error();
-        }
-    }
+        }  
 
-    public function __destruct()
-    {
-        $this->error();
+        die();
     }
 }

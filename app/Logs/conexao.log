@@ -1,8 +1,0 @@
-[04/06/2022 08:11:26] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
-[05/06/2022 06:15:54] SQLSTATE[HY000] [1045] Access denied for user 'hale'@'localhost' (using password: YES)
-[06/06/2022 10:28:37] SQLSTATE[HY000] [1045] Access denied for user 'haleyjk'@'localhost' (using password: YES)
-[11/06/2022 09:16:40] SQLSTATE[HY000] [1044] Access denied for user 'haley'@'%' to database 'haley_serve'
-[19/06/2022 02:05:13] SQLSTATE[HY000] [2002] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente
-[19/06/2022 02:06:22] SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO)
-[19/06/2022 02:07:00] SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO)
-[19/06/2022 02:07:00] SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO)

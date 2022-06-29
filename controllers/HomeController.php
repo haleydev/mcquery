@@ -7,11 +7,10 @@ class HomeController extends Controller
 {
     public function home()
     {          
-        $usuarios = usuarios::select()->execute();       
+        //$usuarios = usuarios::select()->execute();       
         
         $return = [
-            'title' => 'haley aaa',
-            'usuarios' => $usuarios
+            'title' => 'haley aaa'            
         ];                 
         return template('views/home', $return); 
     }

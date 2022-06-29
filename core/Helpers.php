@@ -88,7 +88,11 @@ function session_mesage(string|array $mesage = null)
  * @return string|array|false
  */
 function old(string $input = null)
-{        
+{     
+    if(!isset($_SESSION['MCQUERY_OLD'])){
+        return false;
+    }
+    
     if (isset($_SESSION['MCQUERY_OLD'][$input])) {
         return $_SESSION['MCQUERY_OLD'][$input];       
     }
