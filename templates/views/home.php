@@ -5,7 +5,7 @@
    <img class="logo" src="<?= URL ?>/img/logo.png">
 
    <div class="info">
-      <p>Bem vindo ao mcquery , leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>
+      <p>Bem vindo ao mcquery ,leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>
       <p>@include(example)</p>
    </div>   
   

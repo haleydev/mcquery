@@ -85,7 +85,7 @@ class QuerySelectOne
 
     /**
      * Esta função pode ser usada varias vezes.
-     * @param array $like
+     * @param array $like ['name' => '%example%', ...]
      */
     public function like(array $like)
     {
@@ -275,6 +275,122 @@ class QuerySelectOne
             $this->query['cross_join'] = $new_join;
         }
 
+        return $this;
+    }
+
+    /**
+     * Remove coluns da query atual.
+     */
+    public function remove_coluns()
+    {
+        if(isset($this->query['coluns'])){
+            unset($this->query['coluns']);
+        }
+      
+        return $this;
+    }
+    
+    /**
+     * Remove having da query atual.
+     */
+    public function remove_having()
+    {
+        if(isset($this->query['having'])){
+            unset($this->query['having']);
+        }
+      
+        return $this;
+    }    
+
+    /**
+     * Remove order da query atual.
+     */
+    public function remove_order()
+    {
+        if(isset($this->query['order'])){
+            unset($this->query['order']);
+        }
+      
+        return $this;
+    }    
+
+    /**
+     * Remove where da query atual.
+     */
+    public function remove_where()
+    {
+        if(isset($this->query['where'])){
+            unset($this->query['where']);
+        }
+
+        if(isset($this->query['bindparams']['where'])){
+            unset($this->query['bindparams']['where']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove like da query atual.
+     */
+    public function remove_like()
+    {
+        if(isset($this->query['like'])){
+            unset($this->query['like']);
+        }
+
+        if(isset($this->query['bindparams']['like'])){
+            unset($this->query['bindparams']['like']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove join da query atual.
+     */
+    public function remove_join()
+    {
+        if(isset($this->query['join'])){
+            unset($this->query['join']);
+        }       
+
+        return $this;
+    }
+
+    /**
+     * Remove left join da query atual.
+     */
+    public function remove_leftjoin()
+    {
+        if(isset($this->query['left_join'])){
+            unset($this->query['left_join']);
+        }
+      
+        return $this;
+    }
+
+    /**
+     * Remove right join da query atual.
+     */
+    public function remove_rightjoin()
+    {
+        if(isset($this->query['right_join'])){
+            unset($this->query['right_join']);
+        }
+      
+        return $this;
+    }
+
+    /**
+     * Remove cross join da query atual.
+     */
+    public function remove_crossjoin()
+    {
+        if(isset($this->query['cross_join'])){
+            unset($this->query['cross_join']);
+        }
+      
         return $this;
     }
 

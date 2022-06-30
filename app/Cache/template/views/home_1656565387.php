@@ -1,5 +1,3 @@
-<?php $teste = 'uitulo teste'; ?><br>
-<?= substr($teste, 0, 1);  $teste ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,7 +8,7 @@
     <link rel="stylesheet" href="<?= URL ?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL ?>/css/main.css">
     <script src="<?= URL ?>/js/jquery.min.js"></script>
-    <title><?php echo $teste ?></title>
+    <title><?php echo $title ?></title>
 </head>
 <body>
     
@@ -19,7 +17,7 @@
    <img class="logo" src="<?= URL ?>/img/logo.png">
 
    <div class="info">
-      <p>Bem vindo ao mcquery , leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>
+      <p>Bem vindo ao mcquery ,leia a <a href="https://github.com/haleydev/mcquery">documentação</a> e crie algo grande!</p>
       <p><?= date('H:i:s') ?>
 
 <p>bla bla bla</p></p>

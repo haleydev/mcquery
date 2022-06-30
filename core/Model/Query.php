@@ -69,7 +69,7 @@ class Query
 
             if (isset($bindparams['like'])) {              
                 foreach ($bindparams['like'] as $value) {
-                    $sql->bindValue($count, "%$value%");
+                    $sql->bindValue($count, "$value");
                     $count++;
                 }
             }

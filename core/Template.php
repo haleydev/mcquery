@@ -1,5 +1,7 @@
 <?php
 namespace Core;
+
+use DirectoryIterator;
 use Throwable;
 
 class Template
@@ -23,7 +25,9 @@ class Template
     {
         $file = ROOT . '/templates/' . $template . '.php';     
         $this->file_local = $template;        
+        $this->file_time = filectime(ROOT . '/templates/' . $template . '.php');
 
+        $this->cache_checker();
         if (file_exists($file)) {
 
             if(is_object($params)){
@@ -32,15 +36,6 @@ class Template
                 $this->params = $params; 
             }
             
-            // start cache
-            $this->file_time = filectime(ROOT . '/templates/');
-            $file_chache = ROOT . '/app/Cache/template/' . $template . '_' . $this->file_time . '.php';            
-            if(file_exists($file_chache)){
-                // if(filemtime(ROOT . '/templates/') != )
-                echo "cache existe";
-            }
-            // end cache
-
             $this->template = file_get_contents($file);             
             return $this->reader();         
         }else{
@@ -63,7 +58,40 @@ class Template
 
     private function cache_checker()
     {
-        $file = '';
+          // start cache
+        //   $this->file_time = filectime(ROOT . '/templates/');
+        //   $file_chache = ROOT . '/app/Cache/template/' . $this->file_local . '_' . $this->file_time . '.php';            
+        //   if(file_exists($file_chache)){
+        //       // if(filemtime(ROOT . '/templates/') != )
+        //       echo "cache existe";
+        //   }
+
+        $itens = new DirectoryIterator(ROOT . '/templates/views');
+        dd($itens->getMTime());
+        // foreach($itens as $item){
+        //     if($item->gettype() === 'dir'){
+        //         $diretorios[] = $item->getFilename();
+        //     }else{
+        //         $arquivos[] = $item->getFilename();
+        //     }
+    
+        // }
+    
+    
+        // foreach($diretorios as $diretorio){
+        //     echo '<tr>';    
+        //     echo '<td class="alert alert-info text-left tamanho">'.$diretorio.'</td>';
+        //     echo '</tr><br>';
+        // }
+    
+        // foreach($arquivos as $arquivo){
+        //     echo '<tr>';
+        //     echo '<td class="alert text-right tamanho">'.$arquivo.'</td>';
+        //     echo '</tr><br>';
+        // }
+
+          return;
+          // end cache
     }
     
     private function reader()
@@ -77,13 +105,13 @@ class Template
 
         // start templates
         $view = "/@view\((.*?)\)/s";    
-        if (preg_match_all($view, $this->template, $matches)) { 
+        if (preg_match_all($view, $this->template, $matches)) {
             $render = false;   
             return $this->view($matches); 
         }     
         
         $include = "/@include\((.*?)\)/s";    
-        if (preg_match_all($include, $this->template, $matches)) {  
+        if (preg_match_all($include, $this->template, $matches)) { 
             $render = false;
             return $this->include($matches);            
         }   
