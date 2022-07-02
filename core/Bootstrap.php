@@ -51,6 +51,10 @@ class Bootstrap
                 $file = mold_env();
                 file_put_contents(ROOT.'/.env', $file);
                 shell_exec('composer install');
+
+                if (strtolower(PHP_OS) == 'linux'){
+                    shell_exec('chmod -R a+rw ' . ROOT);
+                }              
         
                 if (file_exists(ROOT."/README.md")) {
                     unlink(ROOT."/README.md");
