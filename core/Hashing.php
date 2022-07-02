@@ -3,7 +3,7 @@ namespace Core;
 
 class Hashing
 {
-    private $pepper = '';
+    private $salt = '';
 
     /**
      * Retorna um hash de uma string.
@@ -11,7 +11,7 @@ class Hashing
      * @return string|false 
      */
     public function hash_create(string $value){
-        $rash = password_hash($this->pepper.$value, PASSWORD_DEFAULT);
+        $rash = password_hash($this->salt.$value, PASSWORD_DEFAULT);
         return $rash;
     }
 
@@ -22,6 +22,6 @@ class Hashing
      * @return true|false 
      */
     public function hash_check(string $value, string $hash){
-        return password_verify($this->pepper.$value, $hash);
+        return password_verify($this->salt.$value, $hash);
     }
 }

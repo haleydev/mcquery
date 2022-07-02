@@ -51,10 +51,10 @@ class QueryUpdate
         return $this;
     }
     
-    public function update(array $update)
+    public function values(array $values)
     {
         $new_update = '';
-        foreach ($update as $key => $value) {
+        foreach ($values as $key => $value) {
             $new_update .= $key . ' = ? ,';               
             $this->query['bindparams']['update'][] = $value;
         }

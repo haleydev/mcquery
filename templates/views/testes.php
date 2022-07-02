@@ -5,12 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>inpu testes</title>        
         <meta name="description" content="">
-        <meta name="mcquery-token" content="<?= token() ?>" />
+        <meta name="mcquery-token" content="<?= token() ?>"/>
         <script src="<?= URL ?>/js/jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
     <body>
+        
         <form id="form" method="POST" action="<?= route('ajax') ?>">
             <?= token_input() ?>
             <input value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome">

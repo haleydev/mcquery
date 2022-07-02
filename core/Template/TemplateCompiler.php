@@ -1,98 +1,56 @@
 <?php
-namespace Core;
+namespace Core\Template;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
-use DirectoryIterator;
-use Throwable;
-
-class Template
+class TemplateCompiler
 { 
     private $template;
     private array $get_set = [];
-    private array $params;
-    private string $file_local;
-    private string $file_time;
-
-    //test
-    private string $file_root;
-
-    /**
-     * Renderiza um template.
-     * @param string $template ('views/example')
-     * @param array|object $params Parâmetros a serem enviados para o template.
-     * @return template
-     */
-    public function template(string $template, array|object $params = [])
-    {
-        $file = ROOT . '/templates/' . $template . '.php';     
-        $this->file_local = $template;        
-        $this->file_time = filectime(ROOT . '/templates/' . $template . '.php');
-
-        $this->cache_checker();
-        if (file_exists($file)) {
-
-            if(is_object($params)){
-                $this->params = get_object_vars($params);
-            }else{
-                $this->params = $params; 
-            }
-            
-            $this->template = file_get_contents($file);             
-            return $this->reader();         
-        }else{
-            die('Arquivo não encontrado ' . $file);
-        } 
-    }  
     
-    private function cache()
-    {          
-        $file_name = ROOT.'/app/Cache/template/' .$this->file_local . '_'.$this->file_time.'.php';
+    public function compiler($template_local)
+    {            
+        $dir = ROOT . '/templates/';
+        $directory_iterator = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
+        $iterator = new RecursiveIteratorIterator($directory_iterator);
+         
+        foreach ($iterator as $file) {
+            $new_cache[strval($file)] = filectime($file);                       
+        }    
 
-        if(!file_exists($file_name)){
-            file_put_contents($file_name,$this->template); 
-        } 
-
-        if(!file_exists($file_name)){
-            die('Nao foi possivel gravar arquivo de cache tente executar o comando para conceder acesso (sudo chmod -R a+rw ' . ROOT . 'app/Cache/)');
+        $dir_template = ROOT . '/app/Cache/template';
+        if (!file_exists($dir_template)) {
+            mkdir($dir_template);
         }
-    }
+       
+        foreach($new_cache as $folder => $value) {              
 
-    private function cache_checker()
-    {
-          // start cache
-        //   $this->file_time = filectime(ROOT . '/templates/');
-        //   $file_chache = ROOT . '/app/Cache/template/' . $this->file_local . '_' . $this->file_time . '.php';            
-        //   if(file_exists($file_chache)){
-        //       // if(filemtime(ROOT . '/templates/') != )
-        //       echo "cache existe";
-        //   }
+           if($template_local == $folder) {
+                $folders = explode('/', str_replace(ROOT . '/templates', '' , $folder));               
+                $count = 0;
 
-        $itens = new DirectoryIterator(ROOT . '/templates/views');
-        dd($itens->getMTime());
-        // foreach($itens as $item){
-        //     if($item->gettype() === 'dir'){
-        //         $diretorios[] = $item->getFilename();
-        //     }else{
-        //         $arquivos[] = $item->getFilename();
-        //     }
-    
-        // }
-    
-    
-        // foreach($diretorios as $diretorio){
-        //     echo '<tr>';    
-        //     echo '<td class="alert alert-info text-left tamanho">'.$diretorio.'</td>';
-        //     echo '</tr><br>';
-        // }
-    
-        // foreach($arquivos as $arquivo){
-        //     echo '<tr>';
-        //     echo '<td class="alert text-right tamanho">'.$arquivo.'</td>';
-        //     echo '</tr><br>';
-        // }
+                foreach($folders as $value){
+                    if ($count < count($folders) - 1) {
+                        $dir_template .= '/' . $value;                        
+                        if (!file_exists($dir_template)) {
+                            mkdir($dir_template);
+                        }
+                    }                   
 
-          return;
-          // end cache
-    }
+                    $count++;
+                }
+                
+                $this->template = file_get_contents($folder);                
+                $this->reader();
+                $new_file = str_replace('templates', 'app/Cache/template' , $folder) ;  
+                file_put_contents($new_file, $this->template);                
+           }
+        }        
+
+        file_put_contents(ROOT . '/app/Cache/old_template.php', '<?php $old_cache = ' . PHP_EOL . var_export($new_cache,true) . ';'); 
+        return;
+    }  
     
     private function reader()
     {     
@@ -135,8 +93,8 @@ class Template
         }   
                 
         if($render) {
-            $this->template = trim($this->template);
-            return $this->render();
+            $this->template = trim($this->template);  
+            return true;          
         }        
     }
 
@@ -229,16 +187,5 @@ class Template
 
         $this->reader();              
         return;        
-    }
-
-    private function render()
-    {    
-        $this->cache();  
-        $params = $this->params;
-        try {           
-            return eval('foreach($params as $key => $value) { $$key = $value; } ;?>' . $this->template);        
-        } catch (Throwable $error) {
-            echo "Error: " . $error->getMessage() . "<br>";  
-        }
     }
 }

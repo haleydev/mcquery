@@ -2,7 +2,7 @@
 use Core\Env;
 use Core\Hashing;
 use Core\Http\Request;
-use Core\Template;
+use Core\Template\Template;
 
 function template(string $template, array|object $params = [])
 { 

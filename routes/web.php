@@ -1,8 +1,8 @@
 <?php
 use Controllers\{ajaxController, ApiController, database, HomeController, testController};
+use Controllers\teste\TestesController;
 use Core\Http\Request;
 use Core\Router\Route;
-use Models\usuarios;
 
 // --------------------------------------------------------------------------|
 //                            ROUTER MCQUERY                                 |
@@ -14,18 +14,7 @@ Route::ajax('/ajax', [ajaxController::class, 'render'])->name('ajax');
 Route::api('/api', [ApiController::class, 'api'], 'GET,POST')->name('api');
 Route::get('/data',[database::class, 'render'])->name('database');
 
-Route::get('/testes', function(){
-
-    $t = 'title';
-
-    $string = 'sdfsdfsd @title sdfsdafasdf @endtitle';
-    $pattern = "/@$t(.*?)@end$t/";
-
-    if (preg_match_all($pattern, $string, $matches)) {      
-        dd($matches);  
-    }
-
-})->name('testes');
+Route::get('/testes', [TestesController::class, 'render'])->name('testes');
 
 Route::middleware(['Auth' => 'user'],function(){
 

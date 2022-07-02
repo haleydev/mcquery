@@ -2,26 +2,49 @@
 namespace Controllers;
 use Core\Controller;
 use Core\Model\DB;
+use Models\haley;
 use Models\usuarios;
 
 class database extends Controller
 {
     public function render()
-    {       
-        $insert = DB::insert('usuarios')
-        ->values([
-            'nome' => 'ola',
-            'email' => 'helo@hotmail.com'
-        ])      
-        ->execute();        
+    {   
+        $delete = usuarios::delete()->where([
+            usuarios::nome => 'haley'
+        ])->limit(100)->execute();
+        dd($delete);
+
+        $haley = haley::insert()->values([
+            haley::nome => 'database',
+            haley::sobrenome => 'query',
+            haley::idade => 25            
+        ])->execute();
+        dd($haley);
+
+        $insert = usuarios::insert()->values([
+            usuarios::nome => 'database',
+            usuarios::sobrenome => 'query',
+            usuarios::idade => 25            
+        ]);
         dd($insert);
 
-        $usuarios = usuarios::select()->coluns([usuarios::nome,usuarios::email,usuarios::id]);
+        $update = DB::update('usuarios')->values(['nome' => 'teste'])->where(['nome' => 'mc'])->execute();
+        dd($update);
+
+        $count = DB::select('usuarios')->coluns(['COUNT(id) as total,nome'])->group_by('nome')->execute();        
+        dd($count);
+
+
+
+
+
+
+        $usuarios = usuarios::select()->limit(3)->order('RAND()')->coluns('nome,sobrenome');
         
         $teste_1 = $usuarios;
-        dd($teste_1->limit(3)->where(['email' => 'null'],'!=')->execute());
+        dd($teste_1->execute());
 
         $teste_2 = $usuarios;
-        dd($teste_2->remove_limit()->remove_where()->like(['id' => '%8%'])->execute());
+        dd($teste_2->remove_where()->remove_order()->execute());
     }
 }

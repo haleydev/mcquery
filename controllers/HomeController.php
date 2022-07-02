@@ -11,7 +11,8 @@ class HomeController extends Controller
         
         $return = [
             'title' => 'haley aaa'            
-        ];                 
-        return template('views/home', $return); 
+        ];     
+                    
+        return template('views/home',$return); 
     }
 }
