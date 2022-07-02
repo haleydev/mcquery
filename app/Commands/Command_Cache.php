@@ -1,13 +1,16 @@
 <?php
 namespace App\Commands;
 use Core\Env;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Command_Cache
 {
     public function cache_env()
     {
-        if (file_exists(ROOT . '/app/Cache/env.php')) {
-            unlink(ROOT . 'app/Cache/env.php');
+        if (file_exists(ROOT . '/app/Cache/env.php')) {           
+            unlink(ROOT . '/app/Cache/env.php');
             echo "\033[1;31mcache env desativado\033[0m" . PHP_EOL;
         } else {
             if (file_exists(ROOT . '/app/Cache/env.php')) {
@@ -21,22 +24,38 @@ class Command_Cache
         }
     }
 
-    public function cache_template()
+    public function template_clear()
     { 
-        if (!file_exists(ROOT.'/app/Cache/template/')) {
-            mkdir(ROOT.'/app/Cache/template/', 0777, true);
-        }
+        $dir = ROOT . '/app/Cache/template/';
+        $old = ROOT . '/app/Cache/old_template.json';
 
-        if (!file_exists(ROOT.'/app/Cache/template/layouts/')) {
-            mkdir(ROOT.'/app/Cache/template/layouts/', 0777, true);
-        }
+        if(strtolower(PHP_OS) == 'linux') {
+            if (file_exists($dir)) {
+                shell_exec('sudo rm -r ' . $dir);
+            }   
+    
+            if (file_exists($old)) {
+                shell_exec('sudo rm ' . $old);
+            }
+        }else{
+            if (file_exists($dir)) {
+                $directory_iterator = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
+                $iterator = new RecursiveIteratorIterator($directory_iterator);
+                 
+                foreach ($iterator as $file) {
+                   unlink(strval($file));                       
+                } 
+            }   
+    
+            if (file_exists($old)) {
+                unlink($old);
+            }
+        }        
 
-        if (!file_exists(ROOT.'/app/Cache/template/includes/')) {
-            mkdir(ROOT.'/app/Cache/template/includes/', 0777, true);
-        }
-
-        if (!file_exists(ROOT.'/app/Cache/template/views/')) {
-            mkdir(ROOT.'/app/Cache/template/views/', 0777, true);
-        }
+        if (!file_exists($old) and !file_exists($dir)){
+            echo "\033[0;32mcache templates limpo\033[0m" . PHP_EOL;
+        }else{
+            echo "\033[1;31mfalha ao limpar cache (verifique as permissões)\033[0m" . PHP_EOL;
+        }               
     }
 }

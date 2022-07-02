@@ -70,7 +70,7 @@ class Console
                     (new Command_Cache)->cache_env();
                     break;    
                 case "template":
-                    (new Command_Cache)->cache_template();
+                    (new Command_Cache)->template_clear();
                     break;            
                 default:
                     $this->command_end();

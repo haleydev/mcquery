@@ -17,9 +17,9 @@ class Template
     {
         $file = ROOT . '/templates/' . $template . '.php';  
         $cache = ROOT .  '/app/Cache/template/' .$template . '.php';
-
+       
         if (file_exists($file)) {            
-            if(!file_exists($cache) or $this->check_cache($file) == true){
+            if(!file_exists($cache) or $this->check_cache($file)){
                 (new TemplateCompiler)->compiler($file);
             }
             
@@ -38,21 +38,36 @@ class Template
     }  
 
     private function check_cache($file)
-    {        
-        $olf_file = ROOT . '/app/Cache/old_template.php';
-
+    { 
+        $olf_file = ROOT . '/app/Cache/old_template.json';
         if(!file_exists($olf_file)){
             return true;
-        };
-
-        require_once $olf_file;
-        
-        if(isset($old_cache[$file])){
-            if($old_cache[$file] == filectime($file)){
-                return false;
-            }
         }
+       
+        $old_cache = json_decode(file_get_contents($olf_file),true);
+        if(isset($old_cache[$file])){
+            // verificar se o arquivo principal foi alterado
+            if($old_cache[$file]['time'] == filectime($file)){
+                $main = true;
+            }else{
+                $main = false;
+            }
 
+            // verificar se os arquivos necessarios foram alterados
+            $requires = true;
+            if($old_cache[$file]['requires'] != false){ 
+                foreach($old_cache[$file]['requires'] as $require => $time) {
+                    if($time != filectime($require)){
+                        $requires = false;                        
+                    }
+                }               
+            }
+            
+            if ($main and $requires) {
+                return false;
+            }            
+        }   
+        
         return true;
     }
 
@@ -64,7 +79,7 @@ class Template
             if(count($params) == 0){
                 return require_once $this->template; 
             }else{
-                foreach($params as $key => $value) { $$key = $value; } ;
+                foreach($params as $key => $value) { $$key = $value; }
                 return require_once $this->template;
             }                
         } catch (Throwable $error) {

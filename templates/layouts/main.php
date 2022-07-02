@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,13 +10,10 @@
     <script src="<?= URL ?>/js/jquery.min.js"></script>
     <title>@get(title)</title>
 </head>
-<body>
-    
-<div class="main">
+<body>    
+<div class="main">      
     @get(main)
 </div>
-
-{{ $echo }}
 <script src="<?= URL ?>/js/bootstrap.min.js"></script>
 </body>
 </html>

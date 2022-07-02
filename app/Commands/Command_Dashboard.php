@@ -22,7 +22,8 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
         echo "\033[0;32m install\033[0m instala as dependências do composer" . PHP_EOL;
         echo "\033[0;32m autoload\033[0m atualiza o autoload de classes" . PHP_EOL;
         echo "\033[0;32m env\033[0m cria um novo arquivo de configurações" . PHP_EOL;
-        echo "\033[0;32m cache:env\033[0m armazena e usa as informações do .env em cache - " . $this->env_check() . PHP_EOL;       
+        echo "\033[0;32m cache:template\033[0m limpa o cache dos templates" . PHP_EOL;     
+        echo "\033[0;32m cache:env\033[0m armazena e usa as informações do .env em cache - " . $this->env_check() . PHP_EOL;     
 
         echo "\033[1;33m base de dados\033[0m" . PHP_EOL;
         echo "\033[0;32m model:nome\033[0m cria um novo model" . PHP_EOL;
