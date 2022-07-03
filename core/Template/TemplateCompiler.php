@@ -14,60 +14,61 @@ class TemplateCompiler
     {            
         $dir = ROOT . '/templates/';
         $directory_iterator = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-        $iterator = new RecursiveIteratorIterator($directory_iterator);
-        $files = iterator_to_array($iterator,false);
-                   
-        foreach ($files as $file) {    
-            $files[strval($file)] = $file;
-        }
-
+        $files = new RecursiveIteratorIterator($directory_iterator,RecursiveIteratorIterator::CHILD_FIRST);
+     
         $dir_template = ROOT . '/app/Cache/template';
         if (!file_exists($dir_template)) {
             mkdir($dir_template);
         }
-       
-        foreach($files as $folder => $value) {              
 
-           if($template_local == $folder) {
-                $folders = explode('/', str_replace(ROOT . '/templates', '' , $folder));               
-                $count = 0;
+        foreach($files as $file){ 
+            if($file->isFile()) {
+                $old_file = str_replace(ROOT.'/templates','',$file->getPathname());
+                $template = str_replace(ROOT.'/templates','',$template_local);
 
-                foreach($folders as $value){
-                    if ($count < count($folders) - 1) {
-                        $dir_template .= '/' . $value;                        
-                        if (!file_exists($dir_template)) {
-                            mkdir($dir_template);
-                        }
-                    }                   
+                if(str_replace('\\','/',$old_file) == str_replace('\\','/',$template) and is_file($template_local)){
+                    $folders = explode('/',trim(str_replace('\\','/',$template),'/'));  
+                    $new_file = $folders[count($folders) - 1];  
 
-                    $count++;
+                    $count = 0;  
+                    foreach($folders as $sub_dir){
+                        if ($sub_dir != $new_file) {
+                            $dir_template .= '/' . $sub_dir;                        
+                            if (!file_exists($dir_template)) {
+                                mkdir($dir_template);
+                            }
+                        }                   
+    
+                        $count++;
+                    }
+
+                    $this->template = file_get_contents($template_local);                
+                    $this->reader();
+                    file_put_contents($dir_template . '/' . $new_file, $this->template);
+
+                    if(count($this->requires) == 0) {            
+                        $this->requires = false;              
+                    }
+            
+                    $old_template = ROOT . '/app/Cache/templates.json';
+            
+                    if(file_exists($old_template)){           
+                        $old_cache = json_decode(file_get_contents($old_template),true);
+                        $old_cache[$template_local]['requires'] = $this->requires;
+                        $old_cache[$template_local]['time'] = filemtime($template_local);                       
+                        file_put_contents($old_template, json_encode($old_cache,true));
+                    }else{
+                        $new_cache[$template_local]['time'] = filemtime($template_local);
+                        $new_cache[$template_local]['requires'] = $this->requires;
+                        file_put_contents($old_template, json_encode($new_cache,true));            
+                    }
+                         
+                    return;
                 }
-                
-                $this->template = file_get_contents($folder);                
-                $this->reader();
-                $new_file = str_replace('templates', 'app/Cache/template' , $folder) ;  
-                file_put_contents($new_file, $this->template);
-           }
-        }  
+            }                
+        }         
 
-        if(count($this->requires) == 0) {            
-            $this->requires = false;              
-        }
-
-        $old_template = ROOT . '/app/Cache/old_template.json';
-
-        if(file_exists($old_template)){           
-            $old_cache = json_decode(file_get_contents($old_template),true);
-            $old_cache[$template_local]['requires'] = $this->requires;
-            $old_cache[$template_local]['time'] = filectime($template_local);                       
-            file_put_contents($old_template, json_encode($old_cache,true));
-        }else{
-            $new_cache[$template_local]['time'] = filectime($template_local);
-            $new_cache[$template_local]['requires'] = $this->requires;
-            file_put_contents($old_template, json_encode($new_cache,true));            
-        }
-             
-        return;
+        die;
     }  
     
     private function reader()
@@ -121,7 +122,7 @@ class TemplateCompiler
         foreach($matches[1] as $key => $value) {
             $file = ROOT . '/templates/views/' . $value . '.php';
             if (file_exists($file)) {                
-                $this->requires[$file] = filectime($file);
+                $this->requires[$file] = filemtime($file);
                 $view = file_get_contents($file);
                 $replace = str_replace($matches[0][$key], $view, $this->template);
                 $this->template = $replace;                
@@ -139,7 +140,7 @@ class TemplateCompiler
         foreach($matches[1] as $key => $value) {
             $file = ROOT . '/templates/layouts/' . $value . '.php';
             if (file_exists($file)) {
-                $this->requires[$file] = filectime($file);
+                $this->requires[$file] = filemtime($file);
                 $layout = file_get_contents($file);
                 $replace = str_replace($matches[0][$key], $layout, $this->template);
                 $this->template = $replace;                
@@ -157,7 +158,7 @@ class TemplateCompiler
         foreach($matches[1] as $key => $value) {
             $file = ROOT . '/templates/includes/' . $value . '.php';
             if (file_exists($file)) {
-                $this->requires[$file] = filectime($file);
+                $this->requires[$file] = filemtime($file);
                 $include = file_get_contents($file);
                 $replace = str_replace($matches[0][$key], $include, $this->template);
                 $this->template = $replace;                

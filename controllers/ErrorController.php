@@ -1,15 +1,11 @@
 <?php
 namespace Controllers;
-
 use Core\Controller;
-use Core\Http\Request;
 
 class ErrorController extends Controller
 {
     public function error($code = 404, $msg = null)
-    {
-        $_SESSION['router_error'] = Request::urlFull();
-
+    {      
         if ($msg === null) {
             switch ($code):
                 case 404:

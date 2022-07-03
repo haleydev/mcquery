@@ -83,10 +83,10 @@ class Bootstrap
 
     public function __destruct()
     {        
-       while (ob_get_level() > 0) {
+        while (ob_get_level() > 0) {
            ob_end_flush();
         }   
               
-       die();        
+        die();        
     }
 }

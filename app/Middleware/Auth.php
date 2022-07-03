@@ -1,7 +1,7 @@
 <?php
 namespace App\Middleware;
 use Controllers\ErrorController;
-use Core\Http\Request;
+use Core\Router\Middleware;
 
 class Auth
 {
@@ -14,12 +14,12 @@ class Auth
         return (new ErrorController)->error(403, 'Acesso negado');
     }
 
-    public function user()
+    public function user(Middleware $middleware)
     {       
         if (isset($_SESSION['user']) or isset($_SESSION['adm'])) {
             return true;
-        }       
+        }      
 
-        return Request::redirect(route('login'));        
+        return $middleware->redirect('/');               
     }
 }

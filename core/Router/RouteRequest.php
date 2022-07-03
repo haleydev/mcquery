@@ -13,30 +13,29 @@ class RouteRequest
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->url = $url;
-
-        $this->old();
-
-        if (isset($routes['url']) and $this->method == 'GET') {
+        $this->old();     
+     
+        if (isset($routes['url']) and $this->method == 'GET' and $this->checker == false) {
             $this->url($routes['url']);
         }
 
-        if (isset($routes['get']) and $this->method == 'GET') {
+        if (isset($routes['get']) and $this->method == 'GET' and $this->checker == false) {
             $this->get($routes['get']);
         }
 
-        if (isset($routes['post']) and $this->method == 'POST') {
+        if (isset($routes['post']) and $this->method == 'POST' and $this->checker == false) {
             $this->post($routes['post']);
         }
 
-        if (isset($routes['ajax']) and $this->method == 'POST') {
+        if (isset($routes['ajax']) and $this->method == 'POST' and $this->checker == false) {
             $this->ajax($routes['ajax']);
         }
 
-        if (isset($routes['api'])) {
+        if (isset($routes['api']) and $this->checker == false) {
             $this->api($routes['api']);
         }
 
-        $this->die();
+        return $this->error();
     }
 
     private function url(array $routes)
@@ -178,11 +177,10 @@ class RouteRequest
         foreach ($middleware as $class => $function) {
             $class = "\App\Middleware\\$class";
             $rum = new $class;
-            $veriry = $rum->$function();
+            $veriry = $rum->$function(new Middleware);
 
             if ($veriry !== true) {
-                $this->checker = true;
-               
+                $this->checker = true;               
             }
         }
 
@@ -235,12 +233,13 @@ class RouteRequest
         return;
     }
 
-    private function die()
+    private function error()
     {
-        if ($this->checker === false) {
-            return (new ErrorController)->error();
-        }  
+        $_SESSION['router_error'] = Request::url();
 
-        die();
+        if($this->checker == false) {
+            $this->checker = true;
+            return (new ErrorController)->error();
+        }       
     }
 }

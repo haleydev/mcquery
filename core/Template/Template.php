@@ -17,9 +17,10 @@ class Template
     {
         $file = ROOT . '/templates/' . $template . '.php';  
         $cache = ROOT .  '/app/Cache/template/' .$template . '.php';
-       
+           
         if (file_exists($file)) {            
             if(!file_exists($cache) or $this->check_cache($file)){
+                echo '<p>ALTERADO</p>';
                 (new TemplateCompiler)->compiler($file);
             }
             
@@ -39,15 +40,15 @@ class Template
 
     private function check_cache($file)
     { 
-        $olf_file = ROOT . '/app/Cache/old_template.json';
+        $olf_file = ROOT . '/app/Cache/templates.json';
         if(!file_exists($olf_file)){
             return true;
-        }
+        }   
        
         $old_cache = json_decode(file_get_contents($olf_file),true);
         if(isset($old_cache[$file])){
             // verificar se o arquivo principal foi alterado
-            if($old_cache[$file]['time'] == filectime($file)){
+            if($old_cache[$file]['time'] == filemtime($file)){
                 $main = true;
             }else{
                 $main = false;
@@ -57,7 +58,7 @@ class Template
             $requires = true;
             if($old_cache[$file]['requires'] != false){ 
                 foreach($old_cache[$file]['requires'] as $require => $time) {
-                    if($time != filectime($require)){
+                    if($time != filemtime($require)){
                         $requires = false;                        
                     }
                 }               

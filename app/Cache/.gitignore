@@ -1,4 +1,4 @@
 env.php
 cron_job.txt
-old_template.json
+templates.json
 template/*

@@ -1,6 +1,8 @@
 <?php
 namespace Core\Http;
 
+use Controllers\ErrorController;
+
 class Request
 {
     /**
@@ -16,6 +18,11 @@ class Request
         }
 
         return false;
+    }
+
+    public static function redirectError($code = 404, $msg = null)
+    {        
+        return (new ErrorController)->error($code, $msg);
     }
 
     public static function route(string $name, string $params = null)

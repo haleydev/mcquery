@@ -11,7 +11,7 @@
     <title>@get(title)</title>
 </head>
 <body>    
-<div class="main">      
+<div class="main">
     @get(main)
 </div>
 <script src="<?= URL ?>/js/bootstrap.min.js"></script>

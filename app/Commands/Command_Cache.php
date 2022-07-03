@@ -27,7 +27,7 @@ class Command_Cache
     public function template_clear()
     { 
         $dir = ROOT . '/app/Cache/template/';
-        $old = ROOT . '/app/Cache/old_template.json';
+        $old = ROOT . '/app/Cache/templates.json';
 
         if(strtolower(PHP_OS) == 'linux') {
             if (file_exists($dir)) {
@@ -38,18 +38,15 @@ class Command_Cache
                 shell_exec('sudo rm ' . $old);
             }
         }else{
-            if (file_exists($dir)) {
-                $directory_iterator = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-                $iterator = new RecursiveIteratorIterator($directory_iterator);
-                 
-                foreach ($iterator as $file) {
-                   unlink(strval($file));                       
-                } 
-            }   
-    
-            if (file_exists($old)) {
-                unlink($old);
-            }
+            $iterator = new RecursiveDirectoryIterator($dir,FilesystemIterator::SKIP_DOTS);
+            $rec_iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
+          
+            foreach($rec_iterator as $file){ 
+                $file->isFile() ? unlink($file->getPathname()) : rmdir($file->getPathname());                           
+            } 
+          
+            rmdir($dir);
+            unlink($old);         
         }        
 
         if (!file_exists($old) and !file_exists($dir)){
