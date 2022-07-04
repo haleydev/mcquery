@@ -14,6 +14,8 @@
         <p><?= validator('nome') ?></p>
         <input value="<?= old('email') ?>" type="text" name="email" placeholder="email">
         <p><?= validator('email') ?></p>
+        <input value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade">
+        <p><?= validator('idade') ?></p>
         <input type="submit" value="enviar">
     </form>   
     <div id="result"></div>
