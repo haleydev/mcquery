@@ -174,18 +174,21 @@ function session_mesage(string|array $mesage = null)
  * @return string|array|false
  */
 function old(string $input = null)
-{     
-    if(!isset($_SESSION['MCQUERY_OLD'])){
+{  
+    $page = request()->url();
+
+    if(!isset($_SESSION['MCQUERY_OLD'][$page])){
         return false;
     }
     
-    if (isset($_SESSION['MCQUERY_OLD'][$input])) {
-        return $_SESSION['MCQUERY_OLD'][$input];       
+    if (isset($_SESSION['MCQUERY_OLD'][$page][$input])) {
+        return $_SESSION['MCQUERY_OLD'][$page][$input];       
     }
 
-    if($input == null and isset($_SESSION['MCQUERY_OLD'])) {
-        return $_SESSION['MCQUERY_OLD'];
+    if($input == null and isset($_SESSION['MCQUERY_OLD'][$page])) {
+        return $_SESSION['MCQUERY_OLD'][$page];
     }
+    
 
     return false;      
 }

@@ -11,6 +11,9 @@ class Validator
         $this->request = $request;        
     }
 
+    /**
+     * Requerido
+     */
     public function required(string $input, $mesage = 'Requerido')
     {
         if(isset($this->request[$input])){
@@ -24,6 +27,9 @@ class Validator
         return;
     }
 
+    /**
+     * Minimo de caracteres
+     */
     public function min($input, $min, $mesage = 'Minimo x caracteres') 
     {
         if(isset($this->request[$input])){
@@ -37,6 +43,9 @@ class Validator
         }      
     }
 
+    /**
+     * Maximo de caracteres
+     */
     public function max($input, $max, $mesage = 'Maximo x caracteres') 
     {
         if(isset($this->request[$input])){
@@ -50,6 +59,9 @@ class Validator
         }      
     }
 
+    /**
+     * Tipo email
+     */
     public function email(string $input, $mesage = 'E-mail inválido')
     {
         if(isset($this->request[$input])){
@@ -61,6 +73,9 @@ class Validator
         return;
     }
 
+    /**
+     * Apenas números
+     */
     public function numeric(string $input, $mesage = 'Apenas números')
     {
         if(isset($this->request[$input])){
@@ -93,7 +108,9 @@ class Validator
     }
     
     /**
-     * @return array|false
+     * Retorna todos os erros ou false se não existir erros
+     * @param strign $input especificar qual item.
+     * @return array|string|false
      */
     public function errors(string $input = null)
     {
@@ -112,6 +129,11 @@ class Validator
         return false;
     }
 
+     /**
+     * Retorna o primeiro erro encontrado
+     * @param strign $input especificar qual item.
+     * @return array|string|false
+     */
     public function error_fist(string $input = null)
     {
         if(count($this->errors) > 0) {           

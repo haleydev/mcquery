@@ -211,16 +211,19 @@ class RouteRequest
 
     private function old()
     {
-        $post = request()->post();
-        $get = request()->get();
-
-        if ($post) {
-            $_SESSION['MCQUERY_OLD'] = $post;
-        }
-
-        if ($get) {
-            $_SESSION['MCQUERY_OLD'] = $get;
-        }
+        if(isset($_SERVER['HTTP_REFERER'])){
+            $post = request()->post();
+            $get = request()->get();
+            $page = $_SERVER['HTTP_REFERER'];    
+    
+            if ($post) {
+                $_SESSION['MCQUERY_OLD'][$page] = $post;
+            }
+    
+            if ($get) {
+                $_SESSION['MCQUERY_OLD'][$page] = $get;
+            }
+        }      
 
         return;
     }
