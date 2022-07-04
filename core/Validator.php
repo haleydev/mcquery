@@ -77,13 +77,17 @@ class Validator
      */
     public function register()
     {
-        if(count($this->errors) > 0) {
-            $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']] = $this->errors;
-        }else{
-            if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']])){
-                unset( $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']]);
+        if(isset($_SERVER['HTTP_REFERER'])){
+            $page = $_SERVER['HTTP_REFERER'];
+
+            if(count($this->errors) > 0) {
+                $_SESSION['VALIDATOR_ERRORS'][$page] = $this->errors;
+            }else{
+                if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
+                    unset( $_SESSION['VALIDATOR_ERRORS'][$page]);
+                }
             }
-        }
+        }       
         
         return;
     }

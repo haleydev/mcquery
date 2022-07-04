@@ -20,13 +20,16 @@ function template(array|object $params = [])
  */
 function validator(string $input)
 {
-    if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']])){
-        if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']][$input])){   
-            $error = $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']][$input][0];
-            return $error; 
-        }        
-    }
+    if(isset($_SERVER['HTTP_REFERER'])){
+        $page = $_SERVER['HTTP_REFERER'];
 
+        if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
+            if(isset($_SESSION['VALIDATOR_ERRORS'][$page][$input])){   
+                return $_SESSION['VALIDATOR_ERRORS'][$page][$input][0];             
+            }        
+        }
+    }
+ 
     return false;
 }
 
@@ -36,18 +39,23 @@ function validator(string $input)
  */
 function validator_all()
 { 
-    if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']])){
-        $all_errors = $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']];      
-        $return = [];
+    if(isset($_SERVER['HTTP_REFERER'])){
+        $page = $_SERVER['HTTP_REFERER']; 
 
-        foreach($all_errors as $key => $errors) {          
-            foreach($errors as $erro) {
-                $return[$key] = $erro;
-            }                      
+        if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
+            $all_errors = $_SESSION['VALIDATOR_ERRORS'][$page];      
+            $return = [];
+    
+            foreach($all_errors as $key => $errors) {          
+                foreach($errors as $erro) {
+                    $return[$key] = $erro;
+                }                      
+            }
+    
+            return $return;
         }
 
-        return $return;
-    }
+    }   
 
     return false;
 }
