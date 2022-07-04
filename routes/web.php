@@ -1,6 +1,5 @@
 <?php
 use Controllers\{ajaxController, ApiController, database, HomeController, testController};
-use Controllers\teste\TestesController;
 use Core\Http\Request;
 use Core\Router\Route;
 
@@ -8,13 +7,14 @@ use Core\Router\Route;
 //                            ROUTER MCQUERY                                 |
 // --------------------------------------------------------------------------|
 
-Route::url('/', [HomeController::class, 'home'])->name('index');
+
+Route::url('/', [HomeController::class, 'home'])->name('home');
 Route::post('/post', [ApiController::class, 'api'])->name('post');
 Route::ajax('/ajax', [ajaxController::class, 'render'])->name('ajax');
 Route::api('/api', [ApiController::class, 'api'], 'GET,POST')->name('api');
 Route::get('/data',[database::class, 'render'])->name('database');
 
-Route::get('/testes', [TestesController::class, 'render'])->name('testes');
+Route::get('/testes', [testController::class, 'testes'])->name('testes');
 
 Route::middleware(['Auth' => 'user'],function(){
 
@@ -27,10 +27,17 @@ Route::middleware(['Auth' => 'user'],function(){
     })->name('user.param');         
 });
 
-Route::url('/file', function(){
+Route::middleware(['Headers' => 'json'],function(){
+    Route::get('/file/{file}', function(){
+
+        // dd(request()->param('file'));
+        dd(request()->all());
+        dd(request()->redirect('/'));
+        
+     })->name('file');      
+});
 
 
-})->name('file');  
 
 Route::url('/login', function(){
     

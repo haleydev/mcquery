@@ -3,3 +3,6 @@
 [02/07/2022 03:09:58] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
 [02/07/2022 03:09:58] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
 [02/07/2022 03:09:58] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[03/07/2022 09:07:35] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[03/07/2022 09:07:53] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'
+[03/07/2022 09:07:54] SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'

@@ -5,7 +5,7 @@ class Response
 {
     public static function header(string $name, string $value)
     {
-       header("$name: $value");      
+        header("$name: $value");      
     }
 
     public static function json(mixed $response)

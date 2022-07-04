@@ -141,12 +141,9 @@ class Query
             } else {
                 return false;
             }
-        } catch (PDOException $error) {
+        } catch (PDOException) {
             $this->conexao->close();
             return false;
-
-            // erro desabilitado retornando apenas false
-            // return $error->getMessage();
         }
     }
 

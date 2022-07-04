@@ -4,12 +4,20 @@ use Core\Hashing;
 use Core\Http\Request;
 use Core\Template\Template;
 
-function template(string $template, array|object $params = [])
+/**
+ * MCQUERY TEMPLATE
+ * @param array|object $params
+ * @return template
+ */
+function template(array|object $params = [])
 { 
-    return (new Template)->template($template, $params);
+    return new Template($params);
 }
 
-// retorna o valor declarado em .env
+/**
+ * Retorna o valor declarado em .env
+ * @return string|false
+ */
 function env(string $value)
 {
     $env = (new Env)->env;
@@ -20,10 +28,42 @@ function env(string $value)
     return false;    
 }
 
-// verifica se os valores estao declarados ou vazios em .env retornando true ou false
-function env_required(string $values)
+/**
+ * Verifica se os valores estao declarados ou vazios em .env
+ * @return true|false
+ */
+function env_required(string|array $values)
 {
+    $env = (new Env)->env;
 
+    if(is_string($values)){
+        if (isset($env[$values])) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    if(is_array($values)){
+        $return = true;
+        foreach($values as $value){
+            if(!isset($env[$value])){
+                $return = false;
+            }
+        }
+        
+        return $return;
+    }   
+
+    return false; 
+}
+
+/**
+ * funções request
+ */
+function request()
+{
+    return (new Request);
 }
 
 /**
@@ -142,48 +182,6 @@ function unset_token()
 }
 
 /**
- * Checa se o $_POST existe e se seu valor e nulo
- * Pode ser passado varios $_POST separados por ,
- * @return true|false
- */
-function post_check(string $post)
-{
-    $return = true;
-    $array = explode(",", $post);
-    foreach ($array as $valid) {
-        if (isset($_POST[$valid])) {
-            if ($_POST[$valid] == null or $_POST[$valid] == "") {
-                $return = false;
-            }
-        } else {
-            $return = false;
-        }
-    }
-    return $return;
-}
-
-/**
- * Checa se o $_GET existe e se seu valor e nulo
- * Pode ser passado varios $_GET separados por ,
- * @return true|false
- */
-function get_check(string $get)
-{
-    $return = true;
-    $array = explode(",", $get);
-    foreach ($array as $valid) {
-        if (isset($_GET[$valid])) {
-            if ($_GET[$valid] == null or $_GET[$valid] == "") {
-                $return = false;
-            }
-        } else {
-            $return = false;
-        }
-    }
-    return $return;
-}
-
-/**
  * Verifica se a url atual é a mesma que a url passada.
  * Deve ser passado a url completa.
  * @return true|false
@@ -207,14 +205,6 @@ function dd($what)
     var_dump($what);
     echo "</pre>";
     return;
-}
-
-/**
- * Redirecionar para a $url 
- */
-function redirect($route, $code = 200)
-{
-    Request::redirect($route,$code);
 }
 
 /**

@@ -9,18 +9,23 @@ class Command_Cache
 {
     public function cache_env()
     {
-        if (file_exists(ROOT . '/app/Cache/env.php')) {           
-            unlink(ROOT . '/app/Cache/env.php');
+        if (file_exists(ROOT . '/app/Cache/env.json')) {           
+            unlink(ROOT . '/app/Cache/env.json');
             echo "\033[1;31mcache env desativado\033[0m" . PHP_EOL;
         } else {
-            if (file_exists(ROOT . '/app/Cache/env.php')) {
-                unlink(ROOT . '/app/Cache/env.php');
+            if (file_exists(ROOT . '/app/Cache/env.json')) {
+                unlink(ROOT . '/app/Cache/env.json');
             }
 
             $env = (new Env)->env;
-            $file = mold_env_cacher(array_filter($env));
-            file_put_contents(ROOT . '/app/Cache/env.php', $file);
-            echo "\033[0;32mcache env ativado\033[0m" . PHP_EOL;
+            $file = array_filter($env);
+            file_put_contents(ROOT . '/app/Cache/env.json',json_encode($file,true));
+
+            if(file_exists(ROOT . '/app/Cache/env.json')){
+                echo "\033[0;32mcache env ativado\033[0m" . PHP_EOL;
+            }else{               
+                echo "\033[1;31merro ao gravar cache do .env\033[0m" . PHP_EOL;
+            }   
         }
     }
 

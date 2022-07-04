@@ -47,7 +47,7 @@ class RouteResolve
         } 
        
         define('ROUTER_NAMES', $this->names);
-        return (new RouteRequest($this->routes, $this->url));
+        return (new RouteRequest)->request($this->routes, $this->url);
     }
 
     private function agroup(string $method, string $key, array $options, array $middleware)

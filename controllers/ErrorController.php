@@ -1,11 +1,13 @@
 <?php
 namespace Controllers;
-use Core\Controller;
+use Core\Http\Request;
 
-class ErrorController extends Controller
+class ErrorController
 {
     public function error($code = 404, $msg = null)
     {      
+        $_SESSION['router_error'] = Request::url();
+       
         if ($msg === null) {
             switch ($code):
                 case 404:
@@ -22,16 +24,16 @@ class ErrorController extends Controller
                     break;
                 case 503:
                     $this->msg = 'Serviço não disponível';
-                    break;
+                    break; 
             endswitch;
         } else {
             $this->msg = $msg;
         }
 
-        $this->title = env('APP_NAME') . ' ' . $code;
+        $this->title = env('APP_NAME') . ' - ' . $code;
         $this->code = $code;
 
         http_response_code($code);
-        return template("views/error", $this);
+        return template($this)->view('error');
     }
 }

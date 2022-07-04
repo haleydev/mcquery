@@ -5,7 +5,7 @@ use Core\Model\Model;
 
 class teste implements Model
 { 
-    private static string $model_table = 'teste';
+    private static string $table = 'teste';
     
     public const id = 'id';        
     public const nome = 'nome';        
@@ -18,27 +18,27 @@ class teste implements Model
 
     public static function select()
     {
-        return DB::select(self::$model_table);        
+        return DB::select(self::$table);        
     }
 
     public static function selectOne()
     {
-        return DB::selectOne(self::$model_table);        
+        return DB::selectOne(self::$table);        
     }
 
     public static function update()
     {
-        return DB::update(self::$model_table);                
+        return DB::update(self::$table);                
     }
 
     public static function delete()
     {
-        return DB::delete(self::$model_table);        
+        return DB::delete(self::$table);        
     }
 
     public static function insert()
     {
-        return DB::insert(self::$model_table);     
+        return DB::insert(self::$table);     
     }
  
     // metodos personalizados ...

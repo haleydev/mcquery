@@ -1,4 +1,4 @@
-env.php
+env.json
 cron_job.txt
 templates.json
 template/*

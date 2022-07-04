@@ -1,15 +1,14 @@
 <?php
 namespace Controllers;
-use Core\Controller;
 
-class HomeController extends Controller
+class HomeController
 {
     public function home()
-    {   
-        $return = [
-            'title' => 'haley aaa' 
-        ];     
-                    
-        return template('views/home',$return); 
+    {         
+        $params = [
+            'title' => 'MCQUERY' 
+        ];    
+                
+        return template($params)->view('home');
     }
 }

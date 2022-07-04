@@ -10,6 +10,7 @@ use App\Commands\Command_Drop;
 use App\Commands\Command_Env;
 use App\Commands\Command_Install;
 use App\Commands\Command_List;
+use App\Commands\Command_Middleware;
 use App\Commands\Command_Migrate;
 use App\Commands\Command_Model;
 use App\Commands\Command_Server;
@@ -46,6 +47,10 @@ class Console
 
         $this->console->command('class', function () {
             (new Command_Class)->class($this->headline);
+        });
+
+        $this->console->command('middleware', function () {
+            (new Command_Middleware)->middleware($this->headline);
         });
 
         $this->console->command('install', function () {

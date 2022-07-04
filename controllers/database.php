@@ -1,11 +1,10 @@
 <?php
 namespace Controllers;
-use Core\Controller;
 use Core\Model\DB;
 use Models\haley;
 use Models\usuarios;
 
-class database extends Controller
+class database
 {
     public function render()
     {   

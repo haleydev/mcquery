@@ -1,5 +1,5 @@
 @layout(main)
-@set(title)->(MCQUERY)
+@set(title)->($title)
 
 @set(main)
    <img class="logo" src="<?= URL ?>/img/logo.png">

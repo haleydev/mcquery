@@ -1,12 +1,11 @@
 <?php
 namespace Controllers;
-use Core\Controller;
-use Core\Http\Request;
+use Core\Http\Response;
 
-class ajaxController extends Controller
+class ajaxController
 {
     public function render()
     {  
-        return dd(old()); 
+        return Response::json(request()->all()); 
     }
 }

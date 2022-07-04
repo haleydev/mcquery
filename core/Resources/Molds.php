@@ -1,4 +1,24 @@
 <?php
+function mold_middleware($class)
+{
+$mold =
+'<?php
+namespace App\Middleware;
+use Core\Router\Middleware;
+
+class '.$class.'
+{
+    public function example(Middleware $middleware)
+    {
+        if (isset($_SESSION[\'example\'])) {
+            return $middleware->continue();         
+        }
+
+        return $middleware->denied();
+    }
+}';
+return $mold; 
+}
 function mold_env()
 {
 $mold = 
@@ -27,16 +47,14 @@ function mold_controller($string, $namespace = null)
 $mold =
 '<?php
 namespace Controllers'.$namespace.';
-use Core\Controller;
 
-class '.$string.' extends Controller
+class '.$string.'
 {
     public function render()
     {  
-        $this->view = "";
-        $this->title = "";       
+        //...
 
-        return template("layouts/main", $this); 
+        return template()->view(\'example\'); 
     }
 }';
 return $mold;
@@ -55,14 +73,6 @@ class '.$string.'
        //... 
     }
 }';
-return $mold;
-}
-
-function mold_env_cacher($array){
-$mold =
-'<?php
-$cache = 
-'.var_export($array,true).';';
 return $mold;
 }
 
@@ -95,32 +105,32 @@ use Core\Model\Model;
 
 class '. $model .' implements Model
 { 
-    private static string $model_table = \''. $model .'\';
+    private static string $table = \''. $model .'\';
     
     '. $coluns .'
     public static function select()
     {
-        return DB::select(self::$model_table);        
+        return DB::select(self::$table);        
     }
 
     public static function selectOne()
     {
-        return DB::selectOne(self::$model_table);        
+        return DB::selectOne(self::$table);        
     }
 
     public static function update()
     {
-        return DB::update(self::$model_table);                
+        return DB::update(self::$table);                
     }
 
     public static function delete()
     {
-        return DB::delete(self::$model_table);        
+        return DB::delete(self::$table);        
     }
 
     public static function insert()
     {
-        return DB::insert(self::$model_table);     
+        return DB::insert(self::$table);     
     }
  
     // metodos personalizados ...

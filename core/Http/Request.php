@@ -20,11 +20,10 @@ class Request
         return false;
     }
 
-    public static function redirectError($code = 404, $msg = null)
-    {        
-        return (new ErrorController)->error($code, $msg);
-    }
-
+    /**
+     * Retorna a url da rota nomeada
+     * @return string|false
+     */
     public static function route(string $name, string $params = null)
     { 
         if (defined('ROUTER_NAMES')) {
@@ -54,6 +53,10 @@ class Request
         return false;
     }
 
+    /**
+     * Todos os valores do metodo GET
+     * @return strign/array/false
+     */
     public static function get(string|array|null $get = null)
     {
         if ($get === null) {
@@ -61,7 +64,7 @@ class Request
                 return false;
             }
 
-            return filter_input_array(INPUT_GET, $_GET, FILTER_SANITIZE_SPECIAL_CHARS);
+            return filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
         if (is_array($get)) {
@@ -94,6 +97,10 @@ class Request
         return false;
     }
 
+    /**
+     * Todos os valores do metodo POST
+     * @return strign/array/false
+     */
     public static function post(string|array|null $post = null)
     {
         if ($post === null) {
@@ -101,7 +108,7 @@ class Request
                 return false;
             }
 
-            return filter_input_array(INPUT_POST, $_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            return filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
         if (is_array($post)) {
@@ -134,19 +141,91 @@ class Request
         return false;
     }
 
-    public static function url()
-    {
-        $request = parse_url($_SERVER['REQUEST_URI']);
-        $url = rtrim(URL . $request['path'], "/");
-        return $url;
+    /**
+     * Todos os valores dos metodos GET e POST
+     * @return strign/array/false
+     */
+    public static function all(string|array|null $search = null)
+    {        
+        $post = self::get();
+        $get = self::post();
+        $all = [];
+       
+        if($get){
+            $all = array_merge($all,$get);
+        }
+
+        if($post){
+            $all = array_merge($all,$post);
+        }
+
+        if(count($all) > 0) {
+            if($search != null) {
+                if (is_string($search)) {                    
+                    if(isset($all[$search])){
+                        return $all[$search];
+                    }else{
+                        return false;
+                    }        
+                }
+
+                if(is_array($all)){
+                    $return = [];
+                    foreach ($search as $valid) {
+                        if (isset($all[$valid])) {
+                            if ($all[$valid] == null or $all[$valid] == "") {
+                                return false;
+                            } else {
+                                $return[$valid] = $all[$valid];
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
+                    
+                    return $return;
+                }
+            }
+
+            return $all;            
+        }
+
+        return false;
     }
 
+    /**
+     * URL atual sem parâmetros
+     * @return strign
+     */
+    public static function url()
+    {
+        $request = parse_url($_SERVER['REQUEST_URI']);      
+
+        if(isset($request['path'])){
+            return URL . '/' . trim($request['path'], "/");
+        }
+        
+        if(isset($request['host'])){
+            return URL . '/' . trim($request['host'], "/");            
+        }
+    }
+
+    /**
+     * URL atual completa com parâmetros
+     * @return strign
+     */
     public static function urlFull()
     {
         $fullUrl = URL . $_SERVER['REQUEST_URI'];
         return rtrim($fullUrl, '/');
     }
 
+    /**
+     * Reescreve os parâmetros GET
+     * 
+     * Para remover um parâmetro atribua seu valor NULL
+     * @return strign
+     */
     public static function getReplace(array $getReplace)
     {
         $gets = filter_input_array(INPUT_GET, $_GET, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -163,9 +242,20 @@ class Request
         }
     }
 
+    /**
+     * Redirecionar para uma URL 
+     */
     public static function redirect($route, $code = 302)
     {
         header('Location: ' . $route, true, $code);
         die;
+    }
+
+    /**
+     * Retorna a pagina de erro 
+     */
+    public static function error($code = 404, $msg = null)
+    {        
+        return (new ErrorController)->error($code, $msg);
     }
 }

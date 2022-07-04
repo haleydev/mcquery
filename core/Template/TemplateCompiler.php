@@ -109,7 +109,7 @@ class TemplateCompiler
         $set = "/@set\((.*?)\)/s";    
         if (preg_match_all($set, $this->template, $matches)) {               
             die('Error: ' . $matches[0][0] . ' não possui um @get(' . $matches[1][0] . ').');           
-        }   
+        } 
                 
         if($render) {
             $this->template = trim($this->template);  
@@ -202,8 +202,8 @@ class TemplateCompiler
         }
 
         foreach($this->get_set as $key => $value) {
-            $replace = str_replace($value[1],'', $this->template);
-            $replace = str_replace($value[0], $value[2], $replace);
+            $replace = str_replace(trim($value[1]),'', $this->template);
+            $replace = str_replace($value[0],trim($value[2]), $replace);           
             $this->template = $replace;     
         }
 

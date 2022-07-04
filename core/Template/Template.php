@@ -8,12 +8,48 @@ class Template
     private array $params;
 
     /**
-     * Renderiza um template.
-     * @param string $template ('views/example')
-     * @param array|object $params Parâmetros a serem enviados para o template.
-     * @return template
+     * Parâmetros a serem enviados para o template.
      */
-    public function template(string $template, array|object $params = [])
+    public function __construct(array|object $params = [])   
+    { 
+        if(is_object($params)){
+            $this->params = get_object_vars($params);
+        }else{
+            $this->params = $params;
+        } 
+    } 
+
+    /**
+     * Renderiza um layout.
+     * @param string $layout
+     * @return layout
+     */    
+    public function layout(string $layout)
+    {
+        return $this->resolve('layouts/'.$layout);    
+    }
+
+    /**
+     * Renderiza uma view.
+     * @param string $view
+     * @return view
+     */   
+    public function view(string $view)
+    {
+        return $this->resolve('views/'.$view);    
+    }
+
+    /**
+     * Renderiza um include.
+     * @param string $include 
+     * @return include
+     */   
+    public function include(string $include)
+    {
+        return $this->resolve('includes/'.$include);    
+    }
+
+    private function resolve(string $template)
     {
         $file = ROOT . '/templates/' . $template . '.php';  
         $cache = ROOT .  '/app/Cache/template/' .$template . '.php';
@@ -22,21 +58,15 @@ class Template
             if(!file_exists($cache) or $this->check_cache($file)){
                 echo '<p>ALTERADO</p>';
                 (new TemplateCompiler)->compiler($file);
-            }
-            
-            if(is_object($params)){
-                $this->params = get_object_vars($params);
-            }else{
-                $this->params = $params;
-            }
+            }  
             
             $this->template = $cache;
 
             return $this->render();
         }                 
         
-        die('Arquivo não encontrado ' . $file);         
-    }  
+        die('Arquivo não encontrado ' . $file);   
+    }
 
     private function check_cache($file)
     { 
@@ -87,5 +117,4 @@ class Template
             echo "Error: " . $error->getMessage() . "<br>";  
         }
     }
-
 }

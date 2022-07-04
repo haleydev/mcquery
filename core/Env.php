@@ -3,11 +3,14 @@ namespace Core;
 
 class Env
 {
+    /**
+     * Array com as informações env.
+     */
     public $env = [];
    
     public function __construct()
     {
-        if (file_exists(ROOT . '/app/Cache/env.php')) {
+        if (file_exists(ROOT . '/app/Cache/env.json')) {
             $this->cache();
         } elseif (file_exists(ROOT . '/.env')) {
             $this->env();
@@ -37,8 +40,7 @@ class Env
 
     private function cache()
     {
-        require_once  ROOT . '/app/Cache/env.php';
-        $this->return($cache);
+        return $this->return(json_decode(file_get_contents(ROOT . '/app/Cache/env.json'),true));
     }
 
     private function return(array $env)
