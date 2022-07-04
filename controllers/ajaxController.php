@@ -7,7 +7,7 @@ class ajaxController
     public function render()
     {  
         $validator = new Validator(request()->all());  
-        $validator->mold('<p>','</p>');
+        $validator->mold('<p class="error">','</p>');
         $validator->required('email','email requerido'); 
         $validator->required('nome','nome requerido'); 
         $validator->required('idade','informe sua idade');

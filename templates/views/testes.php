@@ -20,7 +20,7 @@
     </form>   
     <div id="result"></div>
 
-    <p><?= dd(validator_all()) ?></p>
+   
 
     <!-- <script>  
         $('#form').submit(function(e){
@@ -38,4 +38,20 @@
             }) 
         })     
     </script> -->
+    
+
+    <style>
+        .error {
+            color: #3a3a3a;
+            font-weight: bolder;
+            padding: 2px 4px;
+            background: #c3baba;
+            font-size: 12px;
+            display: flex;
+            width: 100%;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+    </style>
 @end(main)

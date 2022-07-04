@@ -38,7 +38,7 @@ class Validator
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) < $min){
                 if($mesage == 'Minimo x caracteres'){
-                    $mesage = $this->e_mold('Minimo ' .$min. ' caracteres');
+                    $mesage = 'Minimo ' .$min. ' caracteres';
                 }
 
                 $this->errors[$input][] = $this->e_mold($mesage);
@@ -54,7 +54,7 @@ class Validator
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) > $max){
                 if($mesage == 'Maximo x caracteres'){
-                    $mesage =  'Maximo ' .$max. ' caracteres';
+                    $mesage = 'Maximo ' .$max. ' caracteres';
                 }
 
                 $this->errors[$input][] = $this->e_mold($mesage);
