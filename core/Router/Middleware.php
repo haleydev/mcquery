@@ -16,9 +16,9 @@ class Middleware
     /**
      * Retorna pagina de acesso negado.
      */
-    public function denied()
+    public function denied($msg = null)
     {
-        return Request::error(403);
+        return Request::error(403, $msg);
     }
 
     /**

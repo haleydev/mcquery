@@ -6,6 +6,9 @@ class Validator
     private array $request;
     private array $errors = [];
 
+    private string $mold_start = '';
+    private string $mold_end = '';
+
     public function __construct(array $request)
     {
         $this->request = $request;        
@@ -18,10 +21,10 @@ class Validator
     {
         if(isset($this->request[$input])){
             if($this->request[$input] == '' or $this->request[$input] == false or $this->request[$input] == null){
-                $this->errors[$input][] = $mesage;     
+                $this->errors[$input][] = $this->e_mold($mesage);     
             }           
         }else{
-            $this->errors[$input][] = $mesage; 
+            $this->errors[$input][] = $this->e_mold($mesage); 
         }
         
         return;
@@ -35,10 +38,10 @@ class Validator
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) < $min){
                 if($mesage == 'Minimo x caracteres'){
-                    $mesage = 'Minimo '.$min.' caracteres';
+                    $mesage = $this->e_mold('Minimo ' .$min. ' caracteres');
                 }
 
-                $this->errors[$input][] = $mesage;
+                $this->errors[$input][] = $this->e_mold($mesage);
             }
         }      
     }
@@ -51,10 +54,10 @@ class Validator
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) > $max){
                 if($mesage == 'Maximo x caracteres'){
-                    $mesage = 'Maximo '.$max.' caracteres';
+                    $mesage =  'Maximo ' .$max. ' caracteres';
                 }
 
-                $this->errors[$input][] = $mesage;
+                $this->errors[$input][] = $this->e_mold($mesage);
             }
         }      
     }
@@ -66,7 +69,7 @@ class Validator
     {
         if(isset($this->request[$input])){
             if(!filter_var($this->request[$input], FILTER_VALIDATE_EMAIL) and strlen($this->request[$input]) > 0){
-                $this->errors[$input][] = $mesage;
+                $this->errors[$input][] = $this->e_mold($mesage);;
             }
         }
         
@@ -80,7 +83,7 @@ class Validator
     {
         if(isset($this->request[$input])){
             if(!is_numeric($this->request[$input]) and strlen($this->request[$input]) > 0){
-                $this->errors[$input][] = $mesage;
+                $this->errors[$input][] = $this->e_mold($mesage);;
             }
         }
         
@@ -105,6 +108,21 @@ class Validator
         }       
         
         return;
+    }
+
+    /**
+     * Coloca as mensagens de erro entre $start e $end
+     */
+    public function mold(string $start, string $end)
+    {
+       $this->mold_start = $start;
+       $this->mold_end = $end;
+       return;
+    }
+
+    private function e_mold(string $input)
+    {         
+        return $this->mold_start . $input . $this->mold_end;
     }
     
     /**

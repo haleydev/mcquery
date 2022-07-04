@@ -7,12 +7,15 @@ class ajaxController
     public function render()
     {  
         $validator = new Validator(request()->all());  
+        $validator->mold('<p>','</p>');
         $validator->required('email','email requerido'); 
         $validator->required('nome','nome requerido'); 
         $validator->required('idade','informe sua idade');
         $validator->email('email'); 
         $validator->numeric('idade');
+        $validator->max('idade',3);
         $validator->min('nome',5);
+        $validator->max('nome',255);
         $validator->register();
 
         // dd($validator->errors());

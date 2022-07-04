@@ -9,13 +9,13 @@
 
 @set(main)
     <form id="form" method="POST" action="<?= route('ajax') ?>">     
-        <?= token_input() ?>     
+        <?= token_input() ?>
         <input value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome">
-        <p><?= validator('nome') ?></p>
+        <?= validator('nome') ?>
         <input value="<?= old('email') ?>" type="text" name="email" placeholder="email">
-        <p><?= validator('email') ?></p>
+        <?= validator('email') ?>
         <input value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade">
-        <p><?= validator('idade') ?></p>
+        <?= validator('idade') ?>
         <input type="submit" value="enviar">
     </form>   
     <div id="result"></div>
