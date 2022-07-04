@@ -1,6 +1,10 @@
 @layout(main)
 @set(title)->($title)
 
+@set(head)
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+@end(head)
+
 @set(main)
    <img class="logo" src="<?= URL ?>/img/logo.png">
    <div class="info">

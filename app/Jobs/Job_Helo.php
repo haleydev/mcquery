@@ -10,9 +10,9 @@ $schedule = new Core\Cron;
 // Tarefa: Helo
 //--------------------------------------------------------------------------
 
-$schedule->everyMinute(1,function(){
+$schedule->everyMinute(30,function(){
     
-})->description('Helo a cada 1 minuto');
+})->description('Helo a cada 30 minutos');
 
 // $schedule->cron('23:45',27,04,2022,[classExample::class, 'example'])->description('data especifica');
 

@@ -55,7 +55,7 @@ class Request
 
     /**
      * Todos os valores do metodo GET
-     * @return strign/array/false
+     * @return strign|array|false
      */
     public static function get(string|array|null $get = null)
     {
@@ -99,7 +99,7 @@ class Request
 
     /**
      * Todos os valores do metodo POST
-     * @return strign/array/false
+     * @return strign|array|false
      */
     public static function post(string|array|null $post = null)
     {
@@ -143,7 +143,7 @@ class Request
 
     /**
      * Todos os valores dos metodos GET e POST
-     * @return strign/array/false
+     * @return array|string|false
      */
     public static function all(string|array|null $search = null)
     {        

@@ -8,14 +8,19 @@
 @end(head)
 
 @set(main)
-    <form id="form" method="POST" action="<?= route('ajax') ?>">          
+    <form id="form" method="POST" action="<?= route('ajax') ?>">     
+        <?= token_input() ?>     
         <input value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome">
+        <p><?= validator('nome') ?></p>
         <input value="<?= old('email') ?>" type="text" name="email" placeholder="email">
+        <p><?= validator('email') ?></p>
         <input type="submit" value="enviar">
-    </form>
+    </form>   
     <div id="result"></div>
 
-    <script>  
+    <p><?= dd(validator_all()) ?></p>
+
+    <!-- <script>  
         $('#form').submit(function(e){
             e.preventDefault() 
             $.ajax({      
@@ -23,12 +28,12 @@
                 url: $(this).attr('action'),          
                 type: $(this).attr('method'),
                 data: $(this).serialize(), 
-                dataType: "json",  
+                // dataType: "json",  
                 success:function(result){
                     console.log(result);
                     $("#result").html(result.nome + '<br>' + result.email)
                 }
             }) 
         })     
-    </script>
+    </script> -->
 @end(main)

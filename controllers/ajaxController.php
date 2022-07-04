@@ -1,11 +1,26 @@
 <?php
 namespace Controllers;
-use Core\Http\Response;
+use Core\Validator;
 
 class ajaxController
 {
     public function render()
     {  
-        return Response::json(request()->all()); 
+        $validator = new Validator(request()->all());  
+        $validator->required('email','email requerido'); 
+        $validator->required('nome','nome requerido'); 
+        $validator->email('email'); 
+        $validator->numeric('nome');
+        $validator->register();
+
+        if($validator->errors() != false){
+            return request()->redirect(route('testes'));
+        }else{
+            echo 'logado';
+        }        
+      
+
+        //return dd($validator->errors());
+        // return Response::json($validator->error_fist());
     }
 }

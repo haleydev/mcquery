@@ -15,6 +15,44 @@ function template(array|object $params = [])
 }
 
 /**
+ * Retorna o ultimo erro do validator
+ * @return string|false
+ */
+function validator(string $input)
+{
+    if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']])){
+        if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']][$input])){   
+            $error = $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']][$input][0];
+            return $error; 
+        }        
+    }
+
+    return false;
+}
+
+/**
+ * Retorna um array com todos os erros do validator
+ * @return array|false
+ */
+function validator_all()
+{ 
+    if(isset($_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']])){
+        $all_errors = $_SESSION['VALIDATOR_ERRORS'][$_SERVER['HTTP_REFERER']];      
+        $return = [];
+
+        foreach($all_errors as $key => $errors) {          
+            foreach($errors as $erro) {
+                $return[$key] = $erro;
+            }                      
+        }
+
+        return $return;
+    }
+
+    return false;
+}
+
+/**
  * Retorna o valor declarado em .env
  * @return string|false
  */

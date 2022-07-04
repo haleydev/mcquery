@@ -6,6 +6,7 @@
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     scroll-behavior: smooth;
     color: rgb(221, 221, 221);
+    font-family: 'Lato', sans-serif;
 }
 
 body{
@@ -24,7 +25,6 @@ body{
 
 .versao{
     font-size: 12px;
-    margin-top: -10px;
 }
 
 .logo{
