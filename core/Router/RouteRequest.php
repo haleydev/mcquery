@@ -49,7 +49,10 @@ class RouteRequest
                     define('ROUTER_PARAMS', $route['params']);
 
                     if ($route['middleware'] != false) {
-                        $this->middleware($route['middleware']);
+                        if($this->middleware($route['middleware']) == 'redirect'){
+                            $this->checker = true;
+                            return;
+                        }
                     }
 
                     if ($this->checker == false) {
@@ -58,7 +61,7 @@ class RouteRequest
                     }
 
                     $this->checker = true;
-                    return request()->error(403, 'Acesso negado');
+                    return redirect()->error(403, 'Acesso negado');
                 }
             }
         }
@@ -74,7 +77,10 @@ class RouteRequest
                 define('ROUTER_PARAMS', $route['params']);
 
                 if ($route['middleware'] != false) {
-                    $this->middleware($route['middleware']);
+                    if($this->middleware($route['middleware']) == 'redirect'){
+                        $this->checker = true;
+                        return;
+                    }
                 }
 
                 if ($this->checker == false) {
@@ -83,7 +89,7 @@ class RouteRequest
                 }
 
                 $this->checker = true;
-                return request()->error(403, 'Acesso negado');
+                return redirect()->error(403, 'Acesso negado');
             }
         }        
 
@@ -98,17 +104,20 @@ class RouteRequest
                 define('ROUTER_PARAMS', $route['params']);
 
                 if ($route['middleware'] != false) {
-                    $this->middleware($route['middleware']);
+                    if($this->middleware($route['middleware']) == 'redirect'){
+                        $this->checker = true;
+                        return;
+                    }
                 }
 
                 if ($this->checker == false and $this->verifyToken()) {
                     $this->checker = true;
-                    unset_token();
+                    token_unset();
                     return (new RouteAction($route['action']));
                 }
 
                 $this->checker = true;
-                return request()->error(403, 'Acesso negado');
+                return redirect()->error(403, 'Acesso negado');
             }
         }
         
@@ -124,7 +133,10 @@ class RouteRequest
                 define('ROUTER_PARAMS', $route['params']);
 
                 if ($route['middleware'] != false) {
-                    $this->middleware($route['middleware']);
+                    if($this->middleware($route['middleware']) == 'redirect'){
+                        $this->checker = true;
+                        return;
+                    }
                 }
 
                 if ($this->checker == false and $this->verifyToken()) {
@@ -133,7 +145,7 @@ class RouteRequest
                 }
 
                 $this->checker = true;
-                return request()->error(403, 'Acesso negado');
+                return redirect()->error(403, 'Acesso negado');
             }
         }        
 
@@ -148,7 +160,10 @@ class RouteRequest
                 define('ROUTER_PARAMS', $route['params']);
 
                 if ($route['middleware'] != false) {
-                    $this->middleware($route['middleware']);
+                    if($this->middleware($route['middleware']) == 'redirect'){
+                        $this->checker = true;
+                        return;
+                    }
                 }
 
                 if ($this->checker == false and $this->apiMethods($route['methods'])) {
@@ -157,7 +172,7 @@ class RouteRequest
                 }
 
                 $this->checker = true;
-                return request()->error(403, 'Acesso negado');
+                return redirect()->error(403, 'Acesso negado');
             }
         }
         
@@ -168,15 +183,15 @@ class RouteRequest
     {
         foreach ($middleware as $class => $method) {
             $class = "\App\Middleware\\$class";
-            $rum = new $class;
+            $rum = new $class;            
             $veriry = $rum->$method(new Middleware);
 
             if ($veriry !== true) {
-                $this->checker = true;               
+                return 'redirect';            
             }
         }
 
-        return;
+        return false;
     }
 
     private function apiMethods(string $methods)
@@ -231,6 +246,6 @@ class RouteRequest
     private function error()
     {   
         $this->checker = true;
-        return request()->error();
+        return redirect()->error();
     }
 }

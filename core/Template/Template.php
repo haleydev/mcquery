@@ -52,18 +52,17 @@ class Template
     private function resolve(string $template)
     {
         $file = ROOT . '/templates/' . $template . '.php';  
-        $cache = ROOT .  '/app/Cache/template/' .$template . '.php';
+        $cache = ROOT . '/app/Cache/template/' .$template . '.php';
            
-        if (file_exists($file)) {            
-            if(!file_exists($cache) or $this->check_cache($file)){
-                echo '<p>ALTERADO</p>';
+        if (file_exists($file)) {                        
+            if(!file_exists($cache) or $this->check_cache($file)){              
                 (new TemplateCompiler)->compiler($file);
             }  
             
             $this->template = $cache;
 
             return $this->render();
-        }                 
+        }
         
         die('Arquivo não encontrado ' . $file);   
     }

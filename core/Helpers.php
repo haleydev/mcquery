@@ -1,6 +1,7 @@
 <?php
 use Core\Env;
 use Core\Hashing;
+use Core\Http\Redirect;
 use Core\Http\Request;
 use Core\Template\Template;
 
@@ -12,6 +13,18 @@ use Core\Template\Template;
 function template(array|object $params = [])
 { 
     return new Template($params);
+}
+
+/**
+ * Redirecionamentos
+ */
+function redirect($url = null , $response = 302)
+{  
+    if($url != null) {
+       return header('Location: ' . $url, true, $response);
+    }
+
+    return new Redirect;
 }
 
 /**
@@ -105,7 +118,7 @@ function env_required(string|array $values)
 }
 
 /**
- * funções request
+ * Funções request
  */
 function request()
 {
@@ -194,15 +207,6 @@ function old(string $input = null)
 }
 
 /**
- * Cria um input token de segurança para formularios.
- * @return string
- */
-function token_input()
-{    
-    return '<input type="hidden" name="mcquery_token" value="'.token().'"/>' . PHP_EOL;
-}
-
-/**
  * Retorna o token atual.
  * @return string
  */
@@ -218,10 +222,19 @@ function token()
 }
 
 /**
+ * Cria um input token de segurança para formularios.
+ * @return string
+ */
+function token_input()
+{    
+    return '<input type="hidden" name="mcquery_token" value="'.token().'"/>' . PHP_EOL;
+}
+
+/**
  * Desvalida o token atual se existir.
  * @return true
  */
-function unset_token()
+function token_unset()
 {
     if (isset($_SESSION['MCQUERY_TOKEN'])) {
         unset($_SESSION['MCQUERY_TOKEN']);

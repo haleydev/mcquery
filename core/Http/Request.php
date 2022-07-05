@@ -241,21 +241,4 @@ class Request
             return self::url() . '?' . $allGets;
         }
     }
-
-    /**
-     * Redirecionar para uma URL 
-     */
-    public static function redirect($route, $code = 302)
-    {
-        header('Location: ' . $route, true, $code);
-        die;
-    }
-
-    /**
-     * Retorna a pagina de erro 
-     */
-    public static function error($code = 404, $msg = null)
-    {        
-        return (new ErrorController)->error($code, $msg);
-    }
 }

@@ -10,6 +10,9 @@ class ErrorController
        
         if ($msg === null) {
             switch ($code):
+                case 302:
+                    $this->msg = 'Redirecionado';
+                    break;
                 case 404:
                     $this->msg = 'Página não encontrada';
                     break;

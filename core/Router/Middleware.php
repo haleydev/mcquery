@@ -1,7 +1,6 @@
 <?php
 namespace Core\Router;
-use Core\Http\Request;
-use Core\Template\Template;
+use Core\Http\Redirect;
 
 class Middleware
 {
@@ -18,24 +17,14 @@ class Middleware
      */
     public function denied($msg = null)
     {
-        return Request::error(403, $msg);
+        return redirect()->error(403, $msg);
     }
 
     /**
-     * Redireciona para uma url.
+     * Redirecionamentos
      */
-    public function redirect($route, $code = 302)
-    {
-        return Request::redirect($route, $code);
-    }
-
-    /**
-     * Renderiza um template.
-     * @param array|object $params
-     * @return template
-     */
-    function template(array|object $params = [])
+    public function redirect($url = null, $response = 302)
     { 
-        return new Template($params);
+        return redirect($url, $response);
     }
 }

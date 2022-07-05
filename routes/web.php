@@ -1,6 +1,7 @@
 <?php
+
+use App\Middleware\Auth;
 use Controllers\{ajaxController, ApiController, database, HomeController, testController};
-use Core\Http\Request;
 use Core\Router\Route;
 
 // --------------------------------------------------------------------------|
@@ -32,29 +33,32 @@ Route::middleware(['Headers' => 'json'],function(){
 
         // dd(request()->param('file'));
         dd(request()->all());
-        dd(request()->redirect('/'));
+        dd(redirect()->route('home'));
         
      })->name('file');      
 });
 
+Route::url('/haley', function(){
+    return redirect('/');
+})->name('haley');  
 
 
 Route::url('/login', function(){
     
     if(isset($_SESSION['user']) or isset($_SESSION['adm'])) {
-        return Request::redirect(route('user'));
+        return redirect()->route('user');
     }
 
     $_SESSION['user'] = 'user'; 
     $_SESSION['adm'] = 'adm'; 
 
-    return Request::redirect(route('user'));
+    return redirect()->route('user');
 
 })->name('login');  
 
 Route::url('/logoff', function(){
     session_destroy();
-    return Request::redirect('/');
+    return redirect();
 });
 
 // --------------------------------------------------------------------------|
