@@ -1,6 +1,5 @@
 <?php
 namespace Core\Router;
-use Core\Http\Redirect;
 
 class Middleware
 {

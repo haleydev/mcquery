@@ -25,7 +25,7 @@ class ajaxController
         if($validator->errors() == false){
             echo 'logado';
         }else{            
-            return request()->redirect(route('testes'));
+            return redirect()->route('testes');
         }        
       
 

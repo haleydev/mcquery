@@ -1,6 +1,9 @@
 <?php
 namespace Core;
 
+/**
+ * MCQUERY VALIDATOR
+ */
 class Validator
 {
     private array $request;
