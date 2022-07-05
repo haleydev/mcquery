@@ -113,6 +113,7 @@ class TemplateCompiler
                 
         if($render) {
             $this->template = trim($this->template);  
+            $this->template = preg_replace('/\n+/', "\n", $this->template);
             return true;          
         }        
     }
@@ -202,7 +203,7 @@ class TemplateCompiler
         }
 
         foreach($this->get_set as $key => $value) {
-            $replace = str_replace(trim($value[1]),'', $this->template);
+            $replace = str_replace($value[1],'', $this->template);
             $replace = str_replace($value[0],trim($value[2]), $replace);           
             $this->template = $replace;     
         }

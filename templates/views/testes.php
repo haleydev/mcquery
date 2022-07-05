@@ -8,19 +8,14 @@
 @end(head)
 
 @set(main)
-    <form id="form" method="POST" action="<?= route('ajax') ?>">     
+    <form id="form" method="POST" action="<?= route('ajax') ?>">
         <?= token_input() ?>
-        <input value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome">
-        <?= validator('nome') ?>
-        <input value="<?= old('email') ?>" type="text" name="email" placeholder="email">
-        <?= validator('email') ?>
-        <input value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade">
-        <?= validator('idade') ?>
+        <input class="input-teste" value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome"><?= validator('nome') ?>        
+        <input class="input-teste" value="<?= old('email') ?>" type="text" name="email" placeholder="email"><?= validator('email') ?>      
+        <input class="input-teste" value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade"><?= validator('idade') ?>       
         <input type="submit" value="enviar">
     </form>   
     <div id="result"></div>
-
-   
 
     <!-- <script>  
         $('#form').submit(function(e){
@@ -37,21 +32,28 @@
                 }
             }) 
         })     
-    </script> -->
-    
+    </script> -->   
 
     <style>
         .error {
-            color: #3a3a3a;
-            font-weight: bolder;
-            padding: 2px 4px;
-            background: #c3baba;
+            color: #bf4b4b;
             font-size: 12px;
             display: flex;
             width: 100%;
-            margin-top: 4px;
-            margin-bottom: 10px;
             border-radius: 3px;
+        }
+
+        .input-teste {
+            display: flex;
+            width: 100%;
+            color: white;
+            border-radius: 4px;
+            background: #3a3a3a;
+            padding: 4px;
+            border: none;
+            margin-bottom: 2px;
+            margin-top: 5px;
+            border-bottom: 2px solid royalblue !important;
         }
     </style>
 @end(main)

@@ -108,3 +108,9 @@ PHP Parse error:  syntax error, unexpected variable "$errors" in /var/www/mcquer
 [04/07/2022 08:00:02] Exemplo a cada 1 hora - status: iniciado
 [04/07/2022 08:00:02] Helo a cada 30 minutos - status: concluido
 [04/07/2022 08:00:02] Exemplo a cada 1 hora - status: concluido
+[04/07/2022 08:30:01] Helo a cada 30 minutos - status: iniciado
+[04/07/2022 08:30:01] Helo a cada 30 minutos - status: concluido
+[04/07/2022 09:00:01] Helo a cada 30 minutos - status: iniciado
+[04/07/2022 09:00:01] Exemplo a cada 1 hora - status: iniciado
+[04/07/2022 09:00:01] Exemplo a cada 1 hora - status: concluido
+[04/07/2022 09:00:01] Helo a cada 30 minutos - status: concluido
