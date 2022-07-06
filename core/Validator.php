@@ -20,7 +20,7 @@ class Validator
     /**
      * Requerido
      */
-    public function required(string $input, $mesage = 'Requerido')
+    public function required(string $input, string $mesage = 'Requerido')
     {
         if(isset($this->request[$input])){
             if($this->request[$input] == '' or $this->request[$input] == false or $this->request[$input] == null){
@@ -36,7 +36,7 @@ class Validator
     /**
      * Minimo de caracteres
      */
-    public function min($input, $min, $mesage = 'Minimo x caracteres') 
+    public function min(string $input, int $min, string $mesage = 'Minimo x caracteres') 
     {
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) < $min){
@@ -52,7 +52,7 @@ class Validator
     /**
      * Maximo de caracteres
      */
-    public function max($input, $max, $mesage = 'Maximo x caracteres') 
+    public function max(string $input, int $max, string $mesage = 'Maximo x caracteres') 
     {
         if(isset($this->request[$input])){
             if(strlen($this->request[$input]) > $max){
@@ -66,9 +66,61 @@ class Validator
     }
 
     /**
+     * Quantidade especifica de caracteres
+     */
+    public function size(string $input, int $size, string $mesage = 'x caracteres necessários') 
+    {
+        if(isset($this->request[$input])){
+            if(strlen($this->request[$input]) != $size){
+                if($mesage == 'x caracteres necessários'){
+                    $mesage =  $size . ' caracteres necessários';
+                }
+
+                $this->errors[$input][] = $this->e_mold($mesage);
+            }
+        }      
+    }
+
+    /**
+     * Valor minimo de um número
+     */
+    public function min_value(string $input, int|float $min, string $mesage = 'Minimo x') 
+    {
+        if(isset($this->request[$input])){
+            if($this->request[$input] < $min and is_numeric($min) and strlen($this->request[$input]) > 0){
+                if($mesage == 'Minimo x') {
+                    $mesage = 'Minimo ' . $min;
+                }
+
+                $this->errors[$input][] = $this->e_mold($mesage);
+            }
+        }
+        
+        return;         
+    }
+
+    /**
+     * Valor maximo de um número
+     */
+    public function max_value(string $input, int|float $max, string $mesage = 'Maximo x') 
+    {
+        if(isset($this->request[$input])){
+            if($this->request[$input] > $max and is_numeric($max) and strlen($this->request[$input]) > 0){
+                if($mesage == 'Maximo x') {
+                    $mesage = 'Maximo ' . $max;
+                }
+
+                $this->errors[$input][] = $this->e_mold($mesage);
+            }
+        }
+        
+        return;        
+    }
+
+    /**
      * Tipo email
      */
-    public function email(string $input, $mesage = 'E-mail inválido')
+    public function email(string $input, string $mesage = 'E-mail inválido')
     {
         if(isset($this->request[$input])){
             if(!filter_var($this->request[$input], FILTER_VALIDATE_EMAIL) and strlen($this->request[$input]) > 0){
@@ -80,9 +132,23 @@ class Validator
     }
 
     /**
+     * Tipo url
+     */
+    public function url(string $input, string $mesage = 'URL inválido')
+    {
+        if(isset($this->request[$input])){
+            if(!filter_var($this->request[$input], FILTER_VALIDATE_URL) and strlen($this->request[$input]) > 0){
+                $this->errors[$input][] = $this->e_mold($mesage);;
+            }
+        }
+        
+        return;
+    }
+
+    /**
      * Apenas números
      */
-    public function numeric(string $input, $mesage = 'Apenas números')
+    public function numeric(string $input, string $mesage = 'Apenas números')
     {
         if(isset($this->request[$input])){
             if(!is_numeric($this->request[$input]) and strlen($this->request[$input]) > 0){
@@ -91,6 +157,54 @@ class Validator
         }
         
         return;
+    }
+
+    /**
+     * Verifica o formato dos números sendo x os números, retorna int ou false
+     * @param string $format exemplo (xx) xxxxx-xxxx 
+     * @return int|false
+     */
+    public function number_formart(string $input,string $format, string $mesage = 'Formato inválido x')
+    {
+        if(isset($this->request[$input]) and strlen($this->request[$input]) > 0){  
+            $array_input = str_split($this->request[$input]);
+            $array_format = str_split($format);
+
+            $new_input = '';
+            $checker = true;
+            $return = '';
+            
+            foreach($array_input as $key => $value) {
+                if(is_numeric($value)) {
+                    $new_input .= 'x';                   
+                }else{
+                    $new_input .= $value;
+                }
+
+                if(isset($array_format[$key])) {
+                    if($array_format[$key] == 'x'){
+                        if(!is_numeric($value)){
+                            $checker = false;
+                        }else{
+                            $return .= $value;
+                        }
+                    }                  
+                }else{
+                    $checker = false;
+                }
+            } 
+
+            if($new_input != $format or $checker == false) {
+                if($mesage == 'Formato inválido x') {
+                    $mesage = 'Formato inválido ' . $format;
+                }
+                $this->errors[$input][] = $this->e_mold($mesage);
+            }else{
+                return (int)$return;
+            }
+        }        
+       
+        return false;
     }
     
     /**

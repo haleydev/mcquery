@@ -5,17 +5,46 @@
     <meta name="mcquery-token" content="<?= token() ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="<?= URL ?>/js/jquery.min.js"></script>
+    <script src="<?= URL ?>/js/jquery.mask.js"></script>  
 @end(head)
 
 @set(main)
-    <form id="form" method="POST" action="<?= route('ajax') ?>">
+    <form class="form" id="form" method="POST" action="<?= route('ajax') ?>">
         <?= token_input() ?>
         <input class="input-teste" value="<?= old('nome') ?>" type="text" name="nome" placeholder="nome"><?= validator('nome') ?>        
-        <input class="input-teste" value="<?= old('email') ?>" type="text" name="email" placeholder="email"><?= validator('email') ?>      
-        <input class="input-teste" value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade"><?= validator('idade') ?>       
-        <input type="submit" value="enviar">
+        <input class="input-teste" value="<?= old('email') ?>" type="text" name="email" placeholder="email"><?= validator('email') ?>  
+        <input class="input-teste" value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade"><?= validator('idade') ?>  
+        <input class="input-teste" value="<?= old('telefone') ?>" type="text" name="telefone" id="telefone" placeholder="telefone"><?= validator('telefone') ?>  
+        <input class="input-teste" value="<?= old('url') ?>" type="text" name="url" placeholder="url"><?= validator('url') ?>      
+        <input class="submit" type="submit" value="enviar">
     </form>   
+       
     <div id="result"></div>
+
+    <!-- testes -->
+    <?php        
+        $number = '89955599';
+        if(is_numeric($number)){
+            if ((int) $number == $number) {
+                echo $number . ' inteiro';
+            }else{
+                if ((float) $number == $number) {
+                    echo $number . ' float';
+                }               
+            }
+        }else{
+            echo 'numero invalido';
+        }
+
+        echo '<br><br>';
+
+        $valores = array('530077.99','31459.89', '2899.39', '600.51', '13', '9', '0.25');
+        $formatter = new NumberFormatter('pt_BR',  NumberFormatter::CURRENCY);
+        foreach($valores as $item){
+            echo  $formatter->formatCurrency($item, 'BRL') . '<br>';
+        }
+    ?>
+
 
     <!-- <script>  
         $('#form').submit(function(e){
@@ -35,8 +64,18 @@
     </script> -->   
 
     <style>
+        .form {
+            width: 600px;
+            max-width: 85%;
+            display: flex;
+            flex-direction: column;
+        }
+
         .error {
-            color: #bf4b4b;
+            margin-left: 15px;
+            width: 100%;
+            display: flex;
+            color: royalblue;
             font-size: 12px;
             display: flex;
             width: 100%;
@@ -45,15 +84,53 @@
 
         .input-teste {
             display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 2px 1px #b9add79c;
             width: 100%;
-            color: white;
-            border-radius: 4px;
-            background: #3a3a3a;
-            padding: 4px;
+            color: #959595;
+            border-radius: 40px;
+            background: #2c2c2c;
+            padding: 8px 6px 6px 15px;
             border: none;
-            margin-bottom: 2px;
+            font-size: 18px;
+            margin-bottom: 4px;
             margin-top: 5px;
             border-bottom: 2px solid royalblue !important;
         }
+
+        .submit {
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            box-shadow: 0 0 2px 1px #b9add79c;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: royalblue;
+            border-radius: 40px;
+            background: #3a3a3a;
+            padding: 8px 6px 6px 15px;
+            border: none;
+            font-size: 16px;
+            margin-bottom: 4px;
+            margin-top: 25px;
+            font-weight: bold;
+            border-bottom: 2px solid royalblue !important;
+        }
+
+        .submit:hover {
+            box-shadow: 0 0 2px 1px #ad60609c;
+            border-bottom: 2px solid #e14141 !important;
+            color:#e14141;
+            background: #262626;
+        }        
     </style>
+ 
+    <script>        
+        $(document).ready(function(){  
+            $('#telefone').mask('(00) 00000-0000');
+        });
+    </script>
+   
 @end(main)

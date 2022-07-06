@@ -28,6 +28,8 @@ class ErrorController
                 case 503:
                     $this->msg = 'Serviço não disponível';
                     break; 
+                default:
+                    $this->msg = '';
             endswitch;
         } else {
             $this->msg = $msg;

@@ -11,23 +11,28 @@ class ajaxController
         $validator->required('email','email requerido'); 
         $validator->required('nome','nome requerido'); 
         $validator->required('idade','informe sua idade');
-        $validator->email('email'); 
-        $validator->numeric('idade');
-        $validator->max('idade',3);
+        $validator->required('url','mande sua url');
+        $validator->required('telefone','informe seu telefone');       
+        $validator->email('email');      
+        $validator->numeric('idade');      
+        $validator->min_value('idade',18,'muito novo');
+        $validator->max_value('idade',60,'muito veio');   
+        $validator->size('idade',2);    
         $validator->min('nome',5);
         $validator->max('nome',255);
-        $validator->register();
+        $validator->url('url');       
+        $telefone = $validator->number_formart('telefone','(xx) xxxxx-xxxx'); 
+        $validator->register();       
 
         // dd($validator->errors());
         // dd($validator->error_fist());
         // return;
 
         if($validator->errors() == false){
-            echo 'logado';
+            dd($telefone);
         }else{            
-            return redirect()->route('testes');
-        }        
-      
+            return redirect()->back();
+        }
 
         // return dd($validator->errors());
         // return Response::json($validator->error_fist());

@@ -8,16 +8,15 @@ class Redirect
     /**
      * Redirecionar para uma uma rota nomeada
      */
-    public static function route($route, $response = 302)
+    public static function route(string $route,int $response = 302)
     {
-        header('Location: ' . route($route) , true, $response);
-        die;
+        return header('Location: ' . route($route) , true, $response);       
     }
 
     /**
      * Retorna a pagina de erro 
      */
-    public static function error($response = 404, $msg = null)
+    public static function error(int $response = 404, string $msg = null)
     {        
         return (new ErrorController)->error($response, $msg);
     }
@@ -27,9 +26,21 @@ class Redirect
      * @param array|object $params
      * @return template
      */
-    function template(array|object $params = [], $response = 302)
+    public function template(array|object $params = [], int $response = 302)
     { 
         http_response_code($response);
         return new Template($params);
+    }
+
+    /**
+     * Redireciona para pagina anterior se existir ou pagina 404
+     */
+    public function back(int $response = 302)
+    {
+        if(isset($_SERVER['HTTP_REFERER'])){
+            return header('Location: ' . $_SERVER['HTTP_REFERER'] , true, $response);
+        }else{
+            redirect()->error();
+        }
     }
 }
