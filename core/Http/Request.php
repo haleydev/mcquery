@@ -147,8 +147,8 @@ class Request
      */
     public static function all(string|array|null $search = null)
     {        
-        $post = self::get();
-        $get = self::post();
+        $post = self::post();
+        $get = self::get();
         $all = [];
        
         if($get){

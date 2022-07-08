@@ -6,15 +6,15 @@ namespace Core;
  */
 class Validator
 {
-    private array $request;
+    private array $inputs = [];  
+    private array $request = [];
     private array $errors = [];
-
     private string $mold_start = '';
     private string $mold_end = '';
 
     public function __construct(array $request)
     {
-        $this->request = $request;        
+        $this->request = $request;
     }
 
     /**
@@ -25,10 +25,25 @@ class Validator
         if(isset($this->request[$input])){
             if($this->request[$input] == '' or $this->request[$input] == false or $this->request[$input] == null){
                 $this->errors[$input][] = $this->e_mold($mesage);     
-            }           
+            }      
+                
+            $this->inputs[$input] = $this->request[$input]; 
         }else{
             $this->errors[$input][] = $this->e_mold($mesage); 
         }
+        
+        return;
+    }
+
+    /**
+     * Equivalente a str_replace   
+     */
+    public function replace(string $input,array|string $search, string|array $new = '',int $count = null)
+    {
+        if(isset($this->request[$input])){
+            $this->request[$input] = str_replace($search,$new,$this->request[$input],$count); 
+            $this->inputs[$input] = $this->request[$input];    
+        }       
         
         return;
     }
@@ -46,7 +61,11 @@ class Validator
 
                 $this->errors[$input][] = $this->e_mold($mesage);
             }
-        }      
+
+            $this->inputs[$input] = $this->request[$input];
+        }
+
+        
     }
 
     /**
@@ -62,6 +81,8 @@ class Validator
 
                 $this->errors[$input][] = $this->e_mold($mesage);
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }      
     }
 
@@ -71,13 +92,15 @@ class Validator
     public function size(string $input, int $size, string $mesage = 'x caracteres necessários') 
     {
         if(isset($this->request[$input])){
-            if(strlen($this->request[$input]) != $size){
+            if(strlen((string)$this->request[$input]) != $size){
                 if($mesage == 'x caracteres necessários'){
                     $mesage =  $size . ' caracteres necessários';
                 }
 
                 $this->errors[$input][] = $this->e_mold($mesage);
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }      
     }
 
@@ -94,6 +117,8 @@ class Validator
 
                 $this->errors[$input][] = $this->e_mold($mesage);
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }
         
         return;         
@@ -112,6 +137,8 @@ class Validator
 
                 $this->errors[$input][] = $this->e_mold($mesage);
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }
         
         return;        
@@ -126,6 +153,8 @@ class Validator
             if(!filter_var($this->request[$input], FILTER_VALIDATE_EMAIL) and strlen($this->request[$input]) > 0){
                 $this->errors[$input][] = $this->e_mold($mesage);;
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }
         
         return;
@@ -140,6 +169,8 @@ class Validator
             if(!filter_var($this->request[$input], FILTER_VALIDATE_URL) and strlen($this->request[$input]) > 0){
                 $this->errors[$input][] = $this->e_mold($mesage);;
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }
         
         return;
@@ -154,15 +185,68 @@ class Validator
             if(!is_numeric($this->request[$input]) and strlen($this->request[$input]) > 0){
                 $this->errors[$input][] = $this->e_mold($mesage);;
             }
+
+            $this->inputs[$input] = $this->request[$input];
         }
         
         return;
     }
 
     /**
-     * Verifica o formato dos números sendo x os números, retorna int ou false
+     * Apenas letras
+     */
+    public function letters(string $input, string $mesage = 'Apenas letras')
+    {
+        if(isset($this->request[$input])){
+            if(strlen($this->request[$input]) > 0 and is_numeric(filter_var($this->request[$input], FILTER_SANITIZE_NUMBER_INT))){
+                $this->errors[$input][] = $this->e_mold($mesage);;
+            }
+
+            $this->inputs[$input] = $this->request[$input];
+        }
+        
+        return;
+    }
+
+    /**
+     * Tipo inteito
+     */
+    public function int(string $input, string $mesage = 'Apenas números inteiros')
+    {
+        if(isset($this->request[$input])){
+            if(strlen($this->request[$input]) > 0){               
+                if ((int)$this->request[$input] != $this->request[$input] or !is_numeric($this->request[$input])){
+                    $this->errors[$input][] = $this->e_mold($mesage);;
+                }            
+            }
+
+            $this->inputs[$input] = $this->request[$input];
+        }
+        
+        return;
+    }
+
+    /**
+     * Tipo float
+     */
+    public function float(string $input, string $mesage = 'Apenas números float')
+    {
+        if(isset($this->request[$input])){
+            if(strlen($this->request[$input]) > 0){               
+                if (!is_float((float)$this->request[$input]) or !is_numeric($this->request[$input]) or strpos((string)$this->request[$input],'.') === false){                   
+                    $this->errors[$input][] = $this->e_mold($mesage);                                   
+                }            
+            }
+
+            $this->inputs[$input] = $this->request[$input];
+        }
+        
+        return;
+    }
+
+    /**
+     * Verifica o formato dos números sendo x os números, o resto será removido
      * @param string $format exemplo (xx) xxxxx-xxxx 
-     * @return int|false
      */
     public function number_formart(string $input,string $format, string $mesage = 'Formato inválido x')
     {
@@ -198,13 +282,15 @@ class Validator
                 if($mesage == 'Formato inválido x') {
                     $mesage = 'Formato inválido ' . $format;
                 }
+
+                $this->inputs[$input] = false;
                 $this->errors[$input][] = $this->e_mold($mesage);
             }else{
-                return (int)$return;
+                $this->inputs[$input] = (int)$return;
             }
         }        
        
-        return false;
+        return;
     }
     
     /**
@@ -241,7 +327,26 @@ class Validator
     {         
         return $this->mold_start . $input . $this->mold_end;
     }
-    
+
+    /**
+     * Retorna os valores dos inputs filtrados
+     * @return array|string|false 
+     */
+    public function get(string $input = null)
+    {
+        if($input != null){
+            if(isset($this->inputs[$input])){
+                return $this->inputs[$input];
+            }
+        }
+
+        if(count($this->inputs) > 0) {
+            return $this->inputs;
+        }
+
+        return false;
+    }
+
     /**
      * Retorna todos os erros ou false se não existir erros
      * @param strign $input especificar qual item.
@@ -264,7 +369,7 @@ class Validator
         return false;
     }
 
-     /**
+    /**
      * Retorna o primeiro erro encontrado
      * @param strign $input especificar qual item.
      * @return array|string|false

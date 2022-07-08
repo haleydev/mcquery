@@ -12,26 +12,32 @@ class ajaxController
         $validator->required('nome','nome requerido'); 
         $validator->required('idade','informe sua idade');
         $validator->required('url','mande sua url');
-        $validator->required('telefone','informe seu telefone');       
+        $validator->required('telefone','informe seu telefone');
+        $validator->letters('nome');
+        $validator->required('money');       
         $validator->email('email');      
-        $validator->numeric('idade');      
+        $validator->int('idade');    
         $validator->min_value('idade',18,'muito novo');
         $validator->max_value('idade',60,'muito veio');   
         $validator->size('idade',2);    
         $validator->min('nome',5);
         $validator->max('nome',255);
         $validator->url('url');       
-        $telefone = $validator->number_formart('telefone','(xx) xxxxx-xxxx'); 
-        $validator->register();       
-
-        // dd($validator->errors());
-        // dd($validator->error_fist());
-        // return;
+        $validator->number_formart('telefone','(xx) xxxxx-xxxx'); 
+        $validator->replace('money','.','');  
+        $validator->replace('money',',','.');   
+        $validator->float('money');  
+        $validator->register();   
+        
+        $telefone = $validator->get('telefone');
+        $money = $validator->get('money');
+       
+        
 
         if($validator->errors() == false){
-            dd($telefone);
-        }else{            
-            return redirect()->back();
+            return template(['money' => $money])->view('testes');
+        }else{      
+            return redirect()->template(['money' => $money])->view('testes');
         }
 
         // return dd($validator->errors());

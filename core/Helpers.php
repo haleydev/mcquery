@@ -8,7 +8,7 @@ use Core\Template\Template;
 /**
  * MCQUERY TEMPLATE
  * @param array|object $params
- * @return template
+ * @return Template
  */
 function template(array|object $params = [])
 { 
@@ -26,6 +26,20 @@ function redirect($url = null , $response = 302)
 
     return new Redirect;
 }
+
+/**
+ * Converte números para o formato moeda
+ * @return string
+ */
+function money(mixed $number ,$c1 = 'pt_BR', $c2 = 'BRL')
+{  
+    if(!isset($number) or is_null($number) or !is_numeric($number)){
+        $number = 0;
+    }
+  
+    $formatter = new NumberFormatter($c1,  NumberFormatter::CURRENCY);      
+    return $formatter->formatCurrency($number, $c2);
+}   
 
 /**
  * Retorna o ultimo erro do validator

@@ -16,35 +16,19 @@
         <input class="input-teste" value="<?= old('idade') ?>" type="text" name="idade" placeholder="idade"><?= validator('idade') ?>  
         <input class="input-teste" value="<?= old('telefone') ?>" type="text" name="telefone" id="telefone" placeholder="telefone"><?= validator('telefone') ?>  
         <input class="input-teste" value="<?= old('url') ?>" type="text" name="url" placeholder="url"><?= validator('url') ?>      
+        <input class="input-teste" value="<?= old('money') ?>" type="text" name="money" id="money" placeholder="money"><?= validator('money') ?>  
         <input class="submit" type="submit" value="enviar">
     </form>   
        
     <div id="result"></div>
 
+    <br>
+    <p><?= money($money) ?></p>
+    <p><?= $money ?></p>
+    
+
     <!-- testes -->
-    <?php        
-        $number = '89955599';
-        if(is_numeric($number)){
-            if ((int) $number == $number) {
-                echo $number . ' inteiro';
-            }else{
-                if ((float) $number == $number) {
-                    echo $number . ' float';
-                }               
-            }
-        }else{
-            echo 'numero invalido';
-        }
-
-        echo '<br><br>';
-
-        $valores = array('530077.99','31459.89', '2899.39', '600.51', '13', '9', '0.25');
-        $formatter = new NumberFormatter('pt_BR',  NumberFormatter::CURRENCY);
-        foreach($valores as $item){
-            echo  $formatter->formatCurrency($item, 'BRL') . '<br>';
-        }
-    ?>
-
+   
 
     <!-- <script>  
         $('#form').submit(function(e){
@@ -73,6 +57,7 @@
 
         .error {
             margin-left: 15px;
+            margin-bottom: 10px;
             width: 100%;
             display: flex;
             color: royalblue;
@@ -130,6 +115,7 @@
     <script>        
         $(document).ready(function(){  
             $('#telefone').mask('(00) 00000-0000');
+            $('#money').mask('000.000.000.000.000,00', {reverse: true});
         });
     </script>
    

@@ -4,7 +4,7 @@ use Core\Model\Query;
 
 class QuerySelect
 {
-    private array $query = [];
+    public array $query = [];
     private string $table;
 
     public function __construct($table)
@@ -41,43 +41,45 @@ class QuerySelect
     /**
      * Esta função pode ser usada varias vezes.
      * 
-     * example: ['id' => 1, ...] ou ['NOT id' => 1, ...]
+     * example: (['name' => '%example%', ...],'LIKE','OR')
      * 
-     * @param array $condicion
+     * @param array $values
      * @param string $operator   
+     * @param strign $boolean
      */
-    public function where(array $condicions, string $operator = '=')
+    public function where(array $values, string $operator = '=', string $boolean = 'AND')
     {
-        $new_where = "";
-        $count = count($condicions);
-        $for_count = 1;
-        foreach ($condicions as $key => $value) {
-            if ($count > $for_count) {
-                $and = "AND";
+        $new_where = '';
+        $count_values = count($values);
+        $count_boolean = 1;
+
+        foreach ($values as $key => $value) {
+            if ($count_values > $count_boolean) {
+                $and = $boolean;
             } else {
-                $and = "";
+                $and = '';
             }
 
-            if ($for_count == 1 and !isset($this->query['where'])) {
-                $wh = "WHERE";
+            if ($count_boolean == 1 and !isset($this->query['where'])) {
+                $where = 'WHERE';
             } else {
-                $wh = "";
+                $where = '';
             }
 
             $this->query['bindparams']['where'][] = $value;
 
-            $new_where .= "$wh $key $operator ? $and";
-            $for_count++;
+            $new_where .= "$where $key $operator ? $and";
+            $count_boolean++;
         }
 
         if (isset($this->query['where'])) {
-            $this->query['where'] = $this->query['where'] . 'AND' . $new_where;
+            $this->query['where'] = $this->query['where'] . $boolean . $new_where;
         } else {
             $this->query['where'] = $new_where;
         }
 
         return $this;
-    }
+    }   
 
     /**
      * Agrupa os arrays onde as colunas possuem valores iguais
@@ -91,7 +93,7 @@ class QuerySelect
                 $all_coluns .= $colun . ',';
             }
 
-            $group_by = rtrim($all_coluns, ",");
+            $group_by = rtrim($all_coluns, ',');
         }
 
         if (is_string($coluns)) {
@@ -113,49 +115,12 @@ class QuerySelect
     }
 
     /**
-     * Esta função pode ser usada varias vezes.
-     * @param array $like ['name' => '%example%', ...]
-     */
-    public function like(array $like)
-    {
-        $new_like = "";
-        $count = count($like);
-        $for_count = 1;
-        foreach ($like as $key => $value) {
-            if ($count > $for_count) {
-                $and = " OR";
-            } else {
-                $and = "";
-            }
-
-            if ($for_count == 1 and !isset($this->query['like'])) {
-                $wh = "WHERE";
-            } else {
-                $wh = "";
-            }
-
-            $this->query['bindparams']['like'][] = $value;
-
-            $new_like .= " $wh $key LIKE ? $and";
-            $for_count++;
-        }
-
-        if (isset($this->query['like'])) {
-            $this->query['like'] = $this->query['like'] . 'OR' . $new_like;
-        } else {
-            $this->query['like'] = $new_like;
-        }
-
-        return $this;
-    }
-
-    /**
      * Limite de resultados
      * @param int|string $limit
      */
     public function limit(int|string $limit)
     {
-        $this->query['limit'] = "LIMIT " . $limit;
+        $this->query['limit'] = 'LIMIT'  . $limit;
         return $this;
     }
 
@@ -164,7 +129,7 @@ class QuerySelect
      */
     public function order(string $order)
     {
-        $this->query['order'] = "ORDER BY " . $order;
+        $this->query['order'] = 'ORDER BY ' . $order;
         return $this;
     }
 
@@ -394,22 +359,6 @@ class QuerySelect
     }
 
     /**
-     * Remove like da query atual.
-     */
-    public function remove_like()
-    {
-        if(isset($this->query['like'])){
-            unset($this->query['like']);
-        }
-
-        if(isset($this->query['bindparams']['like'])){
-            unset($this->query['bindparams']['like']);
-        }
-
-        return $this;
-    }
-
-    /**
      * Remove join da query atual.
      */
     public function remove_join()
@@ -465,13 +414,7 @@ class QuerySelect
     {
         if (isset($this->query['where'])) {
             $where = $this->query['where'];
-        }
-
-        if (isset($this->query['like']) and !isset($this->query['where'])) {
-            $where = $this->query['like'];
-        }
-
-        if (!isset($where)) {
+        }else{
             $where = '';
         }
 

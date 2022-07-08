@@ -7,7 +7,7 @@ class RouteAction
     public function __construct($action)
     {
         if(is_string($action)){
-            return $this->string('../'.$action);
+            return $this->string( ROOT.$action);
         }  
         
         if(is_array($action)){

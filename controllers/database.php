@@ -1,49 +1,62 @@
 <?php
 namespace Controllers;
 use Core\Model\DB;
-use Models\haley;
-use Models\usuarios;
 
 class database
 {
     public function render()
     {   
-        $delete = usuarios::delete()->where([
-            usuarios::nome => 'haley'
-        ])->limit(100)->execute();
-        dd($delete);
+        // $delete = usuarios::delete()->where([
+        //     usuarios::nome => 'haley'
+        // ])->limit(100)->execute();
+        // dd($delete);
 
-        $haley = haley::insert()->values([
-            haley::nome => 'database',
-            haley::sobrenome => 'query',
-            haley::idade => 25            
-        ])->execute();
-        dd($haley);
+        // $haley = haley::insert()->values([
+        //     haley::nome => 'database',
+        //     haley::sobrenome => 'query',
+        //     haley::idade => 25            
+        // ])->execute();
+        // dd($haley);
 
-        $insert = usuarios::insert()->values([
-            usuarios::nome => 'database',
-            usuarios::sobrenome => 'query',
-            usuarios::idade => 25            
-        ]);
-        dd($insert);
+        // $insert = usuarios::insert()->values([
+        //     usuarios::nome => 'database',
+        //     usuarios::sobrenome => 'query',
+        //     usuarios::idade => 25            
+        // ]);
+        // dd($insert);
 
-        $update = DB::update('usuarios')->values(['nome' => 'teste'])->where(['nome' => 'mc'])->execute();
-        dd($update);
+        // $update = DB::update('usuarios')->values(['nome' => 'teste'])->where(['nome' => 'mc'])->execute();
+        // dd($update);
 
-        $count = DB::select('usuarios')->coluns(['COUNT(id) as total,nome'])->group_by('nome')->execute();        
-        dd($count);
+        // $count = DB::select('usuarios')->coluns(['COUNT(id) as total,nome'])->group_by('nome')->execute();        
+        // dd($count);
 
-
-
-
-
-
-        $usuarios = usuarios::select()->limit(3)->order('RAND()')->coluns('nome,sobrenome');
+        // $usuarios = usuarios::select()->limit(3)->order('RAND()')->coluns('nome,sobrenome');
         
-        $teste_1 = $usuarios;
-        dd($teste_1->execute());
+        // $teste_1 = $usuarios;
+        // dd($teste_1->execute());
 
-        $teste_2 = $usuarios;
-        dd($teste_2->remove_where()->remove_order()->execute());
+        // $teste_2 = $usuarios;
+        // dd($teste_2->remove_where()->remove_order()->execute());
+
+        $usuarios = DB::select('usuarios')
+
+        ->coluns(['count(nome) as total','nome'])
+        //->where(['email' => '%h%'],'LIKE')
+     
+        ->group_by('nome')
+        //->order('RAND()')
+        ->execute();
+        dd($usuarios);
+
+
+        $usuarios = DB::select('usuarios')
+        ->coluns(['count(nome) as total','nome'])  
+        ->where(['nome' => 'haley'],'!=')
+        ->group_by('nome')
+        ->execute();
+        dd($usuarios);
+
+        //remover like adicionar aos where
     }
 }
