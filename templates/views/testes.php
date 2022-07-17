@@ -21,11 +21,21 @@
     </form>   
        
     <div id="result"></div>
-
+    base_64 encode decode
     <br>
-    <p><?= money($money) ?></p>
-    <p><?= $money ?></p>
-    
+
+    <?php if(validator_get('telefone')):?>
+    <p>Telefone: <?= validator_get('telefone') ?></p> 
+    <?php endif ?>
+
+    <?php if(validator_get('money')):?>
+    <p>Valor: <?= money(validator_get('money')) ?></p> 
+    <?php endif ?>
+
+   
+
+       
+   
 
     <!-- testes -->
    
@@ -115,7 +125,7 @@
     <script>        
         $(document).ready(function(){  
             $('#telefone').mask('(00) 00000-0000');
-            $('#money').mask('000.000.000.000.000,00', {reverse: true});
+            $('#money').mask('000000000000000.00', {reverse: true});
         });
     </script>
    

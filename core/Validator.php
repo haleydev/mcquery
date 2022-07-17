@@ -48,6 +48,20 @@ class Validator
         return;
     }
 
+
+    /**
+     * Equivalente a number_format  
+     */
+    function number_format(string $input,int $decimals = 2,string $decimal_separator = '.',string $thousands_separator = '') 
+    { 
+        if(isset($this->request[$input])){            
+            $this->request[$input] = number_format((float)$this->request[$input], $decimals, $decimal_separator, $thousands_separator); 
+            $this->inputs[$input] = $this->request[$input];    
+        }       
+        
+        return;
+    }
+    
     /**
      * Minimo de caracteres
      */
@@ -243,12 +257,12 @@ class Validator
         
         return;
     }
-
+  
     /**
      * Verifica o formato dos números sendo x os números, o resto será removido
      * @param string $format exemplo (xx) xxxxx-xxxx 
      */
-    public function number_formart(string $input,string $format, string $mesage = 'Formato inválido x')
+    public function mask(string $input,string $format, string $mesage = 'Formato inválido x')
     {
         if(isset($this->request[$input]) and strlen($this->request[$input]) > 0){  
             $array_input = str_split($this->request[$input]);
@@ -300,12 +314,13 @@ class Validator
     {
         if(isset($_SERVER['HTTP_REFERER'])){
             $page = $_SERVER['HTTP_REFERER'];
-
+           
             if(count($this->errors) > 0) {
-                $_SESSION['VALIDATOR_ERRORS'][$page] = $this->errors;
+                $_SESSION['VALIDATOR'][$page]['ERRORS'] = $this->errors;
+                $_SESSION['VALIDATOR'][$page]['INPUTS'] = $this->inputs;
             }else{
-                if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
-                    unset( $_SESSION['VALIDATOR_ERRORS'][$page]);
+                if(isset($_SESSION['VALIDATOR'][$page]['ERRORS'])){
+                    $_SESSION['VALIDATOR'][$page]['ERRORS'] = false;
                 }
             }
         }       

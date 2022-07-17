@@ -1,2 +1,3 @@
- @method static bool allows(string $ability, array|mixed $arguments = [])
- retunr route , code,parans ...
+aprimorarar instalacao ok
+aprimorar migrations
+validator value function ok

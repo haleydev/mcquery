@@ -48,12 +48,17 @@ class Bootstrap
             readline_read_history();
         
             if ($console == 's') {
+                if((float)phpversion() < 8.0) {
+                    echo "\033[1;31mversão minima necessária 8.0.2 sua versão atual do php: ". phpversion() ."\033[0m " . PHP_EOL; 
+                    die();
+                }
+
                 $file = mold_env();
                 file_put_contents(ROOT.'/.env', $file);
                 shell_exec('composer install');
 
                 if (strtolower(PHP_OS) == 'linux'){
-                    shell_exec('chmod -R a+rw ' . ROOT);
+                    shell_exec('sudo chmod -R a+rw ' . ROOT);
                 }              
         
                 if (file_exists(ROOT."/README.md")) {
@@ -64,7 +69,7 @@ class Bootstrap
                     unlink(ROOT."/LICENSE");
                 }
 
-                if(file_exists(ROOT. '/.env')) {
+                if(file_exists(ROOT. '/.env') and file_exists(ROOT. '/vendor')) {
                     echo "\033[0;32maplicação iniciada com sucesso\033[0m" . PHP_EOL;
                     die();
                 }else{

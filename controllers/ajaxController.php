@@ -20,24 +20,18 @@ class ajaxController
         $validator->min_value('idade',18,'muito novo');
         $validator->max_value('idade',60,'muito veio');   
         $validator->size('idade',2);    
-        $validator->min('nome',5);
+        $validator->min('nome',5);        
         $validator->max('nome',255);
         $validator->url('url');       
-        $validator->number_formart('telefone','(xx) xxxxx-xxxx'); 
-        $validator->replace('money','.','');  
-        $validator->replace('money',',','.');   
-        $validator->float('money');  
-        $validator->register();   
-        
-        $telefone = $validator->get('telefone');
-        $money = $validator->get('money');
-       
-        
+        $validator->mask('telefone','(xx) xxxxx-xxxx'); 
+        // $validator->number_format('money',2);
+        $validator->float('money');
+        $validator->register();  
 
         if($validator->errors() == false){
-            return template(['money' => $money])->view('testes');
+            return redirect()->route('testes');
         }else{      
-            return redirect()->template(['money' => $money])->view('testes');
+            return redirect()->route('testes');
         }
 
         // return dd($validator->errors());

@@ -8,7 +8,6 @@ use App\Commands\Command_Cron_Job;
 use App\Commands\Command_Database;
 use App\Commands\Command_Drop;
 use App\Commands\Command_Env;
-use App\Commands\Command_Install;
 use App\Commands\Command_List;
 use App\Commands\Command_Middleware;
 use App\Commands\Command_Migrate;
@@ -51,10 +50,6 @@ class Console
 
         $this->console->command('middleware', function () {
             (new Command_Middleware)->middleware($this->headline);
-        });
-
-        $this->console->command('install', function () {
-            (new Command_Install)->install();
         });
 
         $this->console->command('autoload', function () {

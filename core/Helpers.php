@@ -31,9 +31,9 @@ function redirect($url = null , $response = 302)
  * Converte números para o formato moeda
  * @return string
  */
-function money(mixed $number ,$c1 = 'pt_BR', $c2 = 'BRL')
+function money($number ,$c1 = 'pt_BR', $c2 = 'BRL')
 {  
-    if(!isset($number) or is_null($number) or !is_numeric($number)){
+    if(!isset($number) or is_null($number) or !is_numeric($number) or $number == false){
         $number = 0;
     }
   
@@ -50,9 +50,9 @@ function validator(string $input)
     if(isset($_SERVER['HTTP_REFERER'])){
         $page = $_SERVER['HTTP_REFERER'];
 
-        if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
-            if(isset($_SESSION['VALIDATOR_ERRORS'][$page][$input])){   
-                return $_SESSION['VALIDATOR_ERRORS'][$page][$input][0];             
+        if(isset($_SESSION['VALIDATOR'][$page]['ERRORS'])){
+            if(isset($_SESSION['VALIDATOR'][$page]['ERRORS'][$input])){   
+                return $_SESSION['VALIDATOR'][$page]['ERRORS'][$input][0];             
             }        
         }
     }
@@ -69,21 +69,41 @@ function validator_all()
     if(isset($_SERVER['HTTP_REFERER'])){
         $page = $_SERVER['HTTP_REFERER']; 
 
-        if(isset($_SESSION['VALIDATOR_ERRORS'][$page])){
-            $all_errors = $_SESSION['VALIDATOR_ERRORS'][$page];      
-            $return = [];
-    
-            foreach($all_errors as $key => $errors) {          
-                foreach($errors as $erro) {
-                    $return[$key] = $erro;
-                }                      
-            }
-    
-            return $return;
-        }
+        if(isset($_SESSION['VALIDATOR'][$page]['ERRORS'])){
+            if($_SESSION['VALIDATOR'][$page]['ERRORS'] != false){
+                $all_errors = $_SESSION['VALIDATOR'][$page]['ERRORS'];      
+                $return = [];
 
+                foreach($all_errors as $key => $errors) {          
+                    foreach($errors as $erro) {
+                        $return[$key] = $erro;
+                    }                      
+                }
+
+                return $return;
+           }
+        }
     }   
 
+    return false;
+}
+
+/**
+ * Retorna o valor do input filtrado por validator
+ * @return string|false
+ */
+function validator_get(string $input)
+{
+    if(isset($_SERVER['HTTP_REFERER'])){
+        $page = $_SERVER['HTTP_REFERER'];
+
+        if(isset($_SESSION['VALIDATOR'][$page]['INPUTS'])){
+            if(isset($_SESSION['VALIDATOR'][$page]['INPUTS'][$input])){   
+                return $_SESSION['VALIDATOR'][$page]['INPUTS'][$input];             
+            }        
+        }
+    }
+ 
     return false;
 }
 
@@ -214,8 +234,7 @@ function old(string $input = null)
 
     if($input == null and isset($_SESSION['MCQUERY_OLD'][$page])) {
         return $_SESSION['MCQUERY_OLD'][$page];
-    }
-    
+    }    
 
     return false;      
 }

@@ -18,13 +18,8 @@ _ __ ___   ___ __ _ _   _  ___ _ __ _   _
         echo "\033[0;32m server\033[0m ativa servidor de desenvolvimento mcquery ,(server --port:0000) para escolher uma porta" . PHP_EOL;
         echo "\033[0;32m controller:nome\033[0m cria um novo controller, adicione 'pasta/NomeController' caso queira adicionar uma subpasta" . PHP_EOL;      
         echo "\033[0;32m class:nome\033[0m cria uma nova classe, adicione 'pasta/NomeClasse' caso queira adicionar uma subpasta" . PHP_EOL;    
-        echo "\033[0;32m middleware:nome\033[0m cria um novo middleware" . PHP_EOL;    
-        
-
-
-        
-        echo "\033[0;32m conexao\033[0m testa a conexão com o banco de dados" . PHP_EOL;       
-        echo "\033[0;32m install\033[0m instala as dependências do composer" . PHP_EOL;
+        echo "\033[0;32m middleware:nome\033[0m cria um novo middleware" . PHP_EOL; 
+        echo "\033[0;32m conexao\033[0m testa a conexão com o banco de dados" . PHP_EOL;   
         echo "\033[0;32m autoload\033[0m atualiza o autoload de classes" . PHP_EOL;
         echo "\033[0;32m env\033[0m cria um novo arquivo de configurações" . PHP_EOL;
         echo "\033[0;32m cache:template\033[0m limpa o cache dos templates" . PHP_EOL;     
