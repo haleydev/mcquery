@@ -22,7 +22,7 @@ class QuerySelect
      * example: ['COUNT(colun) as total']
      */
     public function coluns(array $coluns = ['*'])
-    {        
+    {
         $all_coluns = '';
         foreach ($coluns as $colun) {
             $all_coluns .= $colun . ',';
@@ -74,13 +74,99 @@ class QuerySelect
         }
 
         return $this;
+    }    
+
+    /**
+     * Retornar apenas valores distintos (diferentes).
+     */
+    public function distinct()
+    {
+        $this->query['distinct'] = 'DISTINCT';          
+
+        return $this;
+    }
+
+    /**
+     * Esta função pode ser usada varias vezes.
+     * 
+     * @param array $values
+     * @param strign $boolean
+     */
+    public function whereIsNull(array $coluns, string $boolean = 'AND')
+    {
+        $new_where = '';
+        $count_values = count($coluns);
+        $count_boolean = 1;
+
+        foreach ($coluns as $value) {
+            if ($count_values > $count_boolean) {
+                $and = $boolean;
+            } else {
+                $and = '';
+            }
+
+            if ($count_boolean == 1 and !isset($this->query['where'])) {
+                $where = 'WHERE';
+            } else {
+                $where = '';
+            }          
+
+            $new_where .= "$where $value IS NULL $and";
+            $count_boolean++;
+        }
+
+        if (isset($this->query['where'])) {
+            $this->query['where'] = $this->query['where'] . $boolean . $new_where;
+        } else {
+            $this->query['where'] = $new_where;
+        }
+
+        return $this;
+    }   
+
+    /**
+     * Esta função pode ser usada varias vezes.
+     * 
+     * @param array $values
+     * @param strign $boolean
+     */
+    public function whereNotNull(array $coluns, string $boolean = 'AND')
+    {
+        $new_where = '';
+        $count_values = count($coluns);
+        $count_boolean = 1;
+
+        foreach ($coluns as $value) {
+            if ($count_values > $count_boolean) {
+                $and = $boolean;
+            } else {
+                $and = '';
+            }
+
+            if ($count_boolean == 1 and !isset($this->query['where'])) {
+                $where = 'WHERE';
+            } else {
+                $where = '';
+            }          
+
+            $new_where .= "$where $value IS NOT NULL $and";
+            $count_boolean++;
+        }
+
+        if (isset($this->query['where'])) {
+            $this->query['where'] = $this->query['where'] . $boolean . $new_where;
+        } else {
+            $this->query['where'] = $new_where;
+        }
+
+        return $this;
     }   
 
     /**
      * Agrupa os arrays onde as colunas possuem valores iguais
      * @param array|string $coluns
      */
-    public function group_by(array|string $coluns)
+    public function groupBy(array|string $coluns)
     {
         if (is_array($coluns)) {
             $all_coluns = 'GROUP BY ';
@@ -122,7 +208,7 @@ class QuerySelect
     /**
      * @param string $order ASC | DESC | RAND() 
      */
-    public function order_by(string $order)
+    public function orderBy(string $order)
     {
         $this->query['order'] = 'ORDER BY ' . $order;
         return $this;
@@ -173,7 +259,7 @@ class QuerySelect
      * @param string $operator
      * @example - ('table2' ['table2' => '1'],'=')
      */
-    public function left_join(string $table, array $join, string $operator = '=')
+    public function leftJoin(string $table, array $join, string $operator = '=')
     {
         $new_join = "";
         $count = count($join);
@@ -211,7 +297,7 @@ class QuerySelect
      * @param string $operator
      * @example - ('table2' ['table2' => '1'],'=')
      */
-    public function right_join(string $table, array $join, string $operator = '=')
+    public function rightJoin(string $table, array $join, string $operator = '=')
     {
         $new_join = "";
         $count = count($join);
@@ -246,7 +332,7 @@ class QuerySelect
      * Esta função pode ser usada varias vezes.
      * @param array $cross_join ['table1', 'table2']
      */
-    public function cross_join(array $cross_join)
+    public function crossJoin(array $cross_join)
     {
         $new_join = "";
         $count = count($cross_join);
@@ -278,127 +364,21 @@ class QuerySelect
     }
 
     /**
-     * Remove limit da query atual.
-     */
-    public function remove_limit()
-    {
-        if(isset($this->query['limit'])){
-            unset($this->query['limit']);
-        }
-      
-        return $this;
-    }
-    
-    /**
-     * Remove having da query atual.
-     */
-    public function remove_having()
-    {
-        if(isset($this->query['having'])){
-            unset($this->query['having']);
-        }
-      
-        return $this;
-    }    
-
-    /**
-     * Remove group_by da query atual.
-     */
-    public function remove_group_by()
-    {
-        if(isset($this->query['group_by'])){
-            unset($this->query['group_by']);
-        }
-      
-        return $this;
-    }    
-
-    /**
-     * Remove order da query atual.
-     */
-    public function remove_order_by()
-    {
-        if(isset($this->query['order'])){
-            unset($this->query['order']);
-        }
-      
-        return $this;
-    }    
-
-    /**
-     * Remove where da query atual.
-     */
-    public function remove_where()
-    {
-        if(isset($this->query['where'])){
-            unset($this->query['where']);
-        }
-
-        if(isset($this->query['bindparams']['where'])){
-            unset($this->query['bindparams']['where']);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove join da query atual.
-     */
-    public function remove_join()
-    {
-        if(isset($this->query['join'])){
-            unset($this->query['join']);
-        }       
-
-        return $this;
-    }
-
-    /**
-     * Remove left join da query atual.
-     */
-    public function remove_leftjoin()
-    {
-        if(isset($this->query['left_join'])){
-            unset($this->query['left_join']);
-        }
-      
-        return $this;
-    }
-
-    /**
-     * Remove right join da query atual.
-     */
-    public function remove_rightjoin()
-    {
-        if(isset($this->query['right_join'])){
-            unset($this->query['right_join']);
-        }
-      
-        return $this;
-    }
-
-    /**
-     * Remove cross join da query atual.
-     */
-    public function remove_crossjoin()
-    {
-        if(isset($this->query['cross_join'])){
-            unset($this->query['cross_join']);
-        }
-      
-        return $this;
-    }
-
-    /**
      * Retorna a query completa
      * @return string
      */
-    public function get_query()
+    public function getQuery()
     {
         if (isset($this->query['where'])) {
             $where = $this->query['where'];
         }else{
             $where = '';
+        }
+
+        if(isset($this->query['distinct'])){
+            $distinct = $this->query['distinct'];
+        }else{
+            $distinct = '';
         }
 
         if (isset($this->query['coluns'])) {
@@ -456,7 +436,7 @@ class QuerySelect
         }
 
         $query = trim(preg_replace('/( ){2,}/','$1',
-        "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $group_by $having $order $limit"));
+        "SELECT $distinct $coluns FROM $this->table $join $left_join $right_join $cross_join $where $group_by $having $order $limit"));
 
         return $query;
     }
@@ -464,7 +444,7 @@ class QuerySelect
     /**
      * @return array|false 
      */
-    public function get_bindparams()
+    public function getBindparams()
     {
         if (isset($this->query['bindparams'])) {
             return $this->query['bindparams'];
@@ -479,7 +459,7 @@ class QuerySelect
      */
     public function execute()
     {
-        $query = $this->get_query();
+        $query = $this->getQuery();
 
         if (isset($this->query['bindparams'])) {
             $bindparams = $this->query['bindparams'];
