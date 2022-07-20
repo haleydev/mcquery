@@ -1,11 +1,13 @@
 <?php
 namespace Controllers;
 use Core\Model\DB;
+use Models\filmes;
 
 class database
 {
     public function render()
     {   
+        
         // $delete = usuarios::delete()->where([
         //     usuarios::nome => 'haley'
         // ])->limit(100)->execute();
@@ -39,24 +41,12 @@ class database
         // $teste_2 = $usuarios;
         // dd($teste_2->remove_where()->remove_order()->execute());
 
-        $usuarios = DB::select('usuarios')
+ 
+        
 
-        ->coluns(['count(nome) as total','nome'])
-        //->where(['email' => '%h%'],'LIKE')
-     
-        ->group_by('nome')
-        //->order('RAND()')
-        ->execute();
-        dd($usuarios);
+         
+        // $filmes = DB::select('filmes')
+        // ->where(['id' => '>'], 'is');
 
-
-        $usuarios = DB::select('usuarios')
-        ->coluns(['count(nome) as total','nome'])  
-        ->where(['nome' => 'haley'],'!=')
-        ->group_by('nome')
-        ->execute();
-        dd($usuarios);
-
-        //remover like adicionar aos where
     }
 }

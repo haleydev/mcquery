@@ -3,6 +3,7 @@ use Core\Env;
 use Core\Hashing;
 use Core\Http\Redirect;
 use Core\Http\Request;
+use Core\Http\Response;
 use Core\Template\Template;
 
 /**
@@ -25,6 +26,22 @@ function redirect($url = null , $response = 302)
     }
 
     return new Redirect;
+}
+
+/**
+ * Funções request
+ */
+function request()
+{
+    return (new Request);
+}
+
+/**
+ * Funções response
+ */
+function response()
+{
+    return (new Response);
 }
 
 /**
@@ -149,14 +166,6 @@ function env_required(string|array $values)
     }   
 
     return false; 
-}
-
-/**
- * Funções request
- */
-function request()
-{
-    return (new Request);
 }
 
 /**

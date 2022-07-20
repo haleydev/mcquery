@@ -15,25 +15,20 @@ class QuerySelect
     /**  
      * @param string|array $coluns selecionar colunas
      * 
-     * example: ['colun1', 'colun2'] 'recomendado' ou 'colun1, colun2'
-     * 
      * example: ['SUM(colun) as total']
      * 
-     * example: ['MAX(colun)'] ou ['max(colun)']
+     * example: ['MAX(id)']
      * 
      * example: ['COUNT(colun) as total']
      */
-    public function coluns(string|array $coluns = '*')
-    {
-        if (is_array($coluns)) {
-            $all_coluns = '';
-            foreach ($coluns as $colun) {
-                $all_coluns .= $colun . ',';
-            }
-
-            $coluns = rtrim($all_coluns, ",");
+    public function coluns(array $coluns = ['*'])
+    {        
+        $all_coluns = '';
+        foreach ($coluns as $colun) {
+            $all_coluns .= $colun . ',';
         }
 
+        $coluns = rtrim($all_coluns, ",");
         $this->query['coluns'] = $coluns;
         return $this;
     }
@@ -120,14 +115,14 @@ class QuerySelect
      */
     public function limit(int|string $limit)
     {
-        $this->query['limit'] = 'LIMIT'  . $limit;
+        $this->query['limit'] = 'LIMIT '  . $limit;
         return $this;
     }
 
     /**
      * @param string $order ASC | DESC | RAND() 
      */
-    public function order(string $order)
+    public function order_by(string $order)
     {
         $this->query['order'] = 'ORDER BY ' . $order;
         return $this;
@@ -283,18 +278,6 @@ class QuerySelect
     }
 
     /**
-     * Remove coluns da query atual.
-     */
-    public function remove_coluns()
-    {
-        if(isset($this->query['coluns'])){
-            unset($this->query['coluns']);
-        }
-      
-        return $this;
-    }
-
-    /**
      * Remove limit da query atual.
      */
     public function remove_limit()
@@ -333,7 +316,7 @@ class QuerySelect
     /**
      * Remove order da query atual.
      */
-    public function remove_order()
+    public function remove_order_by()
     {
         if(isset($this->query['order'])){
             unset($this->query['order']);
@@ -472,9 +455,8 @@ class QuerySelect
             $order = '';
         }
 
-        $query = preg_replace('/( ){2,}/','$1',
-            "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $group_by $having $order $limit"
-        );
+        $query = trim(preg_replace('/( ){2,}/','$1',
+        "SELECT $coluns FROM $this->table $join $left_join $right_join $cross_join $where $group_by $having $order $limit"));
 
         return $query;
     }

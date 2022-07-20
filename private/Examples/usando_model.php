@@ -5,7 +5,7 @@ use Models\usuarios;
 
 $select = DB::select('usuarios')
 ->where(['nome' => 'ppp'])
-->order('RAND()')
+->order_by('RAND()')
 ->coluns(['id','nome'])
 ->limit(5)
 ->execute();        
@@ -30,7 +30,7 @@ $delete = DB::delete('usuarios')
 dd($delete);
 
 $update = DB::update('usuarios')
-->update(['nome' => 'novo nome'])
+->values(['nome' => 'novo nome'])
 ->where(['nome' => 'ppp'])
 ->limit(1) 
 ->execute();        
@@ -43,4 +43,15 @@ $teste_1 = $usuarios;
 dd($teste_1->limit(3)->where(['email' => 'null'],'!=')->execute());
 
 $teste_2 = $usuarios;
-dd($teste_2->remove_limit()->remove_where()->like(['id' => '%8%'])->execute());
+dd($teste_2->remove_limit()->where(['id' => '%8%'],'LIKE')->execute());
+
+$filmes = DB::select('filmes')      
+->coluns(['media_votos as media',
+'CASE media_votos
+    WHEN media_votos > 8 THEN "alto"
+    WHEN media_votos < 5 THEN "baixo"
+    ELSE "TESTE"
+END as media'
+])->limit(900)->order_by('RAND()');     
+
+return dd($filmes->execute());
