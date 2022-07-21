@@ -77,6 +77,22 @@ class QuerySelect
     }    
 
     /**
+     * Exemplo - whereRaw('id IN ( SELECT id FROM table )')
+     */
+    public function whereRaw(string $raw, array $bindparams = [], string $boolean = 'AND')
+    {
+
+
+        if (isset($this->query['where'])) {
+            $this->query['where'] = $this->query['where'] . $boolean . $raw;
+        } else {
+            $this->query['where'] = 'WHERE ' . $raw;
+        }
+
+        return $this;
+    }    
+
+    /**
      * Retornar apenas valores distintos (diferentes).
      */
     public function distinct()
@@ -197,12 +213,19 @@ class QuerySelect
 
     /**
      * Limite de resultados
-     * @param int|string $limit
+     * @param int $limit
+     * @param int|null $page
      */
-    public function limit(int|string $limit)
+    public function limit($limit, int $page = null)
     {
-        $this->query['limit'] = 'LIMIT '  . $limit;
-        return $this;
+        if($page == null) {
+            $this->query['limit'] = 'LIMIT '  . $limit;            
+        }else{            
+            $page = ($page - 1) * $limit;
+            $this->query['limit'] = 'LIMIT '  . $page . ' , ' . $limit;           
+        }     
+        
+        return $this;   
     }
 
     /**
